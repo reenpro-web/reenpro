@@ -1,0 +1,141 @@
+.footer {
+  position: relative;
+  margin-top: auto;
+  background-color: $c-black;
+  color: $c-white;
+
+  &-icon {
+   img {
+     max-width: 230px;
+   }
+  }
+
+  &-logo {
+    img {
+      width: 236px;
+
+      @include media-breakpoint-down(sm) {
+        width: 121px;
+      }
+    }
+  }
+
+  &-socials {
+    &__link {
+      img {
+        max-width: 41px;
+        margin-right: 16px;
+      }
+
+      &:last-child {
+        img {
+          margin-right: 0;
+        }
+      }
+    }
+  }
+
+  &-menu {
+    ul {
+      padding: 0;
+      margin: 0;
+      list-style-type: none;
+
+      li {
+        margin-bottom: 10px;
+
+        @include media-breakpoint-down(sm) {
+          margin-bottom: 15px;
+        }
+
+        a {
+          color: $c-white;
+          text-decoration: none;
+
+          &:hover {
+            color: $c-white;
+          }
+        }
+      }
+    }
+  }
+  &-info {
+    position: relative;
+
+    a {
+      color: $c-white;
+      text-decoration: none;
+    }
+
+    &__details {
+      //display: flex;
+      align-items: center;
+      color: $c-white;
+      margin-bottom: 30px;
+      position: relative;
+      padding-left: 45px;
+      font-size: 17px;
+      line-height: 22px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      p {
+        margin-bottom: 0;
+      }
+
+      a {
+        color: $c-white;
+        text-decoration: none;
+      }
+
+      &:before {
+        content: '';
+        display: inline-block;
+        vertical-align: middle;
+        min-width: 25px;
+        height: 25px;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 100%;
+        margin-right: 20px;
+        position: absolute;
+        top: -2px;
+        left: 0;
+      }
+
+      &--tel {
+        &:before {
+          background-image: url('../images/tel.svg');
+        }
+      }
+
+      &--mailto {
+        &:before {
+          background-image: url('../images/mail.svg');
+        }
+      }
+
+      &--address {
+        &:before {
+          background-image: url('../images/location.svg');
+        }
+      }
+
+      &--black {
+        &.footer-info__details--tel {
+          &:before {
+            background-image: url('../images/tel-black.svg');
+          }
+        }
+
+        &.footer-info__details--mailto {
+          &:before {
+            background-image: url('../images/mail-black.svg');
+          }
+        }
+      }
+    }
+  }
+}

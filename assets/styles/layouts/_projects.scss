@@ -1,0 +1,310 @@
+.projects {
+  &-intro {
+    height: 100%;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    padding-top: 250px;
+    padding-bottom: 200px;
+    min-height: 600px;
+
+
+    @include media-breakpoint-down(md) {
+      padding-top: 175px;
+      padding-bottom: 175px;
+      max-height: none;
+      min-height: 100vh;
+    }
+
+    &:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.25);
+      opacity: 1;
+    }
+
+    &__text {
+      line-height: 26px;
+    }
+
+    &__heading {
+      @include media-breakpoint-down(md) {
+        font-size: 40px;
+      }
+    }
+  }
+
+  &-categories {
+    .slick {
+      &-list {
+        padding-right: 10%;
+        margin-right: -15px;
+        margin-left: -15px;
+      }
+
+      &-track {
+        align-items: center;
+      }
+
+      &-slide {
+        margin-right: 15px;
+        margin-left: 15px;
+        height: auto;
+
+        & > div {
+          height: auto;
+        }
+      }
+
+    }
+  }
+
+
+  &-category {
+    display: inline-block;
+    font-size: 16px;
+    line-height: 21px;
+    border-radius: 0;
+    font-weight: 700;
+    padding-bottom: 20px;
+    color: $c-black;
+    border-bottom: 2px solid transparent;
+    transition: .3s;
+    text-align: center;
+    margin-right: 30px;
+    margin-left: 30px;
+    cursor: pointer;
+    margin-bottom: 20px;
+
+    @include media-breakpoint-down(sm) {
+      padding-bottom: 20px;
+      margin-bottom: 0;
+    }
+
+    &:first-child {
+      margin-left: 0;
+    }
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    &.active {
+      border-bottom: 2px solid $c-black;
+    }
+
+    &:hover {
+      @include media-breakpoint-up(md) {
+        border-bottom: 2px solid $c-black;
+      }
+    }
+  }
+
+  &-card {
+    &__slider {
+      line-height: 0;
+
+      &-img {
+        img {
+          width: 100%;
+        }
+      }
+
+
+      .slick {
+
+        &-slide {
+          position: relative;
+
+          &:after {
+            content: '';
+            width: 100%;
+            height: 100%;
+            background: transparent linear-gradient(270deg, #12122D00 0%, #12122D4D 100%) 0% 0% no-repeat padding-box;
+            position: absolute;
+            left: 0;
+            top: 0;
+          }
+        }
+
+        &-dots {
+          display: flex;
+          justify-content: center;
+          list-style-type: none;
+          padding: 0;
+          z-index: 3;
+          align-items: center;
+          line-height: 12px;
+          margin-bottom: 0;
+          bottom: 0;
+
+
+          margin-top: 0;
+          top: 50%;
+          transform: translateY(-50%);
+          flex-direction: column;
+          left: 30px;
+          position: absolute;
+
+          @include media-breakpoint-up(lg) {
+            margin-top: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            flex-direction: column;
+            left: 30px;
+            position: absolute;
+          }
+
+          li {
+            margin: 10px 0;
+            border: 1px solid transparent;
+            transition: 0.3s;
+            padding: 6px;
+            border-radius: 100%;
+            @extend .remove-outline ;
+            @include media-breakpoint-up(lg) {
+              margin: 10px 0;
+            }
+
+            button {
+              display: block;
+              width: 7px;
+              height: 7px;
+              padding: 0;
+              border-radius: 100%;
+              background-color: rgba(255, 255, 255, 1);
+              font-size: 0;
+              transition: 0.3s;
+              pointer-events: all;
+              border: none;
+
+              &:focus, &:active, &:hover {
+                border: none;
+              }
+            }
+
+            &.slick-active {
+              button {
+                background-color: $c-white;
+                position: relative;
+
+              }
+
+              border: 1px solid $c-white;
+              border-radius: 100%;
+            }
+          }
+        }
+      }
+
+      &--right {
+        .slick {
+
+          &-slide {
+            @include media-breakpoint-up(md) {
+              &:after {
+                background: transparent linear-gradient(90deg, #12122D00 0%, #12122D4D 100%) 0% 0% no-repeat padding-box;
+              }
+            }
+          }
+
+          &-dots {
+
+            @include media-breakpoint-up(md) {
+              right: 30px;
+              left: auto;
+            }
+          }
+
+        }
+      }
+    }
+
+    &__properties {
+      background-color: $c-purple;
+      color: $c-white;
+      padding: 20px 30px;
+      position: relative;
+      z-index: 2;
+
+      @include media-breakpoint-up(lg) {
+        padding: 27px 30px;
+        margin-left: -100px;
+        margin-right: 100px;
+
+        &--right {
+          margin-left: 100px;
+          margin-right: -100px;
+        }
+      }
+
+      &-heading {
+        font-size: 14px;
+        line-height: 23px;
+      }
+
+      &-item {
+        font-size: 18px;
+        line-height: 23px;
+        font-weight: 700;
+      }
+
+      &-wrapping {
+        position: relative;
+        padding-left: 30px;
+
+        &:before {
+          content: '';
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          left: 0;
+          background-repeat: no-repeat;
+          background-position: center;
+          background-size: 100%;
+          transition: .3s;
+        }
+
+        &--location {
+          padding-left: 28px;
+
+          &:before {
+            width: 18px;
+            height: 23px;
+            background-image: url('../images/project-location.svg');
+          }
+        }
+
+        &--power {
+          padding-left: 24px;
+
+          &:before {
+            width: 13px;
+            height: 29px;
+            background-image: url('../images/project-power.svg');
+          }
+        }
+
+        &--client {
+          padding-left: 35px;
+
+          &:before {
+            width: 25px;
+            height: 25px;
+            background-image: url('../images/project-client.svg');
+          }
+        }
+      }
+    }
+  }
+}
+
+.project-item--hidden {
+  display: none !important;
+}

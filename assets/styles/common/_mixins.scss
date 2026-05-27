@@ -1,0 +1,155 @@
+// Spacing mixin
+// Source: https://gist.github.com/Eomerx/d69ccaf5fec88040b431
+
+// margin and padding values array
+$space-values: (
+  -100,
+  0,
+  5,
+  8,
+  10,
+  12,
+  15,
+  16,
+  20,
+  24,
+  25,
+  30,
+  35,
+  38,
+  40,
+  45,
+  50,
+  55,
+  60,
+  65,
+  70,
+  75,
+  80,
+  85,
+  90,
+  95,
+  100,
+  105,
+  110,
+  115,
+  120,
+  125,
+  130,
+  135,
+  140,
+  145,
+  150,
+  155,
+  160,
+  165,
+  170,
+  180,
+  190,
+  195,
+  200,
+  205,
+  210,
+  215
+) !default;
+
+// margin and padding shorthands
+$space-prefixes: (
+  p : padding,
+  pt : padding-top,
+  pr : padding-right,
+  pb : padding-bottom,
+  pl : padding-left,
+  m : margin,
+  mt : margin-top,
+  mr : margin-right,
+  mb : margin-bottom,
+  ml : margin-left,
+) !default;
+
+// User bootstrap breakpoints from _variables.scss
+$breakpoints: $grid-breakpoints;
+
+// main function definition
+@mixin make-space($values, $prefixes, $breakpoints) {
+  @each $breakpoint-name, $breakpoint-value in $breakpoints {
+    // if xs value = 0, set it global without media queries
+    @if ($breakpoint-value == 0) {
+      @each $attr-short, $attr-long in $prefixes {
+        @each $value in $values {
+          .#{$attr-short}-#{$value} {
+            #{$attr-long}: #{$value}#{'px'} !important;
+          }
+        }
+      }
+    }
+      // breakpoint values that not equal to 0
+    @else {
+      @media screen and (min-width: $breakpoint-value) {
+        @each $attr-short, $attr-long in $prefixes {
+          @each $value in $values {
+            .#{$attr-short}-#{$breakpoint-name}-#{$value} {
+              #{$attr-long}: #{$value}#{'px'} !important;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@include make-space($space-values, $space-prefixes, $breakpoints);
+
+
+//
+// Font size mixin
+//
+
+
+$font-size-values: (
+  -30,
+  8,
+  10,
+  12,
+  13,
+  14,
+  15,
+  16,
+  18,
+  20,
+  22,
+  24,
+  25,
+  26,
+  28,
+  30,
+  32,
+  40,
+  96
+) !default;
+
+
+@mixin make-font-size($values,  $breakpoints) {
+  @each $breakpoint-name, $breakpoint-value in $breakpoints {
+
+    @if ($breakpoint-value == 0) {
+      @each $value in $values {
+        .fs-#{$value} {
+          font-size: #{$value}#{'px'};
+        }
+      }
+    }
+      // breakpoint values that not equal to 0
+    @else {
+      @media screen and (min-width: $breakpoint-value) {
+        @each $value in $values {
+          .fs-#{$breakpoint-name}-#{$value} {
+            font-size: #{$value}#{'px'};
+          }
+        }
+      }
+    }
+  }
+}
+
+@include make-font-size($font-size-values, $breakpoints);
