@@ -27,6 +27,111 @@ foreach ($sage_includes as $file) {
 }
 unset($file, $filepath);
 
+/**
+ * Local-only safety net for donation CPT permalinks.
+ * After PHP/runtime switches, CPT rewrite args can get out of sync in LocalWP
+ * which causes /parama/<slug>/ URLs to 404 while query-var URLs still work.
+ */
+add_filter('register_post_type_args', function ($args, $post_type) {
+  if ($post_type !== 'donation') {
+    return $args;
+  }
+
+  $is_local_environment = (defined('WP_ENVIRONMENT_TYPE') && WP_ENVIRONMENT_TYPE === 'local');
+  $home_host = wp_parse_url(home_url('/'), PHP_URL_HOST);
+  $is_local_host = in_array($home_host, array('localhost', '127.0.0.1'), true);
+
+  if ($is_local_environment || $is_local_host) {
+    $args['publicly_queryable'] = true;
+    $args['rewrite'] = array(
+      'slug' => 'parama',
+      'with_front' => false,
+      'feeds' => false,
+      'pages' => false,
+    );
+  }
+
+  return $args;
+}, 20, 2);
+
+/**
+ * Keep CF7 spam protection enabled on server but disable it locally.
+ * Local submissions are currently flagged as spam (likely due to anti-spam integration/domain checks).
+ */
+add_filter('wpcf7_spam', function ($is_spam) {
+  $is_local_environment = (defined('WP_ENVIRONMENT_TYPE') && WP_ENVIRONMENT_TYPE === 'local');
+  $home_host = wp_parse_url(home_url('/'), PHP_URL_HOST);
+  $is_local_host = in_array($home_host, array('localhost', '127.0.0.1'), true);
+
+  if ($is_local_environment || $is_local_host) {
+    return false;
+  }
+
+  return $is_spam;
+}, 99);
+
+/**
+ * Route local WordPress emails to LocalWP Mailpit SMTP.
+ * This keeps production mail settings untouched.
+ */
+add_action('phpmailer_init', function ($phpmailer) {
+  $is_local_environment = (defined('WP_ENVIRONMENT_TYPE') && WP_ENVIRONMENT_TYPE === 'local');
+  $home_host = wp_parse_url(home_url('/'), PHP_URL_HOST);
+  $is_local_host = in_array($home_host, array('localhost', '127.0.0.1'), true);
+
+  if (!($is_local_environment || $is_local_host)) {
+    return;
+  }
+
+  $phpmailer->isSMTP();
+  $phpmailer->Host = '127.0.0.1';
+  $phpmailer->Port = 10006;
+  $phpmailer->SMTPAuth = false;
+  $phpmailer->SMTPSecure = '';
+  $phpmailer->SMTPAutoTLS = false;
+}, 20);
+
+/**
+ * Log local mail transport failures for fast CF7 debugging.
+ */
+add_action('wp_mail_failed', function ($wp_error) {
+  $is_local_environment = (defined('WP_ENVIRONMENT_TYPE') && WP_ENVIRONMENT_TYPE === 'local');
+  $home_host = wp_parse_url(home_url('/'), PHP_URL_HOST);
+  $is_local_host = in_array($home_host, array('localhost', '127.0.0.1'), true);
+
+  if (!($is_local_environment || $is_local_host)) {
+    return;
+  }
+
+  if (is_wp_error($wp_error)) {
+    $data = $wp_error->get_error_data();
+    error_log('[local wp_mail_failed] ' . $wp_error->get_error_message());
+    if (!empty($data)) {
+      error_log('[local wp_mail_failed data] ' . wp_json_encode($data));
+    }
+  }
+}, 20);
+
+/**
+ * Normalize local CF7 recipient addresses for Mailpit.
+ * Some forms use info@localhost, which PHPMailer rejects as invalid.
+ */
+add_filter('wpcf7_mail_components', function ($components) {
+  $is_local_environment = (defined('WP_ENVIRONMENT_TYPE') && WP_ENVIRONMENT_TYPE === 'local');
+  $home_host = wp_parse_url(home_url('/'), PHP_URL_HOST);
+  $is_local_host = in_array($home_host, array('localhost', '127.0.0.1'), true);
+
+  if (!($is_local_environment || $is_local_host)) {
+    return $components;
+  }
+
+  if (!empty($components['recipient'])) {
+    $components['recipient'] = str_replace('@localhost', '@localhost.localdomain', $components['recipient']);
+  }
+
+  return $components;
+}, 20);
+
 
 if (function_exists('acf_add_options_page')) {
 
@@ -235,60 +340,25 @@ add_action('wp_ajax_nopriv_fetch_project_items', 'fetch_project_items');
 //}
 
 function enqueue_theme_scripts() {
-    wp_enqueue_script('infinite-scroll', get_template_directory_uri() . '/js/infinite-scroll.js', array('jquery'), null, true);
-    wp_localize_script('infinite-scroll', 'ajax_params', array(
-        'ajax_url' => admin_url('admin-ajax.php')
-    ));
-	 wp_enqueue_script(
-        'jquery-forms-alph-sort',
-        get_stylesheet_directory_uri() . '/js/jquery-forms-alph-sort.js',
-        array('jquery'),
-        null,
-        true 
+    wp_enqueue_script(
+      'slick-js',
+      'https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js',
+      array('jquery'),
+      '1.8.1',
+      true
     );
-	 wp_enqueue_script(
-        'edit-contact-forms.js',
-        get_stylesheet_directory_uri() . '/js/edit-contact-forms.js',
-        array('jquery'),
-        null,
-        true 
-    );
-	wp_enqueue_script(
-        'edit-modal-contact-forms.js',
-        get_stylesheet_directory_uri() . '/js/edit-modal-contact-forms.js',
-        array('jquery'),
-        null,
-        true 
-    );
-  	wp_enqueue_script( 'slick-js',
-    'https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js',
-    array('jquery'),
-    '1.8.1',
-    true
-  	);
-	wp_enqueue_script(
-	  'main-page-banner-slick.js',
-	  get_stylesheet_directory_uri() . '/js/main-page-banner-slick.js',
-	  array('jquery','slick-js','sage/js'),
-	  null,
-	  true
-	);
-	wp_enqueue_script(
-	  'scroll-to-form.js',
-	  get_stylesheet_directory_uri() . '/js/scroll-to-form.js',
-	  array('jquery','slick-js','sage/js'),
-	  null,
-	  true
-	);
-	wp_enqueue_script(
-	  'open-bess-form.js',
-	  get_stylesheet_directory_uri() . '/js/open-bess-form.js',
-	  array('jquery','slick-js','sage/js'),
-	  null,
-	  true
-	);
+
 }
 add_action('wp_enqueue_scripts', 'enqueue_theme_scripts');
+
+function localize_theme_bundle_ajax() {
+  // All theme custom scripts are now bundled into sage/js via assets/manifest.json.
+  // Keep this localized object for legacy AJAX code that expects ajax_params.ajax_url.
+  wp_localize_script('sage/js', 'ajax_params', array(
+    'ajax_url' => admin_url('admin-ajax.php')
+  ));
+}
+add_action('wp_enqueue_scripts', 'localize_theme_bundle_ajax', 110);
 
 
 add_filter('wp_nav_menu_objects', 'mlnc_wp_nav_menu_objects', 10, 2);

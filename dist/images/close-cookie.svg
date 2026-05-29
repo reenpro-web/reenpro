@@ -1,1 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="20.193" height="20.193"><g id="Group_270" data-name="Group 270" transform="translate(-1724.221 -58.586)" fill="none" stroke="#fff" stroke-width="4"><path id="Path_542" data-name="Path 542" d="M13582.194 1704.432h24.557" transform="rotate(45 9638.918 -13429.916)"/><path id="Path_543" data-name="Path 543" d="M0 0h24.557" transform="rotate(135 859.073 390.987)"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="20.193" height="20.193" viewBox="0 0 20.193 20.193">
+  <g id="Group_270" data-name="Group 270" transform="translate(-1724.221 -58.586)">
+    <path id="Path_542" data-name="Path 542" d="M13582.194,1704.432h24.557" transform="translate(-6673.211 -10749.276) rotate(45)" fill="none" stroke="#fff" stroke-width="4"/>
+    <path id="Path_543" data-name="Path 543" d="M0,0H24.557" transform="translate(1742.999 60) rotate(135)" fill="none" stroke="#fff" stroke-width="4"/>
+  </g>
+</svg>

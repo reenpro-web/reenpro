@@ -1,20 +1,22 @@
 jQuery(document).ready(function ($) {
-    let isLoading = false;
-    let hasReachedMaxPosts = false;
+    var isLoading = false;
+    var hasReachedMaxPosts = false;
 
     // Define thresholds for Desktop and Mobile
-    const desktopThreshold = 300;
-    const mobileThreshold = 900;
+    var desktopThreshold = 300;
+    var mobileThreshold = 900;
 
     function getThreshold() {
         return $(window).width() <= 768 ? mobileThreshold : desktopThreshold;
     }
 
     function loadMorePosts(container, ajaxAction, config) {
-        if (isLoading || hasReachedMaxPosts) return;
+        if (isLoading || hasReachedMaxPosts) {
+            return;
+        }
         isLoading = true;
 
-        let offset = $(container).children().length;
+        var offset = $(container).children().length;
 
         $.ajax({
             url: ajax_params.ajax_url,
@@ -27,10 +29,10 @@ jQuery(document).ready(function ($) {
                 current_post_id: config.currentPostId || 0,
             },
             success: function (response) {
-                let data = JSON.parse(response);
+                var data = JSON.parse(response);
 
                 if (data.success && data.content) {
-                    let $newPosts = $(data.content).addClass('newly-loaded');
+                    var $newPosts = $(data.content).addClass('newly-loaded');
                     $(container).append($newPosts);
 
                     $newPosts.each(function (index) {
@@ -39,15 +41,15 @@ jQuery(document).ready(function ($) {
                             'transform': 'translateY(20px)'
                         });
 
-                        let delay = 80 + (index * 160);
-                        setTimeout(() => {
+                        var delay = 80 + (index * 160);
+                        setTimeout(function () {
                             $(this).css({
                                 'opacity': '1',
                                 'transform': 'translateY(0)',
                                 'transition': 'all 0.5s ease-out'
                             });
                             $(this).removeClass('newly-loaded');
-                        }, delay); 
+                        }.bind(this), delay);
                     });
 
                     if (data.reached_max) {
@@ -67,7 +69,7 @@ jQuery(document).ready(function ($) {
     // Home Page Infinite Scroll
     if ($('.single-post-row').length > 0) {
         $(window).scroll(function () {
-            let threshold = getThreshold();
+            var threshold = getThreshold();
             if ($(window).scrollTop() + $(window).height() > $(document).height() - threshold) {
                 loadMorePosts('.row.gy-4', 'load_more_posts_home', {
                     postsPerLoad: 3,
@@ -79,9 +81,9 @@ jQuery(document).ready(function ($) {
 
     // Content Single Infinite Scroll
     if ($('#other-news-container').length > 0) {
-        let currentPostId = $('#other-news-container').data('current-post-id');
+        var currentPostId = $('#other-news-container').data('current-post-id');
         $(window).scroll(function () {
-            let threshold = getThreshold();
+            var threshold = getThreshold();
             if ($(window).scrollTop() + $(window).height() > $(document).height() - threshold) {
                 loadMorePosts('#other-news-container', 'load_more_posts_single', {
                     postsPerLoad: 3,

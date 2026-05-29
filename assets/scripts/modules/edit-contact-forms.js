@@ -1,4 +1,10 @@
 jQuery(window).on("load", function () {
+  function unlockCf7Form(formEl) {
+    var $form = jQuery(formEl);
+    $form.data("submitting", false);
+    $form.find('button[type="submit"]').prop("disabled", false);
+  }
+
 	jQuery(document).ready(function() {
 	  // Check if the URL contains "client=business"
 	  if (window.location.href.indexOf('client=business') > -1) {
@@ -20,9 +26,7 @@ jQuery(window).on("load", function () {
     "wpcf7invalid",
     function (event) {
 		  var $form = jQuery(event.target);
-  // clear the submitting flag and re-enable submit
-  $form.data("submitting", false);
-  $form.find('button[type="submit"]').prop("disabled", false);
+		  unlockCf7Form(event.target);
       if (jQuery(event.target).is("#tab-personal .wpcf7-form")) {
         if (
           !jQuery("#tab-personal .contact-form__accept").next(
@@ -54,6 +58,23 @@ jQuery(window).on("load", function () {
           );
         }
       }
+
+      // Fallback for all other CF7 forms on the site
+      if (!$form.find(".error-message.custom-error").length) {
+        var invalidMessage =
+          (event.detail &&
+            event.detail.apiResponse &&
+            event.detail.apiResponse.message) ||
+          "Užpildykite būtinuosius laukelius";
+        var $accept = $form.find(".contact-form__accept");
+        if ($accept.length) {
+          $accept.after('<div class="error-message custom-error">' + invalidMessage + "</div>");
+        } else {
+          $form.find('button[type="submit"]').first().before(
+            '<div class="error-message custom-error">' + invalidMessage + "</div>"
+          );
+        }
+      }
     },
     false
   );
@@ -61,6 +82,9 @@ jQuery(window).on("load", function () {
   document.addEventListener(
     "wpcf7mailsent",
     function (event) {
+      if (jQuery(event.target).closest("#offerModal").length) {
+        return;
+      }
       if (
         jQuery(event.target).is("#tab-personal .wpcf7-form") ||
         jQuery(event.target).is("#tab-business .wpcf7-form")
@@ -130,13 +154,105 @@ jQuery(window).on("load", function () {
 		  });
 		}, 20000);
 
+      } else {
+        var $submittedForm = jQuery(event.target);
+        if ($submittedForm.data("successHandled")) {
+          return;
+        }
+        var $scope = $submittedForm.closest(".contact-form");
+        if (!$scope.length) {
+          $scope = $submittedForm.closest(".wpcf7");
+        }
+        if (!$scope.length) {
+          return;
+        }
+        if ($scope.data("successShown")) {
+          return;
+        }
+        if ($scope.find(".contact-form__success-message").length) {
+          return;
+        }
+        $submittedForm.data("successHandled", true);
+        $scope.data("successShown", true);
+
+        $scope.find(".custom-error").remove();
+        $scope.find(".contact-form__thank-you, .contact-form__success-message").remove();
+        var $heading = $scope.find("h3.contact-form__heading").first();
+        var $tabsContainer = $scope.find(".contact-tabs");
+        var genericHeadingText = $heading.text();
+
+        var hideTarget = $tabsContainer.length ? $tabsContainer : $submittedForm;
+        hideTarget.fadeOut(300, function () {
+          if ($heading.length) {
+            $heading.text("Ačiū, kad užpildėte užklausą!");
+            $heading.after(
+              '<div class="contact-form__success-message h6">Greitu metu su Jumis susisieksime ir atsakysime į visus rūpimus klausimus.</div>'
+            );
+          } else {
+            $scope.append('<h3 class="mb-40 mb-lg-50 contact-form__thank-you">Ačiū, kad užpildėte užklausą!</h3>');
+            $scope.append(
+              '<div class="contact-form__success-message h6">Greitu metu su Jumis susisieksime ir atsakysime į visus rūpimus klausimus.</div>'
+            );
+          }
+        });
+
+        setTimeout(function () {
+          $scope.find(".contact-form__thank-you, .contact-form__success-message").fadeOut(300, function () {
+            jQuery(this).remove();
+          });
+
+          setTimeout(function () {
+            if ($heading.length) {
+              $heading.text(genericHeadingText);
+            }
+            hideTarget.fadeIn(300, function () {
+              $scope.find("form.wpcf7-form").each(function () {
+                var $form = jQuery(this);
+                $form.data("submitting", false);
+                $form.data("successHandled", false);
+                $form.find('button[type="submit"]').prop("disabled", false);
+              });
+              $scope.data("successShown", false);
+            });
+          }, 350);
+        }, 20000);
+      }
+    },
+    false
+  );
+
+  document.addEventListener(
+    "wpcf7mailfailed",
+    function (event) {
+      unlockCf7Form(event.target);
+    },
+    false
+  );
+
+  document.addEventListener(
+    "wpcf7spam",
+    function (event) {
+      unlockCf7Form(event.target);
+    },
+    false
+  );
+
+  // Always unlock after any CF7 submit lifecycle result.
+  // This prevents stale disabled buttons on forms not handled
+  // by the custom success branches below.
+  document.addEventListener(
+    "wpcf7submit",
+    function (event) {
+      unlockCf7Form(event.target);
+      if (window.location.hostname === "localhost") {
+        console.debug("CF7 submit", event.detail && event.detail.status, event.detail && event.detail.contactFormId);
       }
     },
     false
   );
 
   // Dropdown logic
-  const config = [
+  var config = [
     {
       type: "privatus",
       placeholderText: "Pasirinkite stogo dangą*",
@@ -152,48 +268,82 @@ jQuery(window).on("load", function () {
   ];
 
   // Update dropdown placeholder text and add a smooth transition
-  config.forEach((item) => {
-    jQuery(`[id^="${item.idPrefix}"] .select2-selection__placeholder`).text(
+  config.forEach(function (item) {
+    jQuery('[id^="' + item.idPrefix + '"] .select2-selection__placeholder').text(
       item.placeholderText
     );
-    jQuery(`[id^="${item.idPrefix}"]`).css("transition", ".3s");
+    jQuery('[id^="' + item.idPrefix + '"]').css("transition", ".3s");
   });
 
-  const shortTimeout = 420;
+  var shortTimeout = 420;
 
-  // Validation on form submit: if the active select is empty, add a red border after a delay.
-  jQuery(document).on("submit", ".wpcf7-form", function () {
-    // Determine which type is active (assuming #heading-personal is active for "privatus")
-    const activeType = jQuery("#heading-personal").hasClass("active")
-      ? "privatus"
-      : "verslo";
-    const currentConfig = config.find((c) => c.type === activeType);
-    if (!currentConfig) return;
+  function getSelect2RenderedEl($select) {
+    var $rendered = $select
+      .next(".select2")
+      .find(".select2-selection__rendered")
+      .first();
+    return $rendered;
+  }
 
-    const $select = jQuery(`select[name="${currentConfig.selectName}"]`);
-    if (!$select.val()) {
-      setTimeout(() => {
-        jQuery(`[id^="${currentConfig.idPrefix}"]`).css(
-          "border",
-          "2px solid rgb(252, 57, 29)"
-        );
-      }, shortTimeout);
+  function markSelect2Invalid($select) {
+    var $rendered = getSelect2RenderedEl($select);
+    if ($rendered.length) {
+      $rendered.css("border", "2px solid rgb(252, 57, 29)");
     }
+  }
+
+  function clearSelect2Invalid($select) {
+    var $rendered = getSelect2RenderedEl($select);
+    if ($rendered.length) {
+      $rendered.css("border", "");
+    }
+  }
+
+  // Validate select2 fields in the currently submitted form only.
+  jQuery(document).on("submit", ".wpcf7-form", function () {
+    var $form = jQuery(this);
+
+    config.forEach(function (item) {
+      var $select = $form.find('select[name="' + item.selectName + '"]');
+      if (!$select.length || !$select.is(":visible")) {
+        return;
+      }
+
+      if (!$select.val()) {
+        setTimeout(function () {
+          markSelect2Invalid($select);
+        }, shortTimeout);
+      } else {
+        clearSelect2Invalid($select);
+      }
+    });
   });
+
+  // Remove red border as soon as user chooses a value.
+  jQuery(document).on(
+    "change",
+    'select[name="privatus-sprendimas"], select[name="verslo-sprendimas"]',
+    function () {
+      var $select = jQuery(this);
+      if ($select.val()) {
+        clearSelect2Invalid($select);
+      }
+    }
+  );
 
   // Helper function to set up a MutationObserver for a given id prefix.
   function setupObserver(idPrefix) {
-    const $elements = jQuery(`[id^="${idPrefix}"]`);
+    var $elements = jQuery('[id^="' + idPrefix + '"]');
     if ($elements.length) {
       $elements.each(function () {
-        const targetNode = this;
-        const observer = new MutationObserver((mutationsList) => {
-          mutationsList.forEach((mutation) => {
+        var targetNode = this;
+        var observer = new MutationObserver(function (mutationsList) {
+          mutationsList.forEach(function (mutation) {
             if (
               mutation.type === "attributes" &&
               mutation.attributeName === "title"
             ) {
-              jQuery(`[id^="${idPrefix}"]`).css("border", "");
+              jQuery('[id^="' + idPrefix + '"]').css("border", "");
             }
           });
         });
@@ -208,10 +358,10 @@ jQuery(window).on("load", function () {
 	jQuery(document).on("submit", ".wpcf7-form", function(e) {
   var $form = jQuery(this);
 
-  // if we've already started submitting, block it
+  // If another submit handler already started this submit cycle, do not block.
+  // Returning early prevents cross-handler race conditions.
   if ($form.data("submitting")) {
-    e.preventDefault();
-    return false;
+    return;
   }
 
   // mark it and disable the button
@@ -220,7 +370,7 @@ jQuery(window).on("load", function () {
 });
 
   // Set up MutationObservers for each type
-  config.forEach((item) => {
+  config.forEach(function (item) {
     setupObserver(item.idPrefix);
   });
 });

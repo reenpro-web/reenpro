@@ -1,13 +1,17 @@
 jQuery(window).on("load", function () {
   jQuery(document).ready(function () {
+    function unlockCf7Form(formEl) {
+      var $form = jQuery(formEl);
+      $form.data("submitting", false);
+      $form.find('button[type="submit"]').prop("disabled", false);
+    }
     
     // Prevent double submission
     jQuery(document).on("submit", ".wpcf7-form", function (e) {
       var $form = jQuery(this);
-      // if we've already started submitting, block it
+      // If another submit handler already started this submit cycle, do not block.
       if ($form.data("submitting")) {
-        e.preventDefault();
-        return false;
+        return;
       }
       // mark it and disable the button
       $form.data("submitting", true);
@@ -19,9 +23,7 @@ jQuery(window).on("load", function () {
       "wpcf7invalid",
       function (event) {
         var $form = jQuery(event.target);
-        // clear the submitting flag and re-enable submit
-        $form.data("submitting", false);
-        $form.find('button[type="submit"]').prop("disabled", false);
+        unlockCf7Form(event.target);
 
         // Handle solarForm
         if (jQuery(event.target).closest("#solarForm").length) {
@@ -47,6 +49,53 @@ jQuery(window).on("load", function () {
             );
           }
         }
+
+        // Fallback for all other CF7 forms on the site
+        if (!$form.find(".error-message.custom-error").length) {
+          var invalidMessage =
+            (event.detail &&
+              event.detail.apiResponse &&
+              event.detail.apiResponse.message) ||
+            "Užpildykite būtinuosius laukelius";
+          var $accept = $form.find(".contact-form__accept");
+          if ($accept.length) {
+            $accept.after('<div class="error-message custom-error">' + invalidMessage + "</div>");
+          } else {
+            $form.find('button[type="submit"]').first().before(
+              '<div class="error-message custom-error">' + invalidMessage + "</div>"
+            );
+          }
+        }
+      },
+      false
+    );
+
+    document.addEventListener(
+      "wpcf7mailfailed",
+      function (event) {
+        unlockCf7Form(event.target);
+      },
+      false
+    );
+
+    document.addEventListener(
+      "wpcf7spam",
+      function (event) {
+        unlockCf7Form(event.target);
+      },
+      false
+    );
+
+    // Always unlock after any CF7 submit lifecycle result.
+    // This prevents stale disabled buttons on forms not explicitly
+    // covered by custom success handlers below.
+    document.addEventListener(
+      "wpcf7submit",
+      function (event) {
+        unlockCf7Form(event.target);
+        if (window.location.hostname === "localhost") {
+          console.debug("CF7 submit", event.detail && event.detail.status, event.detail && event.detail.contactFormId);
+        }
       },
       false
     );
@@ -56,19 +105,24 @@ jQuery(window).on("load", function () {
       "wpcf7mailsent",
       function (event) {
         var $formWrapper = null;
-        var formId = null;
+        var $submittedForm = jQuery(event.target);
+
+        if ($submittedForm.data("modalSuccessHandled")) {
+          return;
+        }
 
         // Determine which form was submitted
         if (jQuery(event.target).closest("#solarForm").length) {
           $formWrapper = jQuery("#solarForm");
-          formId = "solarForm";
         } else if (jQuery(event.target).closest("#carForm").length) {
           $formWrapper = jQuery("#carForm");
-          formId = "carForm";
+        } else if (jQuery(event.target).closest("#bessFormInModal").length) {
+          $formWrapper = jQuery("#bessFormInModal");
         }
 
         // Only proceed if it's one of our target forms
         if ($formWrapper && $formWrapper.length) {
+          $submittedForm.data("modalSuccessHandled", true);
           // If a success message already exists, do nothing to prevent duplicates
           if ($formWrapper.find(".contact-form__success-message").length) {
             return;
@@ -76,6 +130,7 @@ jQuery(window).on("load", function () {
 
           // Remove any custom error messages
           $formWrapper.find(".custom-error").remove();
+          $formWrapper.find(".contact-form__thank-you, .contact-form__success-message").remove();
 
           // Store the original content
           var $formContent = $formWrapper.find(".wpcf7-form");
@@ -118,6 +173,7 @@ jQuery(window).on("load", function () {
               $formWrapper.find(".wpcf7-form").fadeIn(300, function () {
                 var $form = jQuery(this);
                 $form.data("submitting", false);
+                $form.data("modalSuccessHandled", false);
                 $form.find('button[type="submit"]').prop("disabled", false);
               });
             }, 350);
@@ -128,4 +184,3 @@ jQuery(window).on("load", function () {
     );
   });
 });
-

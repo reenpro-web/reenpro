@@ -20,6 +20,32 @@
       init: function () {
         // JavaScript to be fired on all pages
 
+        // Compatibility shim: older Select2 builds expect $.isArray.
+        if (typeof $.isArray !== 'function' && typeof Array.isArray === 'function') {
+          $.isArray = Array.isArray;
+        }
+        // Compatibility shim: older Slick builds expect $.type.
+        if (typeof $.type !== 'function') {
+          $.type = function (obj) {
+            if (obj === null) {
+              return 'null';
+            }
+            if (obj === undefined) {
+              return 'undefined';
+            }
+            return Object.prototype.toString.call(obj).slice(8, -1).toLowerCase();
+          };
+        }
+        // Compatibility shim: older Select2 builds expect $.trim.
+        if (typeof $.trim !== 'function') {
+          $.trim = function (value) {
+            if (value === null || value === undefined) {
+              return '';
+            }
+            return String(value).trim();
+          };
+        }
+
 
         /**
          * Button to top
@@ -204,16 +230,8 @@
           $("#solarForm, #carForm").addClass("d-none");
         });
 
-        jQuery.noConflict(true);
-        jQuery('#offerModal').on('shown.bs.modal', function () {
-          jQuery("#header").css("opacity", "0");
-          jQuery("#header").css("z-index", "6");
-        });
-
-        jQuery('#offerModal').on('hidden.bs.modal', function () {
+        jQuery('#offerModal').on('hide.bs.modal hidden.bs.modal', function () {
           jQuery("#leaveToggle").click();
-          jQuery("#header").css("opacity", "1");
-          jQuery("#header").css("z-index", "99999");
         });
 
 

@@ -2,7 +2,15 @@
   "dependencies": {
     "main.js": {
       "files": [
-        "scripts/main.js"
+        "scripts/main.js",
+        "scripts/modules/jquery-forms-alph-sort.js",
+        "scripts/modules/edit-contact-forms.js",
+        "scripts/modules/edit-modal-contact-forms.js",
+        "scripts/modules/infinite-scroll.js",
+        "scripts/modules/main-page-banner-slick.js",
+        "scripts/modules/scroll-to-form.js",
+        "scripts/modules/open-bess-form.js",
+        "scripts/modules/offer-modal-lock.js"
       ],
       "main": true
     },

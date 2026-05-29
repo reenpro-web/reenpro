@@ -1,1 +1,10 @@
-<svg id="Group_60" data-name="Group 60" xmlns="http://www.w3.org/2000/svg" width="13.489" height="29.431"><defs><clipPath id="clip-path"><path id="Rectangle_15" data-name="Rectangle 15" fill="none" stroke="#707070" stroke-width="1.3" d="M0 0h13.489v29.431H0z"/></clipPath></defs><g id="Group_13" data-name="Group 13" clip-path="url(#clip-path)"><path id="Path_16" data-name="Path 16" d="M9.197.613L.613 17.781h6.131v11.032l6.131-14.715H6.744z" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.3"/></g></svg>
+<svg id="Group_60" data-name="Group 60" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="13.489" height="29.431" viewBox="0 0 13.489 29.431">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_15" data-name="Rectangle 15" width="13.489" height="29.431" fill="none" stroke="#707070" stroke-width="1.3"/>
+    </clipPath>
+  </defs>
+  <g id="Group_13" data-name="Group 13" clip-path="url(#clip-path)">
+    <path id="Path_16" data-name="Path 16" d="M8.584,0,0,17.168H6.131V28.2l6.131-14.715H6.131Z" transform="translate(0.613 0.613)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.3"/>
+  </g>
+</svg>
