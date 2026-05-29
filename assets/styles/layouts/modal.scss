@@ -118,3 +118,11 @@ body.modal-open #wpadminbar {
   visibility: hidden !important;
   pointer-events: none !important;
 }
+
+.modal .select2-container--open {
+  z-index: 210000 !important;
+}
+
+.modal .select2-dropdown {
+  z-index: 210000 !important;
+}

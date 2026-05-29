@@ -89,20 +89,29 @@ jQuery(window).on("load", function () {
         jQuery(event.target).is("#tab-personal .wpcf7-form") ||
         jQuery(event.target).is("#tab-business .wpcf7-form")
       ) {
+        var $tabSubmittedForm = jQuery(event.target);
+        var $tabScope = $tabSubmittedForm.closest(".contact-form");
+        if (!$tabScope.length) {
+          return;
+        }
+        var $tabHeading = $tabScope.find("h3.contact-form__heading").first();
+        var $tabBlocks = $tabScope.find(".contact-tabs");
+        var $tabHideTarget = $tabBlocks.length ? $tabBlocks : $tabSubmittedForm;
+        var headingText = $tabHeading.text();
+
         // If a success message already exists, do nothing to prevent duplicates.
-        if (jQuery(".contact-form__success-message").length) {
+        if ($tabScope.find(".contact-form__success-message").length) {
           return;
         }
 
         // Remove any custom error messages.
-        jQuery(".custom-error").remove();
-        var headingText = jQuery('h3.contact-form__heading').first().text();
+        $tabScope.find(".custom-error").remove();
         // Fade out the form container (instead of removing it)
-        jQuery(".contact-tabs").fadeOut(300, function () {
+        $tabHideTarget.fadeOut(300, function () {
 
-	      jQuery('h3.contact-form__heading').text('Ačiū, kad užpildėte užklausą!');
-          if (!jQuery(".contact-form__success-message").length) {
-            jQuery(".contact-form__heading").after(
+	      $tabHeading.text('Ačiū, kad užpildėte užklausą!');
+          if (!$tabScope.find(".contact-form__success-message").length) {
+            $tabHeading.after(
               '<div class="contact-form__success-message h6">Greitu metu su Jumis susisieksime ir atsakysime į visus rūpimus klausimus.</div>'
             );
           }
@@ -110,32 +119,33 @@ jQuery(window).on("load", function () {
 
         // After 20 seconds, fade out the success message and fade the form back in.
 		setTimeout(function () {
-		  jQuery(".contact-form__success-message").fadeOut(300, function () {
+		  $tabScope.find(".contact-form__success-message").fadeOut(300, function () {
 			jQuery(this).remove();
 			// Fade the form container back in
-			jQuery(".contact-tabs").fadeIn(300, function() {
+			$tabHideTarget.fadeIn(300, function() {
 			  // once it's visible again, re-enable submit
-			  var $form = jQuery(this).find("form.wpcf7-form");
+			  var $form = jQuery(this).find("form.wpcf7-form").first();
 			  $form.data("submitting", false);
 			  $form.find('button[type="submit"]').prop("disabled", false);
-			  jQuery('h3.contact-form__heading').text(headingText);
+			  $tabHeading.text(headingText);
 			});
 		  });
 		}, 20000);
 
 	  // AUTO FORM
       } else if (jQuery(event.target).is("#wpcf7-f374-o1 .wpcf7-form")) {
-        if (jQuery(".contact-form__success-message").length) {
+        var $autoScope = jQuery("#wpcf7-f374-o1");
+        if ($autoScope.find(".contact-form__success-message").length) {
           return;
         }
-        jQuery(".custom-error").remove();
+        $autoScope.find(".custom-error").remove();
 
         jQuery("#wpcf7-f374-o1 .wpcf7-form").fadeOut(300, function () {
           // Insert the success message if it doesn't already exist.
-          if (!jQuery(".contact-form__success-message").length) {
-			jQuery("#wpcf7-f374-o1").append(
+          if (!$autoScope.find(".contact-form__success-message").length) {
+			$autoScope.append(
               '<h3 class="mb-40 mb-lg-50 contact-form__thank-you">Ačiū, kad užpildėte užklausą!</h3>');
-            jQuery("#wpcf7-f374-o1").append(
+            $autoScope.append(
               '<div class="contact-form__success-message h6">Greitu metu su Jumis susisieksime ir atsakysime į visus rūpimus klausimus.</div>'
             );
           }
@@ -143,7 +153,7 @@ jQuery(window).on("load", function () {
 
         // After 20 seconds, fade out the success message and fade the form back in.
 		setTimeout(function () {
-		  jQuery(".contact-form__thank-you, .contact-form__success-message").fadeOut(300, function () {
+		  $autoScope.find(".contact-form__thank-you, .contact-form__success-message").fadeOut(300, function () {
 			jQuery(this).remove();
 			// Fade the form container back in
 			jQuery("#wpcf7-f374-o1 .wpcf7-form").fadeIn(300, function() {

@@ -249,6 +249,15 @@
 
         $('#hiddenMainPostSelect').prop('disabled', true);
 
+        function getSelect2Options($element, baseOptions) {
+          var options = jQuery.extend({}, baseOptions);
+          var $modalRoot = $element.closest(".modal");
+          if ($modalRoot.length) {
+            options.dropdownParent = $modalRoot;
+          }
+          return options;
+        }
+
         // $('#hiddenMainTaxSelect option:first').prop('disabled', true);
         // $('#hiddenMainTaxSelect').addClass('first-child');
         //
@@ -256,17 +265,17 @@
         //   $('#hiddenMainTaxSelect').removeClass('first-child');
         // });
 
-        $("#hiddenMainTaxSelect").select2({
+        $("#hiddenMainTaxSelect").select2(getSelect2Options($("#hiddenMainTaxSelect"), {
           placeholder: "Automobilio gamintojas",
           allowClear: false,
           minimumResultsForSearch: -1,
-        });
+        }));
 
-        $("#hiddenMainPostSelect").select2({
+        $("#hiddenMainPostSelect").select2(getSelect2Options($("#hiddenMainPostSelect"), {
           placeholder: "Automobilio modelis",
           allowClear: false,
           minimumResultsForSearch: -1,
-        });
+        }));
 
         $('#hiddenMainTaxSelect').on('change', function () {
           var selectedDataId = $(this).find(':selected').data('id');
@@ -323,16 +332,19 @@
         // });
 
 
-        $("#donationSelect").select2({
+        $("#donationSelect").select2(getSelect2Options($("#donationSelect"), {
           placeholder: "Parama",
           allowClear: false,
           minimumResultsForSearch: -1,
-        });
+        }));
 
-        $(".solutionSelect").select2({
+        $(".solutionSelect").each(function () {
+          var $select = jQuery(this);
+          $select.select2(getSelect2Options($select, {
           placeholder: "Pasirinkite sprendimą",
           allowClear: false,
           minimumResultsForSearch: -1,
+          }));
         });
 
 // change active tab in form
@@ -380,11 +392,11 @@
         //   $('#locationSelect').removeClass('first-child');
         // });
 
-        $("#locationSelect").select2({
+        $("#locationSelect").select2(getSelect2Options($("#locationSelect"), {
           placeholder: "Įkrovimo stotelės vieta",
           allowClear: false,
           minimumResultsForSearch: -1,
-        });
+        }));
 
 
         var optionsPost = $('#hiddenPostSelect').html();
@@ -408,17 +420,17 @@
         // });
         $('#postSelect').prop('disabled', true);
         //
-        $("#taxSelect").select2({
+        $("#taxSelect").select2(getSelect2Options($("#taxSelect"), {
           placeholder: "Automobilio gamintojas",
           allowClear: false,
           minimumResultsForSearch: -1,
-        });
+        }));
 
-        $("#postSelect").select2({
+        $("#postSelect").select2(getSelect2Options($("#postSelect"), {
           placeholder: "Automobilio modelis",
           allowClear: false,
           minimumResultsForSearch: -1,
-        });
+        }));
 
 
         $('#taxSelect').on('change', function () {
