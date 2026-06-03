@@ -1,0 +1,179 @@
+{
+  "editor.deps.json": {
+    "file": "assets/editor.deps-DxpY22xl.json",
+    "src": "editor.deps.json"
+  },
+  "resources/css/app.scss": {
+    "file": "assets/app-uXJ0SdOG.css",
+    "name": "app",
+    "names": [
+      "app.css"
+    ],
+    "src": "resources/css/app.scss",
+    "isEntry": true,
+    "assets": [
+      "assets/arrow-right-C2WVijrJ.svg",
+      "assets/chevron-form-Du6YbXxk.svg",
+      "assets/chevron-check-DCKu91xm.svg",
+      "assets/close-cookie-BXPJ6g-a.svg",
+      "assets/header-chevron-white-PkPVFwLc.svg",
+      "assets/header-chevron-Dc7gM6ty.svg",
+      "assets/header-chevron-mobile-DQfLEi9p.svg",
+      "assets/close-menu-2hrEJZXu.svg",
+      "assets/tel-DXsbdQKk.svg",
+      "assets/mail-CqpgnYEb.svg",
+      "assets/location-jovSngXJ.svg",
+      "assets/tel-black-C6ctvkxH.svg",
+      "assets/mail-black-DQ5HcVEE.svg",
+      "assets/system-pattern-DH02fP6y.png",
+      "assets/slider-arrow-white-D_LneJCu.svg",
+      "assets/slider-arrow-purple-jRaQwD5g.svg",
+      "assets/project-location-C9lKroJQ.svg",
+      "assets/project-power-e1ftSK0y.svg",
+      "assets/project-client-D7Ln2JS-.svg",
+      "assets/file-reenpro-CJJcudyA.svg",
+      "assets/tel-white-DBNpTBtk.svg",
+      "assets/mail-white-X-nlufHj.svg",
+      "assets/location-white-B7mGwCcu.svg",
+      "assets/tel-outline-BMiT_9kC.svg",
+      "assets/mail-outline-CN9HbkrO.svg"
+    ]
+  },
+  "resources/css/editor.css": {
+    "file": "assets/editor-x1XGuNl0.css",
+    "name": "editor",
+    "names": [
+      "editor.css"
+    ],
+    "src": "resources/css/editor.css",
+    "isEntry": true
+  },
+  "resources/images/arrow-right.svg": {
+    "file": "assets/arrow-right-C2WVijrJ.svg",
+    "src": "resources/images/arrow-right.svg"
+  },
+  "resources/images/chevron-check.svg": {
+    "file": "assets/chevron-check-DCKu91xm.svg",
+    "src": "resources/images/chevron-check.svg"
+  },
+  "resources/images/chevron-form.svg": {
+    "file": "assets/chevron-form-Du6YbXxk.svg",
+    "src": "resources/images/chevron-form.svg"
+  },
+  "resources/images/close-cookie.svg": {
+    "file": "assets/close-cookie-BXPJ6g-a.svg",
+    "src": "resources/images/close-cookie.svg"
+  },
+  "resources/images/close-menu.svg": {
+    "file": "assets/close-menu-2hrEJZXu.svg",
+    "src": "resources/images/close-menu.svg"
+  },
+  "resources/images/close.svg": {
+    "file": "assets/close-D0G5zCPJ.svg",
+    "src": "resources/images/close.svg"
+  },
+  "resources/images/file-reenpro.svg": {
+    "file": "assets/file-reenpro-CJJcudyA.svg",
+    "src": "resources/images/file-reenpro.svg"
+  },
+  "resources/images/header-chevron-mobile.svg": {
+    "file": "assets/header-chevron-mobile-DQfLEi9p.svg",
+    "src": "resources/images/header-chevron-mobile.svg"
+  },
+  "resources/images/header-chevron-white.svg": {
+    "file": "assets/header-chevron-white-PkPVFwLc.svg",
+    "src": "resources/images/header-chevron-white.svg"
+  },
+  "resources/images/header-chevron.svg": {
+    "file": "assets/header-chevron-Dc7gM6ty.svg",
+    "src": "resources/images/header-chevron.svg"
+  },
+  "resources/images/location-white.svg": {
+    "file": "assets/location-white-B7mGwCcu.svg",
+    "src": "resources/images/location-white.svg"
+  },
+  "resources/images/location.svg": {
+    "file": "assets/location-jovSngXJ.svg",
+    "src": "resources/images/location.svg"
+  },
+  "resources/images/logo-color.svg": {
+    "file": "assets/logo-color-BvErY5O0.svg",
+    "src": "resources/images/logo-color.svg"
+  },
+  "resources/images/mail-black.svg": {
+    "file": "assets/mail-black-DQ5HcVEE.svg",
+    "src": "resources/images/mail-black.svg"
+  },
+  "resources/images/mail-outline.svg": {
+    "file": "assets/mail-outline-CN9HbkrO.svg",
+    "src": "resources/images/mail-outline.svg"
+  },
+  "resources/images/mail-white.svg": {
+    "file": "assets/mail-white-X-nlufHj.svg",
+    "src": "resources/images/mail-white.svg"
+  },
+  "resources/images/mail.svg": {
+    "file": "assets/mail-CqpgnYEb.svg",
+    "src": "resources/images/mail.svg"
+  },
+  "resources/images/project-client.svg": {
+    "file": "assets/project-client-D7Ln2JS-.svg",
+    "src": "resources/images/project-client.svg"
+  },
+  "resources/images/project-location.svg": {
+    "file": "assets/project-location-C9lKroJQ.svg",
+    "src": "resources/images/project-location.svg"
+  },
+  "resources/images/project-power.svg": {
+    "file": "assets/project-power-e1ftSK0y.svg",
+    "src": "resources/images/project-power.svg"
+  },
+  "resources/images/quotes.svg": {
+    "file": "assets/quotes-ClMiVr3d.svg",
+    "src": "resources/images/quotes.svg"
+  },
+  "resources/images/slider-arrow-purple.svg": {
+    "file": "assets/slider-arrow-purple-jRaQwD5g.svg",
+    "src": "resources/images/slider-arrow-purple.svg"
+  },
+  "resources/images/slider-arrow-white.svg": {
+    "file": "assets/slider-arrow-white-D_LneJCu.svg",
+    "src": "resources/images/slider-arrow-white.svg"
+  },
+  "resources/images/slider-arrow.svg": {
+    "file": "assets/slider-arrow-purple-jRaQwD5g.svg",
+    "src": "resources/images/slider-arrow-purple.svg"
+  },
+  "resources/images/system-pattern.png": {
+    "file": "assets/system-pattern-DH02fP6y.png",
+    "src": "resources/images/system-pattern.png"
+  },
+  "resources/images/tel-black.svg": {
+    "file": "assets/tel-black-C6ctvkxH.svg",
+    "src": "resources/images/tel-black.svg"
+  },
+  "resources/images/tel-outline.svg": {
+    "file": "assets/tel-outline-BMiT_9kC.svg",
+    "src": "resources/images/tel-outline.svg"
+  },
+  "resources/images/tel-white.svg": {
+    "file": "assets/tel-white-DBNpTBtk.svg",
+    "src": "resources/images/tel-white.svg"
+  },
+  "resources/images/tel.svg": {
+    "file": "assets/tel-DXsbdQKk.svg",
+    "src": "resources/images/tel.svg"
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-BIZ-vfUL.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true
+  },
+  "resources/js/editor.js": {
+    "file": "assets/editor-Dqo-zVGR.js",
+    "name": "editor",
+    "src": "resources/js/editor.js",
+    "isEntry": true
+  }
+}
