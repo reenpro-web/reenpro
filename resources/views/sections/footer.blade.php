@@ -38,7 +38,7 @@
       <div class="col-12 col-md-6 col-lg-3 offset-xl-1 order-4 order-md-2 order-lg-4">
         @if(have_rows('global_contacts', 'options'))
           <div class="mb-40 mb-md-40">
-            @while(have_rows('global_contacts', 'options')) @php(the_row())
+            @while(have_rows('global_contacts', 'options')) <?php the_row(); ?>
               <div class="footer-info__details footer-info__details--{{ get_sub_field('info_type')['value'] }}">
                 {!! get_sub_field('info', 'options') !!}
               </div>
@@ -47,7 +47,7 @@
         @endif
         @if(have_rows('footer_socials', 'options'))
           <div class="mb-40 mb-lg-0">
-            @while(have_rows('footer_socials', 'options')) @php(the_row())
+            @while(have_rows('footer_socials', 'options')) <?php the_row(); ?>
               <a class="footer-socials__link" href="{{ get_sub_field('link') }}" target="_blank">
                 {!! wp_get_attachment_image(get_sub_field('icon', 'options'), 'full') !!}
               </a>

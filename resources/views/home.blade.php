@@ -27,7 +27,7 @@
 <div class="container mb-80">
   <div class="row gy-4">
     @if(have_posts())
-      @while(have_posts()) @php(the_post())
+      @while(have_posts()) <?php the_post(); ?>
         @php
           $external_link = get_post_meta(get_the_ID(), '_external_media_link', true);
           $post_link = $external_link ? esc_url($external_link) : get_permalink();

@@ -9,7 +9,7 @@
         @endif
         <div class="col-12">
           <div class="about-logos__slider">
-            @while(have_rows('global_logos', 'options')) @php(the_row())
+            @while(have_rows('global_logos', 'options')) <?php the_row(); ?>
               <div class="text-center about-logos__slider-slide">
                 <div>{!! wp_get_attachment_image(get_sub_field('logo', 'options'), 'full') !!}</div>
                 <div>

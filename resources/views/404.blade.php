@@ -24,6 +24,6 @@
 @endphp
 <style>
   .cms-intro { background-image: url({{ $img_desktop }}); }
-  @media only screen and (max-width: 768px) { .cms-intro { background-image: url({{ $img_mobile }}); } }
+  @@media only screen and (max-width: 768px) { .cms-intro { background-image: url({{ $img_mobile }}); } }
 </style>
 @endsection

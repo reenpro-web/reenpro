@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-@while(have_posts()) @php(the_post())
+@while(have_posts()) <?php the_post(); ?>
 
 @php($post_featured_image = has_post_thumbnail() ? get_the_post_thumbnail_url(get_the_ID(), 'full') : '')
 
@@ -76,7 +76,7 @@
     <h3 class="mb-md-80 mb-40 h3">Kitos naujienos</h3>
     <div id="other-news-container" class="row gy-4" data-current-post-id="{{ get_the_ID() }}">
       @php($other_query = new WP_Query(['post_type' => 'post', 'posts_per_page' => 3, 'post__not_in' => [get_the_ID()], 'orderby' => 'date', 'order' => 'DESC']))
-      @while($other_query->have_posts()) @php($other_query->the_post())
+      @while($other_query->have_posts()) <?php $other_query->the_post(); ?>
         @php
           $external_link = get_post_meta(get_the_ID(), '_external_media_link', true);
           $post_link     = $external_link ? esc_url($external_link) : get_permalink();

@@ -7,7 +7,7 @@
         </div>
       @endif
       <div class="about-cards__slider">
-        @while(have_rows('about_cards', 'options')) @php(the_row())
+        @while(have_rows('about_cards', 'options')) <?php the_row(); ?>
           @if(get_sub_field('display_card'))
             <div class="about-card">
               <div class="full-img about-card__image">

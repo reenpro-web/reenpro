@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-@while(have_posts()) @php(the_post())
+@while(have_posts()) <?php the_post(); ?>
 
 <div class="donation-banner">
   <div class="donation-intro d-flex">
@@ -27,7 +27,7 @@
       <div class="row custom-row justify-content-center">
         <div class="col-12 col-xl-10 custom-column mb-60">
           <div class="row custom-row home-info__wrapper">
-            @while(have_rows('donation_form_cards')) @php(the_row())
+            @while(have_rows('donation_form_cards')) <?php the_row(); ?>
               <div class="col-12 col-lg-4 text-center custom-column mb-20 mb-lg-0">
                 <div class="home-info__item">
                   <svg class="mb-20 d-none d-md-inline" xmlns="http://www.w3.org/2000/svg" width="8" height="128.433" viewBox="0 0 8 128.433"><g transform="translate(-493 -790)"><g transform="translate(493 790)" fill="none" stroke="#12122d" stroke-width="2"><circle cx="4" cy="4" r="4" stroke="none"/><circle cx="4" cy="4" r="3" fill="none"/></g><path d="M429.948,1287v120.433" transform="translate(67 -489)" fill="none" stroke="#12122d" stroke-width="2"/></g></svg>
@@ -64,7 +64,7 @@
           </div>
         @endif
         @php($i = 1)
-        @while(have_rows('donation_conditions_cards')) @php(the_row())
+        @while(have_rows('donation_conditions_cards')) <?php the_row(); ?>
           <div class="col-12 col-lg-3 text-center mb-30 mb-lg-30">
             <div class="donation-conditions__item">
               <div class="donation-conditions__item-number mb-20">{{ $i }}</div>
@@ -95,7 +95,7 @@
           <div class="donation-process__wrapper">
             <div class="donation-process__items d-flex align-items-center mb-100">
               @php($i = 1)
-              @while(have_rows('process_steps')) @php(the_row())
+              @while(have_rows('process_steps')) <?php the_row(); ?>
                 <div class="indicator-line flex-shrink-0 {{ $i === 1 ? 'd-none' : '' }}"></div>
                 <div class="donation-process__item flex-shrink-0">
                   <div class="text-center">
@@ -145,7 +145,7 @@
 <style>
   .donation-intro { background-image: url({{ $img_desktop }}); }
   .donation-conditions { background-image: url({{ $cond_desktop }}); }
-  @media only screen and (max-width: 768px) {
+  @@media only screen and (max-width: 768px) {
     .donation-intro { background-image: url({{ $img_mobile }}); }
     .donation-conditions { background-image: url({{ $cond_mobile }}); }
   }

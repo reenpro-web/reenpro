@@ -5,7 +5,7 @@
 @extends('layouts.app')
 
 @section('content')
-@while(have_posts()) @php(the_post())
+@while(have_posts()) <?php the_post(); ?>
 
 <div class="contacts-intro d-flex">
   <div class="container mt-auto mb-auto">
@@ -14,7 +14,7 @@
         <h1 class="contacts-intro__heading c-white h3 mb-30 text-center">{!! get_the_title() !!}</h1>
         @if(have_rows('global_contacts', 'options'))
           <div class="d-flex flex-column flex-lg-row justify-content-center no-gutters align-items-lg-center">
-            @while(have_rows('global_contacts', 'options')) @php(the_row())
+            @while(have_rows('global_contacts', 'options')) <?php the_row(); ?>
               <div class="flex-grow-0 mb-20 mb-lg-0 d-flex justify-content-center">
                 <div class="contacts-info__details contacts-info__details--{{ get_sub_field('info_type')['value'] }}">
                   {!! get_sub_field('info', 'options') !!}
@@ -27,7 +27,7 @@
       <div class="col-12 col-md-10 col-xl-6 text-lg-center">
         @if(have_rows('company_info'))
           <div class="contacts-company text-center">
-            @while(have_rows('company_info')) @php(the_row())
+            @while(have_rows('company_info')) <?php the_row(); ?>
               <div class="contacts-company__item">
                 {!! get_sub_field('title') !!}<span>&nbsp;{!! get_sub_field('info') !!}</span>
               </div>
@@ -52,7 +52,7 @@
       <div class="row justify-content-center">
         <div class="col-12 col-lg-11 text-center">
           <div class="row custom-row justify-content-center">
-            @while(have_rows('contacts_cards')) @php(the_row())
+            @while(have_rows('contacts_cards')) <?php the_row(); ?>
               <div class="col-12 col-md-6 col-lg-4 custom-column mb-30 mb-lg-100">
                 <div class="contacts-card h-100">
                   <div class="d-flex flex-column h-100">
@@ -94,7 +94,7 @@
 @endphp
 <style>
   .contacts-intro { background-image: url({{ $img_desktop }}); }
-  @media only screen and (max-width: 768px) { .contacts-intro { background-image: url({{ $img_mobile }}); } }
+  @@media only screen and (max-width: 768px) { .contacts-intro { background-image: url({{ $img_mobile }}); } }
 </style>
 
 @endwhile

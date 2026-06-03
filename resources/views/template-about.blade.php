@@ -5,7 +5,7 @@
 @extends('layouts.app')
 
 @section('content')
-@while(have_posts()) @php(the_post())
+@while(have_posts()) <?php the_post(); ?>
 
 <div class="about-intro d-flex">
   <div class="container mt-auto mb-auto">
@@ -38,7 +38,7 @@
         </div>
         <div class="col-12 col-md-6 col-lg-5 col-xl-4 offset-lg-1">
           <div class="about-info__slider">
-            @while(have_rows('about_info_slider')) @php(the_row())
+            @while(have_rows('about_info_slider')) <?php the_row(); ?>
               <div class="mb-30 mb-lg-50">
                 <div class="d-flex justify-content-between align-items-center mb-15">
                   <div class="about-info__slider-heading mr-20 mr-md-0">{!! get_sub_field('heading') !!}</div>
@@ -121,7 +121,7 @@
 @endphp
 <style>
   .about-intro { background-image: url({{ $img_desktop }}); }
-  @media only screen and (max-width: 768px) { .about-intro { background-image: url({{ $img_mobile }}); } }
+  @@media only screen and (max-width: 768px) { .about-intro { background-image: url({{ $img_mobile }}); } }
 </style>
 
 @endwhile

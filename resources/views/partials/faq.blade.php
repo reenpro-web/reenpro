@@ -9,7 +9,7 @@
       @endif
       <div class="col-12 col-md-10 col-xl-7">
         <div id="faq-accordion">
-          @while(have_rows('faq')) @php(the_row())
+          @while(have_rows('faq')) <?php the_row(); ?>
             <div class="faq-card" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
               <div id="question-{{ $i }}">
                 <div class="faq-card__heading fw-bold faq-card__heading-icon collapsed"

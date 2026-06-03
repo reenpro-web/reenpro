@@ -33,7 +33,7 @@
               $productCounter  = 0;
             @endphp
             <div id="installationCategories">
-              @while($productsLoop->have_posts()) @php($productsLoop->the_post())
+              @while($productsLoop->have_posts()) <?php $productsLoop->the_post(); ?>
                 <div class="mb-20 text-md-center d-inline-block">
                   <div class="products-title c-white {{ $productCounter === 0 ? 'active' : '' }}" data-index="{{ $productCounter }}">
                     {{ get_the_title() }}
@@ -57,7 +57,7 @@
             $installLoop    = new WP_Query(['post_type' => 'installation', 'post_status' => 'publish', 'posts_per_page' => -1]);
             $productCounter = 0;
           @endphp
-          @while($installLoop->have_posts()) @php($installLoop->the_post())
+          @while($installLoop->have_posts()) <?php $installLoop->the_post(); ?>
             <div>
               <div class="row mb-20">
                 <div class="col-12 col-lg-6 mb-50 mb-lg-0 c-white product-galleries">
@@ -71,7 +71,7 @@
                   <h3 class="c-white mb-50">{{ get_the_title() }}</h3>
                   @if(have_rows('product_spec'))
                     <div class="row mb-20">
-                      @while(have_rows('product_spec')) @php(the_row())
+                      @while(have_rows('product_spec')) <?php the_row(); ?>
                         <div class="col-12 col-md-6 c-white">
                           <div class="products-item__spec mb-30">{!! get_sub_field('text') !!}</div>
                         </div>
@@ -116,7 +116,7 @@
         @if(have_rows('warranty_list', 'options'))
           <div class="products-warranty__list">
             @php($i = 1)
-            @while(have_rows('warranty_list', 'options')) @php(the_row())
+            @while(have_rows('warranty_list', 'options')) <?php the_row(); ?>
               <div class="mb-30 products-warranty__list-item">
                 <span class="products-warranty__list-item--number">{{ $i }}</span>
                 <h3 class="mb-15 fw-bold">{!! get_sub_field('heading', 'options') !!}</h3>
@@ -146,7 +146,7 @@
       <div class="col-12 col-xl-10 text-center">
         @if(have_rows('production_list', 'options'))
           <div class="row custom-row products-production__wrapper">
-            @while(have_rows('production_list', 'options')) @php(the_row())
+            @while(have_rows('production_list', 'options')) <?php the_row(); ?>
               <div class="col-12 col-lg-4 mb-50 mb-lg-0 text-center custom-column">
                 <div class="products-production__item">
                   <div class="mb-20">{!! wp_get_attachment_image(get_sub_field('icon'), 'full') !!}</div>
@@ -170,7 +170,7 @@
 @endphp
 <style>
   .products-intro { background-image: url({{ $img_desktop }}); }
-  @media only screen and (max-width: 768px) { .products-intro { background-image: url({{ $img_mobile }}); } }
+  @@media only screen and (max-width: 768px) { .products-intro { background-image: url({{ $img_mobile }}); } }
 </style>
 
 @endif

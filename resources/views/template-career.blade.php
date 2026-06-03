@@ -5,7 +5,7 @@
 @extends('layouts.app')
 
 @section('content')
-@while(have_posts()) @php(the_post())
+@while(have_posts()) <?php the_post(); ?>
 
 <div class="career-intro d-flex mb-60 mb-lg-120">
   <div class="container mt-auto mb-auto">
@@ -51,7 +51,7 @@
             @endif
             @php($i = 1)
             <div id="job-accordion">
-              @while(have_rows('jobs')) @php(the_row())
+              @while(have_rows('jobs')) <?php the_row(); ?>
                 <div class="job-card {{ get_sub_field('display_job') ? 'd-none' : '' }}"
                      itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
                   <div id="question-{{ $i }}">
@@ -94,7 +94,7 @@
 @endphp
 <style>
   .career-intro { background-image: url({{ $img_desktop }}); }
-  @media only screen and (max-width: 768px) { .career-intro { background-image: url({{ $img_mobile }}); } }
+  @@media only screen and (max-width: 768px) { .career-intro { background-image: url({{ $img_mobile }}); } }
 </style>
 
 @endwhile

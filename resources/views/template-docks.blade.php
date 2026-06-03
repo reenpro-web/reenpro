@@ -5,7 +5,7 @@
 @extends('layouts.app')
 
 @section('content')
-@while(have_posts()) @php(the_post())
+@while(have_posts()) <?php the_post(); ?>
 
 @php
   $batteryTitle      = get_field('battery_title') ?: '';
@@ -61,7 +61,7 @@
                   <div class="contact-form__column">
                     <select id="hiddenMainPostSelect">
                       <option value="">Automobilio modelis</option>
-                      @while($loop->have_posts()) @php($loop->the_post())
+                      @while($loop->have_posts()) <?php ->the_post(); ?>
                         @php($terms = get_the_terms(get_the_ID(), 'car_category'))
                         <option value="{{ get_the_title() }}" id="{{ get_the_ID() }}"
                                 data-id="@foreach($terms as $term){{ $term->term_id }}@endforeach">
@@ -87,7 +87,7 @@
           @endif
           @php($loop->rewind_posts())
           @if($loop->have_posts())
-            @while($loop->have_posts()) @php($loop->the_post())
+            @while($loop->have_posts()) <?php ->the_post(); ?>
               @php($terms = get_the_terms(get_the_ID(), 'car_category'))
               <div class="col-12">
                 <div class="row d-none selected-car" id="{{ get_the_ID() }}">
@@ -151,7 +151,7 @@
       <div class="row justify-content-center">
         <div class="col-12 col-lg-10">
           <div class="row custom-row auto-docks__wrapper justify-content-center">
-            @while(have_rows('docks')) @php(the_row())
+            @while(have_rows('docks')) <?php the_row(); ?>
               <div class="col-12 col-md-6 col-lg-4 custom-column mb-30">
                 <div class="auto-docks__item h-100">
                   <div class="auto-docks__item-img text-center">{!! wp_get_attachment_image(get_sub_field('img'), 'docks-cards') !!}</div>
@@ -176,7 +176,7 @@
         @if(get_field('choose_title'))
           <div class="col-12 text-center"><h2 class="auto-choose__heading mb-80 c-white h3">{{ get_field('choose_title') }}</h2></div>
         @endif
-        @while(have_rows('choose_reenpro')) @php(the_row())
+        @while(have_rows('choose_reenpro')) <?php the_row(); ?>
           <div class="col-12 col-md-6 col-lg-3 mb-30">
             <div class="auto-choose__item h-100">
               <div class="auto-choose__item-img text-center">{!! wp_get_attachment_image(get_sub_field('icon'), 'full') !!}</div>
@@ -204,7 +204,7 @@
         @endif
       </div>
       @php($donationCounter = 0)
-      @while(have_rows('donation_blocks')) @php(the_row())
+      @while(have_rows('donation_blocks')) <?php the_row(); ?>
         <div class="row align-items-center mb-80">
           <div class="col-12 mb-30 mb-lg-0 {{ $donationCounter % 2 ? 'col-lg-6 order-lg-2' : 'col-lg-6 order-lg-1' }}">
             <div class="auto-donation__img">{!! wp_get_attachment_image(get_sub_field('img'), 'docks-donation') !!}</div>
@@ -258,7 +258,7 @@
         @if(have_rows('process_steps'))
           @php($i = 1)
           <div class="donation-process__items d-flex align-items-center mb-100">
-            @while(have_rows('process_steps')) @php(the_row())
+            @while(have_rows('process_steps')) <?php the_row(); ?>
               <div class="indicator-line {{ $i === 1 ? 'd-none' : '' }}"></div>
               <div class="donation-process__item">
                 <div class="text-center">

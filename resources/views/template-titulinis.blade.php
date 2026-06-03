@@ -5,13 +5,13 @@
 @extends('layouts.app')
 
 @section('content')
-@while(have_posts()) @php(the_post())
+@while(have_posts()) <?php the_post(); ?>
 
 <div class="home-slider">
   <div class="home-banner">
     @if(have_rows('index_intro_banner'))
       @php($i = 0)
-      @while(have_rows('index_intro_banner')) @php(the_row())
+      @while(have_rows('index_intro_banner')) <?php the_row(); ?>
         <div class="home-intro d-flex bg--{{ $i }}">
           <div class="container mt-auto mb-auto">
             <div class="row align-items-center justify-content-lg-between">
@@ -71,7 +71,7 @@
     </div>
     @if(have_rows('index_numbers'))
       <div class="row align-items-center">
-        @while(have_rows('index_numbers')) @php(the_row())
+        @while(have_rows('index_numbers')) <?php the_row(); ?>
           <div class="col-12 col-md-6 col-xl-3 text-center text-md-left">
             <div class="home-numbers__item d-flex align-items-center justify-content-center">
               <div class="home-numbers__item-number mr-20">{!! get_sub_field('number') !!}</div>
@@ -90,7 +90,7 @@
       <div class="col-12 col-xl-10 custom-column">
         @if(have_rows('index_info_cards'))
           <div class="row custom-row home-info__wrapper">
-            @while(have_rows('index_info_cards')) @php(the_row())
+            @while(have_rows('index_info_cards')) <?php the_row(); ?>
               <div class="col-12 col-lg-4 text-center custom-column">
                 <div class="home-info__item mb-50 mb-lg-0">
                   <svg class="mb-25 d-none d-lg-inline" xmlns="http://www.w3.org/2000/svg" width="8" height="128.433" viewBox="0 0 8 128.433">
@@ -177,7 +177,7 @@
         <h3 class="home-donation__heading c-white">{!! get_field('index_donation_heading') !!}</h3>
         <div class="home-donation__text c-white mb-50">{!! get_field('index_donation_text') !!}</div>
         @if(have_rows('index_donation_buttons'))
-          @while(have_rows('index_donation_buttons')) @php(the_row())
+          @while(have_rows('index_donation_buttons')) <?php the_row(); ?>
             @php($linkHomeButtons = get_sub_field('link'))
             <div class="home-donation__link d-md-inline-block">
               <a class="button button--wide d-block" href="{{ $linkHomeButtons['url'] }}" target="{{ $linkHomeButtons['target'] }}">
@@ -199,7 +199,7 @@
   <div class="home-logos pt-50 pb-50 pt-lg-110 pb-lg-110">
     <div class="container">
       <div class="home-logos__slider">
-        @while(have_rows('index_logos')) @php(the_row())
+        @while(have_rows('index_logos')) <?php the_row(); ?>
           <div class="pl-10 pr-10 pl-lg-25 pr-lg-25 text-center home-clients__slider-slide">
             {!! wp_get_attachment_image(get_sub_field('logo'), 'home_logos') !!}
           </div>
@@ -216,28 +216,24 @@
   $donImgDesktop  = wp_get_attachment_image_url(get_field('index_donation_image'), 'full');
   $donImgMobile   = wp_get_attachment_image_url(get_field('index_donation_image_mobile') ?: get_field('index_donation_image'), 'full');
 @endphp
-<style>
-  @if($banners)
-    @php($j = 0)
-    @foreach($banners as $banner)
-      .bg--{{ $j }} {
-        background-image: url({{ wp_get_attachment_image_url($banner['index_intro_image'], 'full') }});
-      }
-      @media only screen and (max-width: 768px) {
-        .bg--{{ $j }} {
-          background-image: url({{ wp_get_attachment_image_url($banner['index_intro_image_mobile'] ?: $banner['index_intro_image'], 'full') }});
-        }
-      }
-      @php($j++)
-    @endforeach
-  @endif
-  .home-info { background-image: url({{ $infoImgDesktop }}); }
-  .home-donation { background-image: url({{ $donImgDesktop }}); }
-  @media only screen and (max-width: 768px) {
-    .home-info { background-image: url({{ $infoImgMobile }}); }
-    .home-donation { background-image: url({{ $donImgMobile }}); }
+@php
+  $css = '<style>';
+  if ($banners) {
+    $j = 0;
+    foreach ($banners as $banner) {
+      $d = wp_get_attachment_image_url($banner['index_intro_image'], 'full');
+      $m = wp_get_attachment_image_url($banner['index_intro_image_mobile'] ?: $banner['index_intro_image'], 'full');
+      $css .= ".bg--{$j}{background-image:url({$d})}";
+      $css .= "@media only screen and (max-width:768px){.bg--{$j}{background-image:url({$m})}}";
+      $j++;
+    }
   }
-</style>
+  $css .= ".home-info{background-image:url({$infoImgDesktop})}";
+  $css .= ".home-donation{background-image:url({$donImgDesktop})}";
+  $css .= "@media only screen and (max-width:768px){.home-info{background-image:url({$infoImgMobile})}.home-donation{background-image:url({$donImgMobile})}}";
+  $css .= '</style>';
+  echo $css;
+@endphp
 
 @endwhile
 @endsection

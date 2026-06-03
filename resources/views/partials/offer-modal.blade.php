@@ -13,7 +13,7 @@
 @if($carLoop->have_posts())
   <select id="hiddenPostSelect" class="d-none">
     <option value="">Automobilio modelis</option>
-    @while($carLoop->have_posts()) @php($carLoop->the_post())
+    @while($carLoop->have_posts()) <?php $carLoop->the_post(); ?>
       @php($terms = get_the_terms(get_the_ID(), 'car_category'))
       <option value="{{ get_the_title() }}"
               data-id="@foreach($terms as $term){{ $term->term_id }}@endforeach">

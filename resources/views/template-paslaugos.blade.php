@@ -5,7 +5,7 @@
 @extends('layouts.app')
 
 @section('content')
-@while(have_posts()) @php(the_post())
+@while(have_posts()) <?php the_post(); ?>
 
 @php
   $paslaugos_background_image = get_field('paslaugos_background_image');
@@ -33,7 +33,7 @@
   <div class="paslaugos-list py-5 mb-120">
     <div class="container">
       <div class="row">
-        @while(have_rows('paslaugos_repeater')) @php(the_row())
+        @while(have_rows('paslaugos_repeater')) <?php the_row(); ?>
           @php
             $image       = get_sub_field('paslauga_image');
             $title       = get_sub_field('paslauga_title');

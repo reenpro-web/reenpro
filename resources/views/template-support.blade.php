@@ -5,7 +5,7 @@
 @extends('layouts.app')
 
 @section('content')
-@while(have_posts()) @php(the_post())
+@while(have_posts()) <?php the_post(); ?>
 
 <div class="donation-banner">
   <div class="donation-intro"
@@ -34,7 +34,7 @@
       <div class="col-12 col-xl-10 custom-column mb-60">
         @if(have_rows('donation_form_cards'))
           <div class="row custom-row home-info__wrapper">
-            @while(have_rows('donation_form_cards')) @php(the_row())
+            @while(have_rows('donation_form_cards')) <?php the_row(); ?>
               <div class="col-12 col-lg-4 text-center custom-column">
                 <div class="home-info__item">
                   <svg class="mb-20" xmlns="http://www.w3.org/2000/svg" width="8" height="128.433" viewBox="0 0 8 128.433">
@@ -74,7 +74,7 @@
       @endif
       @php($i = 1)
       @if(have_rows('donation_conditions_cards'))
-        @while(have_rows('donation_conditions_cards')) @php(the_row())
+        @while(have_rows('donation_conditions_cards')) <?php the_row(); ?>
           <div class="col-12 col-lg-3 text-center">
             <div class="donation-conditions__item">
               <div class="donation-conditions__item-number mb-20">{{ $i }}</div>
@@ -104,7 +104,7 @@
         @if(have_rows('process_steps'))
           @php($i = 1)
           <div class="donation-process__items d-flex align-items-center mb-100">
-            @while(have_rows('process_steps')) @php(the_row())
+            @while(have_rows('process_steps')) <?php the_row(); ?>
               <div class="indicator-line {{ $i === 1 ? 'd-none' : '' }}"></div>
               <div class="donation-process__item">
                 <div class="text-center">

@@ -5,7 +5,7 @@
 @extends('layouts.app')
 
 @section('content')
-@while(have_posts()) @php(the_post())
+@while(have_posts()) <?php the_post(); ?>
 
 <div class="cms-intro d-flex">
   <div class="container mt-auto mb-auto">
@@ -33,7 +33,7 @@
 @endphp
 <style>
   .cms-intro { background-image: url({{ $img_desktop }}); }
-  @media only screen and (max-width: 768px) { .cms-intro { background-image: url({{ $img_mobile }}); } }
+  @@media only screen and (max-width: 768px) { .cms-intro { background-image: url({{ $img_mobile }}); } }
 </style>
 
 @endwhile

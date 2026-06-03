@@ -15,7 +15,7 @@
         </div>
       </div>
       <div class="row">
-        @while($news_query->have_posts()) @php($news_query->the_post())
+        @while($news_query->have_posts()) <?php $news_query->the_post(); ?>
           <div class="col-12 col-md-4 blog-news__col_container mb-40 mb-md-0">
             <a href="{{ get_permalink() }}" class="blog-news__item blog-news__link">
               <div class="blog-news__image-wrapper">

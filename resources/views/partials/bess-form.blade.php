@@ -16,7 +16,7 @@
           @endif
           @if(have_rows('global_contacts', 'options'))
             <div>
-              @while(have_rows('global_contacts', 'options')) @php(the_row())
+              @while(have_rows('global_contacts', 'options')) <?php the_row(); ?>
                 <div class="footer-info__details footer-info__details--black footer-info__details--{{ get_sub_field('info_type')['value'] }} {{ get_sub_field('display') ? 'd-none' : '' }}">
                   {!! get_sub_field('info', 'options') !!}
                 </div>

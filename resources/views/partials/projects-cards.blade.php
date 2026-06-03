@@ -5,7 +5,7 @@
 @endphp
 @if($loop->have_posts())
   <div class="projects-cards" id="mainProjecsSlider">
-    @while($loop->have_posts()) @php($loop->the_post())
+    @while($loop->have_posts()) <?php ->the_post(); ?>
       @php
         if ($projectCounter >= 6) $hiddenClass = 'd-none';
         $terms = get_the_terms(get_the_ID(), 'projects_category');
