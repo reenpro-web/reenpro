@@ -166,7 +166,7 @@
 
     select {
       -webkit-appearance: none;
-      background-image: url('../images/chevron-form.svg');
+      background-image: url('../../images/chevron-form.svg');
       background-repeat: no-repeat;
       background-position: calc(100% - 12px) center;
       background-size: 12px;
@@ -342,7 +342,7 @@
           position: absolute;
           opacity: 0;
           transition: .3s;
-          background-image: url('../images/chevron-check.svg');
+          background-image: url('../../images/chevron-check.svg');
           background-repeat: no-repeat;
           background-position: center;
           background-size: 100%;
@@ -396,7 +396,7 @@
       transition: .3s;
       width: 16px;
       height: 13px;
-      background-image: url('../images/arrow-right.svg');
+      background-image: url('../../images/arrow-right.svg');
       background-repeat: no-repeat;
       background-position: center;
       background-size: 100%;

@@ -165,7 +165,7 @@
 
         &-arrow {
           position: absolute;
-          background-image: url("../images/slider-arrow-purple.svg");
+          background-image: url("../../images/slider-arrow-purple.svg");
           background-repeat: no-repeat;
           background-position: center;
           background-size: contain;
@@ -260,7 +260,7 @@
             &:before {
               width: 18px;
               height: 23px;
-              background-image: url('../images/project-location.svg');
+              background-image: url('../../images/project-location.svg');
             }
           }
 
@@ -270,7 +270,7 @@
             &:before {
               width: 13px;
               height: 29px;
-              background-image: url('../images/project-power.svg');
+              background-image: url('../../images/project-power.svg');
             }
           }
 
@@ -280,7 +280,7 @@
             &:before {
               width: 25px;
               height: 25px;
-              background-image: url('../images/project-client.svg');
+              background-image: url('../../images/project-client.svg');
             }
           }
         }

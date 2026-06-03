@@ -107,32 +107,32 @@
 
       &--tel {
         &:before {
-          background-image: url('../images/tel.svg');
+          background-image: url('../../images/tel.svg');
         }
       }
 
       &--mailto {
         &:before {
-          background-image: url('../images/mail.svg');
+          background-image: url('../../images/mail.svg');
         }
       }
 
       &--address {
         &:before {
-          background-image: url('../images/location.svg');
+          background-image: url('../../images/location.svg');
         }
       }
 
       &--black {
         &.footer-info__details--tel {
           &:before {
-            background-image: url('../images/tel-black.svg');
+            background-image: url('../../images/tel-black.svg');
           }
         }
 
         &.footer-info__details--mailto {
           &:before {
-            background-image: url('../images/mail-black.svg');
+            background-image: url('../../images/mail-black.svg');
           }
         }
       }

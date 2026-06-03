@@ -98,7 +98,7 @@
         &:before {
           min-width: 25px;
           height: 25px;
-          background-image: url('../images/tel-white.svg');
+          background-image: url('../../images/tel-white.svg');
         }
       }
 
@@ -108,7 +108,7 @@
         &:before {
           min-width: 30px;
           height: 21px;
-          background-image: url('../images/mail-white.svg');
+          background-image: url('../../images/mail-white.svg');
         }
       }
 
@@ -118,7 +118,7 @@
         &:before {
           min-width: 20px;
           height: 26px;
-          background-image: url('../images/location-white.svg');
+          background-image: url('../../images/location-white.svg');
         }
       }
     }
@@ -188,7 +188,7 @@
         top: 50%;
         transform: translateY(-50%);
         left: 0;
-        background-image: url('../images/tel-outline.svg');
+        background-image: url('../../images/tel-outline.svg');
       }
     }
 
@@ -219,7 +219,7 @@
         top: 50%;
         transform: translateY(-50%);
         left: 0;
-        background-image: url('../images/mail-outline.svg');
+        background-image: url('../../images/mail-outline.svg');
       }
     }
   }
