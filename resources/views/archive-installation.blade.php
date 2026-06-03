@@ -2,7 +2,7 @@
 
 @section('content')
 
-@php($redirect_url = get_field('product_link_category', 'options'))
+<?php $redirect_url = get_field('product_link_category', 'options'); ?>
 @if($redirect_url)
   <script>window.location.href = '{{ $redirect_url }}';</script>
 @else
@@ -39,10 +39,10 @@
                     {{ get_the_title() }}
                   </div>
                 </div>
-                @php($productCounter++)
+                <?php $productCounter++; ?>
               @endwhile
             </div>
-            @php(wp_reset_postdata())
+            <?php wp_reset_postdata(); ?>
           </div>
           <div class="col-12 col-lg-3 text-right">
             <div class="products-slider__arrows"></div>
@@ -91,9 +91,9 @@
                 @endif
               </div>
             </div>
-            @php($productCounter++)
+            <?php $productCounter++; ?>
           @endwhile
-          @php(wp_reset_postdata())
+          <?php wp_reset_postdata(); ?>
         </div>
       </div>
     </div>
@@ -115,14 +115,14 @@
         @endif
         @if(have_rows('warranty_list', 'options'))
           <div class="products-warranty__list">
-            @php($i = 1)
+            <?php $i = 1; ?>
             @while(have_rows('warranty_list', 'options')) <?php the_row(); ?>
               <div class="mb-30 products-warranty__list-item">
                 <span class="products-warranty__list-item--number">{{ $i }}</span>
                 <h3 class="mb-15 fw-bold">{!! get_sub_field('heading', 'options') !!}</h3>
                 <div>{!! get_sub_field('text', 'options') !!}</div>
               </div>
-              @php($i++)
+              <?php $i++; ?>
             @endwhile
           </div>
         @endif

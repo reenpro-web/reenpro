@@ -49,7 +49,7 @@
           </div>
         @endif
       </div>
-      @php($link = get_field('donation_form_button'))
+      <?php $link = get_field('donation_form_button'); ?>
       @if($link)
         <div class="col-12 text-center">
           <div>
@@ -72,7 +72,7 @@
           <h3 class="donation-conditions__heading mb-85">{{ get_field('donation_conditions_heading') }}</h3>
         </div>
       @endif
-      @php($i = 1)
+      <?php $i = 1; ?>
       @if(have_rows('donation_conditions_cards'))
         @while(have_rows('donation_conditions_cards')) <?php the_row(); ?>
           <div class="col-12 col-lg-3 text-center">
@@ -82,7 +82,7 @@
               <div>{!! get_sub_field('text') !!}</div>
             </div>
           </div>
-          @php($i++)
+          <?php $i++; ?>
         @endwhile
       @endif
     </div>
@@ -102,7 +102,7 @@
     <div class="row justify-content-center">
       <div class="col-12">
         @if(have_rows('process_steps'))
-          @php($i = 1)
+          <?php $i = 1; ?>
           <div class="donation-process__items d-flex align-items-center mb-100">
             @while(have_rows('process_steps')) <?php the_row(); ?>
               <div class="indicator-line {{ $i === 1 ? 'd-none' : '' }}"></div>
@@ -114,7 +114,7 @@
                   </div>
                 </div>
               </div>
-              @php($i++)
+              <?php $i++; ?>
             @endwhile
           </div>
         @endif

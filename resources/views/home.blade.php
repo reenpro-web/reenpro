@@ -41,7 +41,7 @@
               @endif
               <div class="post-image-overlay"></div>
               <div class="post-tag position-absolute top-0 start-0 text-white px-2 py-1 small">
-                @php($tags = get_the_tags())
+                <?php $tags = get_the_tags(); ?>
                 @if($tags){{ esc_html($tags[0]->name) }}@endif
               </div>
             </div>
@@ -54,7 +54,7 @@
           </div>
         </a>
       @endwhile
-      @php(wp_reset_postdata())
+      <?php wp_reset_postdata(); ?>
     @else
       <div class="col-12"><p>{{ __('Šiuo metu naujienų nėra.', 'textdomain') }}</p></div>
     @endif

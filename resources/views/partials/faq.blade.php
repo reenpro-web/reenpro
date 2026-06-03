@@ -1,4 +1,4 @@
-@php($i = 1)
+<?php $i = 1; ?>
 @if(have_rows('faq'))
   <div class="container">
     <div class="row justify-content-center mt-50 mt-md-120 mb-100 mb-md-155">
@@ -32,7 +32,7 @@
                 </div>
               </div>
             </div>
-            @php($i++)
+            <?php $i++; ?>
           @endwhile
         </div>
       </div>

@@ -16,7 +16,7 @@
 
         <div class="header-buttons d-xl-flex">
           @if(get_field('header_form_button', 'option'))
-            @php($linkHeaderButton = get_field('header_form_button', 'options'))
+            <?php $linkHeaderButton = get_field('header_form_button', 'options'); ?>
             <div class="header-button text-left pr-30 pr-xl-0 mr-xl-20 mb-20 mb-xl-0 pl-30 pl-xl-0 pl-lg-50 pr-lg-50">
               <div>
                 <a class="button button--mid-wide d-block d-xl-inline-block"

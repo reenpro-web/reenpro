@@ -57,13 +57,13 @@
                       <select id="hiddenMainPostSelect">
                         <option value=""></option>
                         @while($carLoop->have_posts()) <?php $carLoop->the_post(); ?>
-                          @php($terms = get_the_terms(get_the_ID(), 'car_category'))
+                          <?php $terms = get_the_terms(get_the_ID(), 'car_category'); ?>
                           <option value="{{ get_the_title() }}" id="{{ get_the_ID() }}"
                                   data-id="@foreach($terms as $term){{ $term->term_id }}@endforeach">
                             {{ get_field('car_title', get_the_ID()) ?: get_the_title() }}
                           </option>
                         @endwhile
-                        @php(wp_reset_postdata())
+                        <?php wp_reset_postdata(); ?>
                       </select>
                     </div>
                   @endif
@@ -81,9 +81,9 @@
             @if(get_field('calculator_data_heading'))
               <div class="col-12 text-center"><h4 class="mb-30">{!! get_field('calculator_data_heading') !!}</h4></div>
             @endif
-            @php($carLoop->rewind_posts())
+            <?php $carLoop->rewind_posts(); ?>
             @while($carLoop->have_posts()) <?php $carLoop->the_post(); ?>
-              @php($terms = get_the_terms(get_the_ID(), 'car_category'))
+              <?php $terms = get_the_terms(get_the_ID(), 'car_category'); ?>
               <div class="col-12">
                 <div class="row d-none selected-car" id="{{ get_the_ID() }}">
                   <div class="col-12 col-md-4 col-lg-5 text-center text-md-left mb-20 mb-md-0">
@@ -127,7 +127,7 @@
                 </div>
               </div>
             @endwhile
-            @php(wp_reset_postdata())
+            <?php wp_reset_postdata(); ?>
           </div>
         </div>
       </div>
@@ -200,7 +200,7 @@
       </div>
     </div>
     <div class="container container--no-padding">
-      @php($donationCounter = 0)
+      <?php $donationCounter = 0; ?>
       @while(have_rows('donation_blocks')) <?php the_row(); ?>
         <div class="row align-items-center mb-50 mb-md-80">
           <div class="col-12 mb-30 mb-lg-0 {{ $donationCounter % 2 ? 'col-lg-6 order-lg-2' : 'col-lg-6 order-lg-1' }}">
@@ -217,7 +217,7 @@
             </div>
           </div>
         </div>
-        @php($donationCounter++)
+        <?php $donationCounter++; ?>
       @endwhile
     </div>
     <div class="container">
@@ -255,7 +255,7 @@
       </div>
       <div class="row justify-content-center">
         <div class="col-12 col-lg-10 col-xl-9">
-          @php($i = 1)
+          <?php $i = 1; ?>
           <div class="donation-process__wrapper">
             <div class="donation-process__items d-flex align-items-center mb-100">
               @while(have_rows('process_steps')) <?php the_row(); ?>
@@ -268,7 +268,7 @@
                     </div>
                   </div>
                 </div>
-                @php($i++)
+                <?php $i++; ?>
               @endwhile
             </div>
           </div>
@@ -289,7 +289,7 @@
 
 @include('partials.global-logos')
 
-@php($postSelectForm = get_field('select_form'))
+<?php $postSelectForm = get_field('select_form'); ?>
 @if(get_the_ID() == 2930)
   @include('partials.bess-form')
 @elseif($postSelectForm == 'car')

@@ -1,5 +1,5 @@
 <!doctype html>
-<html @php(language_attributes())>
+<html <?php language_attributes(); ?>>
   <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -9,8 +9,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
 
-    @php(do_action('get_header'))
-    @php(wp_head())
+    <?php do_action('get_header'); ?>
+    <?php wp_head(); ?>
 
     @vite(['resources/css/app.scss', 'resources/js/app.js'])
 
@@ -37,11 +37,11 @@
     <noscript><img height="1" width="1" style="display:none;" alt="" src="https://px.ads.linkedin.com/collect/?pid=6415217&fmt=gif" /></noscript>
   </head>
 
-  <body @php(body_class())>
+  <body <?php body_class(); ?>>
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-555BGXH" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
-    @php(wp_body_open())
+    <?php wp_body_open(); ?>
 
     <div id="app">
       @include('sections.header')
@@ -53,8 +53,8 @@
       @include('sections.footer')
     </div>
 
-    @php(do_action('get_footer'))
-    @php(wp_footer())
+    <?php do_action('get_footer'); ?>
+    <?php wp_footer(); ?>
 
     @include('partials.offer-modal')
   </body>

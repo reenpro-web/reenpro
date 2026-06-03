@@ -58,7 +58,7 @@
 
 @include('partials.about-cards')
 
-@php($featured_projects = get_field('about_projects'))
+<?php $featured_projects = get_field('about_projects'); ?>
 @if($featured_projects)
   <div class="home-projects pt-50 pt-md-120 mb-100 mb-md-160 {{ get_field('display_projects') ? 'd-none' : '' }}">
     <div class="container">
@@ -74,10 +74,10 @@
           </div>
         </div>
       </div>
-      @php($projectCounter = 0)
+      <?php $projectCounter = 0; ?>
       <div class="projects-cards">
         @foreach($featured_projects as $featured_project)
-          @php($postID = $featured_project->ID)
+          <?php $postID = $featured_project->ID; ?>
           <div class="mb-50 mb-md-80 project-item cat-0">
             <div class="row align-items-center">
               <div class="col-12 mb-20 mb-lg-0 {{ $projectCounter % 2 ? 'col-lg-6 order-lg-1' : 'col-lg-6 order-lg-2' }}">
@@ -97,10 +97,10 @@
               </div>
             </div>
           </div>
-          @php($projectCounter++)
+          <?php $projectCounter++; ?>
         @endforeach
       </div>
-      @php(wp_reset_postdata())
+      <?php wp_reset_postdata(); ?>
       @if(get_field('about_projects_button'))
         <div class="text-center">
           <a class="button button--wide d-block d-md-inline-block" href="{{ get_post_type_archive_link('projects') }}">

@@ -10,7 +10,7 @@
 <div class="home-slider">
   <div class="home-banner">
     @if(have_rows('index_intro_banner'))
-      @php($i = 0)
+      <?php $i = 0; ?>
       @while(have_rows('index_intro_banner')) <?php the_row(); ?>
         <div class="home-intro d-flex bg--{{ $i }}">
           <div class="container mt-auto mb-auto">
@@ -44,7 +44,7 @@
             </div>
           </div>
         </div>
-        @php($i++)
+        <?php $i++; ?>
       @endwhile
     @endif
   </div>
@@ -114,7 +114,7 @@
   </div>
 </div>
 
-@php($featured_projects = get_field('index_projects'))
+<?php $featured_projects = get_field('index_projects'); ?>
 @if($featured_projects)
   <div class="home-projects pt-50 pt-md-120 mb-100 mb-md-160 {{ get_field('display_projects') ? 'd-none' : '' }}">
     <div class="container">
@@ -130,10 +130,10 @@
           </div>
         </div>
       </div>
-      @php($projectCounter = 0)
+      <?php $projectCounter = 0; ?>
       <div class="projects-cards">
         @foreach($featured_projects as $featured_project)
-          @php($postID = $featured_project->ID)
+          <?php $postID = $featured_project->ID; ?>
           <div class="mb-50 mb-md-80 project-item cat-0">
             <div class="row align-items-center">
               <div class="col-12 mb-20 mb-lg-0 {{ $projectCounter % 2 ? 'col-lg-6 order-lg-1' : 'col-lg-6 order-lg-2' }}">
@@ -153,10 +153,10 @@
               </div>
             </div>
           </div>
-          @php($projectCounter++)
+          <?php $projectCounter++; ?>
         @endforeach
       </div>
-      @php(wp_reset_postdata())
+      <?php wp_reset_postdata(); ?>
       @if(get_field('index_projects_button'))
         <div class="text-center">
           <a class="button button--wide d-block d-md-inline-block" href="{{ get_post_type_archive_link('projects') }}">
@@ -178,7 +178,7 @@
         <div class="home-donation__text c-white mb-50">{!! get_field('index_donation_text') !!}</div>
         @if(have_rows('index_donation_buttons'))
           @while(have_rows('index_donation_buttons')) <?php the_row(); ?>
-            @php($linkHomeButtons = get_sub_field('link'))
+            <?php $linkHomeButtons = get_sub_field('link'); ?>
             <div class="home-donation__link d-md-inline-block">
               <a class="button button--wide d-block" href="{{ $linkHomeButtons['url'] }}" target="{{ $linkHomeButtons['target'] }}">
                 {{ $linkHomeButtons['title'] }}<i></i>

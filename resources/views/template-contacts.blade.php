@@ -66,7 +66,7 @@
                     <div class="mt-auto">
                       @if(get_sub_field('tel'))<div class="contacts-card__tel mb-20"><a href="tel:{{ get_sub_field('tel') }}">{{ get_sub_field('tel') }}</a></div><br>@endif
                       @if(get_sub_field('email'))<div class="contacts-card__mail"><a href="mailto:{{ get_sub_field('email') }}"> {{ get_sub_field('email') }}</a></div><br>@endif
-                      @php($contactButton = get_sub_field('link'))
+                      <?php $contactButton = get_sub_field('link'); ?>
                       @if($contactButton)
                         <div class="mb-20">
                           <a class="w-100 button button--wide" href="{{ $contactButton['url'] }}" target="{{ $contactButton['target'] }}">

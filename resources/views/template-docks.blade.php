@@ -62,13 +62,13 @@
                     <select id="hiddenMainPostSelect">
                       <option value="">Automobilio modelis</option>
                       @while($loop->have_posts()) <?php ->the_post(); ?>
-                        @php($terms = get_the_terms(get_the_ID(), 'car_category'))
+                        <?php $terms = get_the_terms(get_the_ID(), 'car_category'); ?>
                         <option value="{{ get_the_title() }}" id="{{ get_the_ID() }}"
                                 data-id="@foreach($terms as $term){{ $term->term_id }}@endforeach">
                           {{ get_field('car_title', get_the_ID()) ?: get_the_title() }}
                         </option>
                       @endwhile
-                      @php(wp_reset_postdata())
+                      <?php wp_reset_postdata(); ?>
                     </select>
                   </div>
                 @endif
@@ -85,10 +85,10 @@
           @if(get_field('calculator_data_heading'))
             <div class="col-12 text-center"><h4 class="mb-30">{!! get_field('calculator_data_heading') !!}</h4></div>
           @endif
-          @php($loop->rewind_posts())
+          <?php $loop->rewind_posts(); ?>
           @if($loop->have_posts())
             @while($loop->have_posts()) <?php ->the_post(); ?>
-              @php($terms = get_the_terms(get_the_ID(), 'car_category'))
+              <?php $terms = get_the_terms(get_the_ID(), 'car_category'); ?>
               <div class="col-12">
                 <div class="row d-none selected-car" id="{{ get_the_ID() }}">
                   <div class="col-12 col-md-4 col-lg-5">
@@ -132,7 +132,7 @@
                 </div>
               </div>
             @endwhile
-            @php(wp_reset_postdata())
+            <?php wp_reset_postdata(); ?>
           @endif
         </div>
       </div>
@@ -203,7 +203,7 @@
           </div>
         @endif
       </div>
-      @php($donationCounter = 0)
+      <?php $donationCounter = 0; ?>
       @while(have_rows('donation_blocks')) <?php the_row(); ?>
         <div class="row align-items-center mb-80">
           <div class="col-12 mb-30 mb-lg-0 {{ $donationCounter % 2 ? 'col-lg-6 order-lg-2' : 'col-lg-6 order-lg-1' }}">
@@ -220,7 +220,7 @@
             </div>
           </div>
         </div>
-        @php($donationCounter++)
+        <?php $donationCounter++; ?>
       @endwhile
       @if(get_field('get_offer_text', 'options'))
         <div class="text-center"><div class="button button--wide getMainOffer">{!! get_field('get_offer_text', 'options') !!} <i></i></div></div>
@@ -256,7 +256,7 @@
     <div class="row justify-content-center">
       <div class="col-12 col-lg-10 col-xl-9">
         @if(have_rows('process_steps'))
-          @php($i = 1)
+          <?php $i = 1; ?>
           <div class="donation-process__items d-flex align-items-center mb-100">
             @while(have_rows('process_steps')) <?php the_row(); ?>
               <div class="indicator-line {{ $i === 1 ? 'd-none' : '' }}"></div>
@@ -268,7 +268,7 @@
                   </div>
                 </div>
               </div>
-              @php($i++)
+              <?php $i++; ?>
             @endwhile
           </div>
         @endif

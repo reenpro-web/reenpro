@@ -24,7 +24,7 @@
                   <div class="post-image-overlay"></div>
                 @endif
                 <div class="post-tag position-absolute top-0 start-0 text-white px-2 py-1 small">
-                  @php($tags = get_the_tags())
+                  <?php $tags = get_the_tags(); ?>
                   @if($tags){{ esc_html($tags[0]->name) }}@endif
                 </div>
               </div>
@@ -38,5 +38,5 @@
       </div>
     </div>
   </div>
-  @php(wp_reset_postdata())
+  <?php wp_reset_postdata(); ?>
 @endif

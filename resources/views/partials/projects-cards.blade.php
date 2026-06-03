@@ -18,7 +18,7 @@
         <div class="row align-items-center">
           <div class="col-12 mb-20 mb-lg-0 {{ $projectCounter % 2 ? 'col-lg-6 order-lg-1' : 'col-lg-6 order-lg-2' }}">
             <div class="projects-card__slider {{ $projectCounter % 2 ? '' : 'projects-card__slider--right' }}">
-              @php($imageArrayProjects = get_field('project_gallery'))
+              <?php $imageArrayProjects = get_field('project_gallery'); ?>
               @foreach($imageArrayProjects as $image_id_projects)
                 {!! wp_get_attachment_image($image_id_projects, 'projects-cards') !!}
               @endforeach
@@ -94,9 +94,9 @@
           </div>
         </div>
       </div>
-      @php($projectCounter++)
+      <?php $projectCounter++; ?>
     @endwhile
-    @php(wp_reset_postdata())
+    <?php wp_reset_postdata(); ?>
   </div>
 
   <div class="text-center" id="loadMore">

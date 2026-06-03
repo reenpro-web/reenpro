@@ -3,16 +3,16 @@
 @section('content')
 @while(have_posts()) <?php the_post(); ?>
 
-@php($post_featured_image = has_post_thumbnail() ? get_the_post_thumbnail_url(get_the_ID(), 'full') : '')
+<?php $post_featured_image = has_post_thumbnail() ? get_the_post_thumbnail_url(get_the_ID(), 'full') : ''; ?>
 
-<article @php(post_class())>
+<article <?php post_class(); ?>>
   <header>
     <div class="single-post-intro"
          style="background-image: url('{{ esc_url($post_featured_image) }}');
                 {{ $post_featured_image ? 'background-size: cover; background-position: center;' : '' }}">
       <div id="single-post-intro-container" class="container">
         <div>
-          @php($tags = get_the_tags())
+          <?php $tags = get_the_tags(); ?>
           @if($tags)
             <div class="single-post-tag position-absolute top-0 start-0 text-white px-2 py-1 small">{{ esc_html($tags[0]->name) }}</div>
           @endif
@@ -75,7 +75,7 @@
   <footer id="single-post-footer-container" class="container single-post-footer pb-80 pb-md-120">
     <h3 class="mb-md-80 mb-40 h3">Kitos naujienos</h3>
     <div id="other-news-container" class="row gy-4" data-current-post-id="{{ get_the_ID() }}">
-      @php($other_query = new WP_Query(['post_type' => 'post', 'posts_per_page' => 3, 'post__not_in' => [get_the_ID()], 'orderby' => 'date', 'order' => 'DESC']))
+      <?php $other_query = new WP_Query(['post_type' => 'post', 'posts_per_page' => 3, 'post__not_in' => [get_the_ID()], 'orderby' => 'date', 'order' => 'DESC']); ?>
       @while($other_query->have_posts()) <?php $other_query->the_post(); ?>
         @php
           $external_link = get_post_meta(get_the_ID(), '_external_media_link', true);
@@ -88,7 +88,7 @@
               @if(has_post_thumbnail()){!! get_the_post_thumbnail(get_the_ID(), 'medium', ['class' => 'img-fluid rounded fixed-ratio-image']) !!}@endif
               <div class="post-image-overlay"></div>
               <div class="post-tag position-absolute top-0 start-0 text-white px-2 py-1 small">
-                @php($tags = get_the_tags()) @if($tags){{ esc_html($tags[0]->name) }}@endif
+                <?php $tags = get_the_tags()) @if($tags){{ esc_html($tags[0]->name; ?> }}@endif
               </div>
             </div>
             <div class="col-md-9 col-12">
@@ -100,7 +100,7 @@
           </div>
         </a>
       @endwhile
-      @php(wp_reset_postdata())
+      <?php wp_reset_postdata(); ?>
     </div>
   </footer>
 </article>

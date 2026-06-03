@@ -49,7 +49,7 @@
             @if(get_field('jobs_heading'))
               <h3 class="career-info__heading mb-50 mb-xl-80">{{ get_field('jobs_heading') }}</h3>
             @endif
-            @php($i = 1)
+            <?php $i = 1; ?>
             <div id="job-accordion">
               @while(have_rows('jobs')) <?php the_row(); ?>
                 <div class="job-card {{ get_sub_field('display_job') ? 'd-none' : '' }}"
@@ -76,7 +76,7 @@
                     </div>
                   </div>
                 </div>
-                @php($i++)
+                <?php $i++; ?>
               @endwhile
             </div>
           </div>

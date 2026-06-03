@@ -1,5 +1,5 @@
-@php($featured_projects = get_field('projects_object'))
-@php($descClass = $descDisplay ?? '')
+<?php $featured_projects = get_field('projects_object'); ?>
+<?php $descClass = $descDisplay ?? ''; ?>
 @if($featured_projects)
   <div class="donation-projects mb-100 mb-md-135">
     <div class="container">
@@ -16,7 +16,7 @@
         <div class="col-12 col-lg-10">
           <div class="donation-projects__cards">
             @foreach($featured_projects as $featured_project)
-              @php($postID = $featured_project->ID)
+              <?php $postID = $featured_project->ID; ?>
               <div>
                 <div class="full-img donation-projects__card-image mb-20 mb-md-30">
                   @if(get_the_post_thumbnail($postID))
@@ -58,7 +58,7 @@
               </div>
             @endforeach
           </div>
-          @php(wp_reset_postdata())
+          <?php wp_reset_postdata(); ?>
         </div>
       </div>
     </div>

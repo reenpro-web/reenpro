@@ -33,7 +33,7 @@
   <div class="container container--no-right">
     <div class="row justify-content-center mb-40">
       <div class="col-12 col-lg-10 col-xl-7 text-center projects-categories">
-        @php($terms = get_terms(['taxonomy' => 'projects_category', 'hide_empty' => true]))
+        <?php $terms = get_terms(['taxonomy' => 'projects_category', 'hide_empty' => true]); ?>
         <div class="mb-20 mb-lg-40 d-flex flex-wrap flex-xl-nowrap justify-content-center align-items-center" id="categoriesButtons">
           <div class="d-inline-block mr-md-10 ml-md-10 text-center">
             <div class="projects-category active" data-cat="0" data-slide="0">Visi projektai</div>
