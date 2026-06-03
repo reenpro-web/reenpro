@@ -26,5 +26,10 @@
   "require": {
     "php": ">=5.4.0",
     "composer/installers": "~1.0"
+  },
+  "config": {
+    "allow-plugins": {
+      "composer/installers": true
+    }
   }
 }
