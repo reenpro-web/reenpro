@@ -1,0 +1,32 @@
+.slick {
+  &-slider {
+    //line-height: 0;
+
+    .slick {
+      &-list {
+        display: flex;
+      }
+
+      &-track {
+        display: flex;
+      }
+    }
+
+    .slick-slide {
+      @extend .remove-outline;
+      float: none;
+
+      & > div {
+        height: 100%;
+      }
+    }
+  }
+
+  &-arrow {
+    background-color: transparent;
+    font-size: 0;
+    border: 0;
+    padding: 0;
+    margin: 0;
+  }
+}

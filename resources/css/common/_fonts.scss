@@ -1,0 +1,74 @@
+h1, .h1,
+h2, .h2,
+h3, .h3,
+h4, .h4,
+h5, .h5,
+h6, .h6 {
+  color: $c-black;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+}
+
+
+h1, .h1 {
+  font-size: 80px;
+  line-height: 1.08758;
+  margin-bottom: 40px;
+
+  @include media-breakpoint-down(lg) {
+    font-size: 60px;
+  }
+
+  @include media-breakpoint-down(md) {
+    font-size: 40px;
+    line-height: 1.277;
+  }
+}
+
+h2, .h2 {
+  font-size: 60px;
+  line-height: 1.28;
+  margin-bottom: 40px;
+
+  @include media-breakpoint-down(lg) {
+    font-size: 40px;
+  }
+}
+
+h3, .h3 {
+  font-size: 40px;
+  line-height: 1.1111;
+  margin-bottom: 20px;
+
+  @include media-breakpoint-down(md) {
+    font-size: 24px;
+    line-height: 1.299;
+  }
+}
+
+
+h4, .h4 {
+  font-size: 24px;
+  line-height: 1.299;
+  margin-bottom: 20px;
+
+  @include media-breakpoint-down(lg) {
+    font-size: 22px;
+  }
+
+  @include media-breakpoint-down(sm) {
+    font-size: 20px;
+  }
+}
+
+h5, .h5 {
+  font-size: 20px;
+  line-height: 1.255;
+  margin-bottom: 20px;
+}
+
+
+p {
+  margin-bottom: 20px;
+}
+
