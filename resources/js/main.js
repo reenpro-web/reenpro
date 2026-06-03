@@ -231,7 +231,9 @@
         });
 
         jQuery('#offerModal').on('hide.bs.modal hidden.bs.modal', function () {
-          jQuery("#leaveToggle").click();
+          // Reset modal state directly - avoid .click() which causes infinite recursion with jQuery 3.7
+          jQuery("#formButtons").removeClass("d-none");
+          jQuery("#solarForm, #carForm, #bessFormInModal").addClass("d-none");
         });
 
 

@@ -16,6 +16,17 @@ add_filter('excerpt_more', function () {
 });
 
 /**
+ * Remap old Sage 8 'Titulinis puslapis' page template (stored as index.php)
+ * to the Sage 11 Blade equivalent. Runs after Acorn's template_include (priority 100).
+ */
+add_filter('template_include', function ($template) {
+    if (is_page() && get_page_template_slug() === 'index.php') {
+        app()['sage.view'] = 'template-titulinis';
+    }
+    return $template;
+}, 200);
+
+/**
  * Append ACF image to nav menu item title when set.
  */
 add_filter('wp_nav_menu_objects', function ($items, $args) {
