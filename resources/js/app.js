@@ -1,8 +1,6 @@
 import Headroom from 'headroom.js';
 window.Headroom = Headroom;
 
-import 'select2';
-
 import './main.js';
 import './modules/edit-contact-forms.js';
 import './modules/edit-modal-contact-forms.js';
