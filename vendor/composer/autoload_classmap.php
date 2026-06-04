@@ -2745,6 +2745,7 @@ return array(
     'Symfony\\Component\\HttpKernel\\Bundle\\AbstractBundle' => $vendorDir . '/symfony/http-kernel/Bundle/AbstractBundle.php',
     'Symfony\\Component\\HttpKernel\\Bundle\\Bundle' => $vendorDir . '/symfony/http-kernel/Bundle/Bundle.php',
     'Symfony\\Component\\HttpKernel\\Bundle\\BundleAdapter' => $vendorDir . '/symfony/http-kernel/Bundle/BundleAdapter.php',
+    'Symfony\\Component\\HttpKernel\\Bundle\\BundleExtension' => $vendorDir . '/symfony/http-kernel/Bundle/BundleExtension.php',
     'Symfony\\Component\\HttpKernel\\Bundle\\BundleInterface' => $vendorDir . '/symfony/http-kernel/Bundle/BundleInterface.php',
     'Symfony\\Component\\HttpKernel\\CacheClearer\\CacheClearerInterface' => $vendorDir . '/symfony/http-kernel/CacheClearer/CacheClearerInterface.php',
     'Symfony\\Component\\HttpKernel\\CacheClearer\\ChainCacheClearer' => $vendorDir . '/symfony/http-kernel/CacheClearer/ChainCacheClearer.php',
