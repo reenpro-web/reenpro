@@ -1,0 +1,226 @@
+.contacts {
+
+  &-intro {
+    height: 100%;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    padding-bottom: 150px;
+    padding-top: 250px;
+    min-height: 600px;
+
+    @include media-breakpoint-down(md) {
+      padding-top: 175px;
+      padding-bottom: 175px;
+      max-height: none;
+      min-height: 100vh;
+    }
+
+    &:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.25);
+      opacity: 1;
+    }
+
+    &__heading {
+      @include media-breakpoint-down(md) {
+        font-size: 40px;
+      }
+    }
+  }
+
+  &-info {
+    position: relative;
+
+    a {
+      color: $c-white;
+      text-decoration: none;
+    }
+
+    &__details {
+      //display: flex;
+      align-items: center;
+      color: $c-white;
+      //margin-bottom: 30px;
+      position: relative;
+      padding-left: 45px;
+      font-size: 20px;
+      line-height: 26px;
+
+      @include media-breakpoint-up(md) {
+        max-width: 280px;
+      }
+
+      @include media-breakpoint-up(lg) {
+        margin-right: 15px;
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      p {
+        margin-bottom: 0;
+      }
+
+      a {
+        color: $c-white;
+        text-decoration: none;
+      }
+
+      &:before {
+        content: '';
+        display: inline-block;
+        vertical-align: middle;
+        min-width: 25px;
+        height: 25px;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 100%;
+        margin-right: 10px;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 0;
+      }
+
+      &--tel {
+        padding-left: 35px;
+
+
+        &:before {
+          min-width: 25px;
+          height: 25px;
+          background-image: url('../../images/tel-white.svg');
+        }
+      }
+
+      &--mailto {
+        padding-left: 40px;
+
+        &:before {
+          min-width: 30px;
+          height: 21px;
+          background-image: url('../../images/mail-white.svg');
+        }
+      }
+
+      &--address {
+        padding-left: 30px;
+
+        &:before {
+          min-width: 20px;
+          height: 26px;
+          background-image: url('../../images/location-white.svg');
+        }
+      }
+    }
+  }
+
+  &-company {
+    &__item {
+      display: inline-block;
+      color: $c-white;
+      font-size: 15px;
+      line-height: 19px;
+      padding-right: 7px;
+      padding-left: 5px;
+      border-right: 1px solid $c-white;
+      margin-bottom: 2px;
+
+      @include media-breakpoint-down(md) {
+        display: block;
+        margin-bottom: 10px;
+        border-right: none;
+      }
+
+      &:last-child {
+        border-right: none;
+      }
+
+      span {
+        font-weight: 700;
+        //padding-left: 2px;
+      }
+    }
+  }
+
+  &-card {
+    box-shadow: 0px 3px 20px #00000029;
+    background-color: $c-white;
+    padding: 30px 30px;
+
+    @include media-breakpoint-down(md) {
+      padding: 30px 20px;
+    }
+
+    &__tel {
+      color: $c-purple;
+      position: relative;
+      align-items: center;
+      padding-left: 30px;
+      display: inline-block;
+
+      a {
+        color: $c-purple;
+        text-decoration: none;
+        font-weight: 700;
+      }
+
+      &:before {
+        content: '';
+        display: inline-block;
+        vertical-align: middle;
+        min-width: 21px;
+        height: 22px;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 100%;
+        margin-right: 10px;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 0;
+        background-image: url('../../images/tel-outline.svg');
+      }
+    }
+
+    &__mail {
+      color: $c-purple;
+      position: relative;
+      align-items: center;
+      padding-left: 35px;
+      display: inline-block;
+      margin-bottom: 20px;
+
+      a {
+        color: $c-black;
+        text-decoration: none;
+      }
+
+      &:before {
+        content: '';
+        display: inline-block;
+        vertical-align: middle;
+        min-width: 25px;
+        height: 18px;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 100%;
+        margin-right: 10px;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 0;
+        background-image: url('../../images/mail-outline.svg');
+      }
+    }
+  }
+}
