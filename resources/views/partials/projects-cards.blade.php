@@ -1,11 +1,11 @@
 @php
-  $loop = new WP_Query(['post_type' => 'projects', 'post_status' => 'publish', 'posts_per_page' => -1, 'orderby' => 'date', 'order' => 'DESC']);
+  $projectsQuery = new WP_Query(['post_type' => 'projects', 'post_status' => 'publish', 'posts_per_page' => -1, 'orderby' => 'date', 'order' => 'DESC']);
   $projectCounter = 0;
   $hiddenClass = '';
 @endphp
-@if($loop->have_posts())
+@if($projectsQuery->have_posts())
   <div class="projects-cards" id="mainProjecsSlider">
-    @while($loop->have_posts()) <?php ->the_post(); ?>
+    @while($projectsQuery->have_posts()) <?php $projectsQuery->the_post(); ?>
       @php
         if ($projectCounter >= 6) $hiddenClass = 'd-none';
         $terms = get_the_terms(get_the_ID(), 'projects_category');

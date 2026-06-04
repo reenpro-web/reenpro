@@ -16,12 +16,20 @@ add_filter('excerpt_more', function () {
 });
 
 /**
- * Remap old Sage 8 'Titulinis puslapis' page template (stored as index.php)
- * to the Sage 11 Blade equivalent. Runs after Acorn's template_include (priority 100).
+ * Remap old Sage 8 page templates (stored by filename) to Sage 11 Blade equivalents.
+ * Runs after Acorn's template_include (priority 100).
  */
 add_filter('template_include', function ($template) {
-    if (is_page() && get_page_template_slug() === 'index.php') {
-        app()['sage.view'] = 'template-titulinis';
+    if (! is_page()) {
+        return $template;
+    }
+    $map = [
+        'index.php'                        => 'template-titulinis',
+        'template-irangos-kategorija.php'  => 'template-irangos-kategorija',
+    ];
+    $slug = get_page_template_slug();
+    if (isset($map[$slug])) {
+        app()['sage.view'] = $map[$slug];
     }
     return $template;
 }, 200);
