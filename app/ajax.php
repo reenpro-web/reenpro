@@ -83,7 +83,7 @@ function load_more_posts_home(): void
                             <?php the_post_thumbnail('medium', ['class' => 'img-fluid rounded fixed-ratio-image']); ?>
                         <?php endif; ?>
                         <div class="post-image-overlay"></div>
-                        <div class="post-tag position-absolute top-0 start-0 text-white px-2 py-1 small">
+                        <div class="post-tag position-absolute">
                             <?php $tags = get_the_tags(); if ($tags) echo esc_html($tags[0]->name); ?>
                         </div>
                     </div>
@@ -147,7 +147,7 @@ function load_more_posts_single(): void
                             <?php the_post_thumbnail('medium', ['class' => 'img-fluid rounded fixed-ratio-image']); ?>
                         <?php endif; ?>
                         <div class="post-image-overlay"></div>
-                        <div class="post-tag position-absolute top-0 start-0 text-white px-2 py-1 small">
+                        <div class="post-tag position-absolute">
                             <?php $tags = get_the_tags(); if ($tags) echo esc_html($tags[0]->name); ?>
                         </div>
                     </div>

@@ -25,7 +25,7 @@
 </div>
 
 <div class="container mb-80">
-  <div class="row gy-4">
+  <div id="news-list-container">
     @if(have_posts())
       @while(have_posts()) <?php the_post(); ?>
         @php
@@ -40,7 +40,7 @@
                 {!! get_the_post_thumbnail(get_the_ID(), 'medium', ['class' => 'img-fluid rounded fixed-ratio-image']) !!}
               @endif
               <div class="post-image-overlay"></div>
-              <div class="post-tag position-absolute top-0 start-0 text-white px-2 py-1 small">
+              <div class="post-tag position-absolute">
                 <?php $tags = get_the_tags(); ?>
                 @if($tags){{ esc_html($tags[0]->name) }}@endif
               </div>

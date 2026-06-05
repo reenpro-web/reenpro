@@ -14,7 +14,7 @@
         <div>
           <?php $tags = get_the_tags(); ?>
           @if($tags)
-            <div class="single-post-tag position-absolute top-0 start-0 text-white px-2 py-1 small">{{ esc_html($tags[0]->name) }}</div>
+            <div class="single-post-tag position-absolute">{{ esc_html($tags[0]->name) }}</div>
           @endif
           <h1 class="single-post-heading c-white w-100">{{ get_the_title() }}</h1>
           <p class="single-post-date small c-white">{{ get_the_date('Y-m-d') }}</p>
@@ -74,7 +74,7 @@
 
   <footer id="single-post-footer-container" class="container single-post-footer pb-80 pb-md-120">
     <h3 class="mb-md-80 mb-40 h3">Kitos naujienos</h3>
-    <div id="other-news-container" class="row gy-4" data-current-post-id="{{ get_the_ID() }}">
+    <div id="other-news-container" data-current-post-id="{{ get_the_ID() }}">
       <?php $other_query = new WP_Query(['post_type' => 'post', 'posts_per_page' => 3, 'post__not_in' => [get_the_ID()], 'orderby' => 'date', 'order' => 'DESC']); ?>
       @while($other_query->have_posts()) <?php $other_query->the_post(); ?>
         @php
@@ -87,8 +87,9 @@
             <div class="col-md-3 col-12 mb-3 mb-md-0 position-relative">
               @if(has_post_thumbnail()){!! get_the_post_thumbnail(get_the_ID(), 'medium', ['class' => 'img-fluid rounded fixed-ratio-image']) !!}@endif
               <div class="post-image-overlay"></div>
-              <div class="post-tag position-absolute top-0 start-0 text-white px-2 py-1 small">
-                <?php $tags = get_the_tags()) @if($tags){{ esc_html($tags[0]->name; ?> }}@endif
+              <div class="post-tag position-absolute">
+                <?php $tags = get_the_tags(); ?>
+              @if($tags){{ esc_html($tags[0]->name) }}@endif
               </div>
             </div>
             <div class="col-md-9 col-12">

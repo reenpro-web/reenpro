@@ -1,0 +1,39 @@
+// News list containers - block layout so mb-4 / border-bottom work as expected
+#other-news-container,
+#news-list-container {
+  display: block;
+}
+
+a.news-post-wrapper {
+  display: block;
+}
+
+// Push Plačiau button to align with the image column bottom
+.post-item .col-md-9 {
+  display:        flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.post-item .news-more-btn {
+  margin-top: auto;
+  align-self: flex-start;
+}
+
+.single-post-tag {
+  background:  $c-black;
+  color:       #fff;
+  font-size:   12px;
+  line-height: 16px;
+  padding:     5px 8px;
+  z-index:     2;
+}
+
+.post-tag {
+  background:  $c-black;
+  color:       #fff;
+  font-size:   12px;
+  line-height: 16px;
+  padding:     5px 8px;
+  z-index:     2;
+}

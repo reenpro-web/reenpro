@@ -29,38 +29,43 @@ jQuery(document).ready(function ($) {
                 current_post_id: config.currentPostId || 0,
             },
             success: function (response) {
-                var data = JSON.parse(response);
+                try {
+                    var data = typeof response === 'string' ? JSON.parse(response) : response;
 
-                if (data.success && data.content) {
-                    var $newPosts = $(data.content).addClass('newly-loaded');
-                    $(container).append($newPosts);
+                    if (data.success && data.content) {
+                        var $newPosts = $(data.content).filter('a, div');
+                        $(container).append($newPosts);
 
-                    $newPosts.each(function (index) {
-                        $(this).css({
-                            'opacity': '0',
-                            'transform': 'translateY(20px)'
+                        $newPosts.each(function (index) {
+                            $(this).css({
+                                'opacity': '0',
+                                'transform': 'translateY(20px)'
+                            });
+
+                            var delay = 80 + (index * 160);
+                            setTimeout(function () {
+                                $(this).css({
+                                    'opacity': '1',
+                                    'transform': 'translateY(0)',
+                                    'transition': 'all 0.5s ease-out'
+                                });
+                                $(this).removeClass('newly-loaded');
+                            }.bind(this), delay);
                         });
 
-                        var delay = 80 + (index * 160);
-                        setTimeout(function () {
-                            $(this).css({
-                                'opacity': '1',
-                                'transform': 'translateY(0)',
-                                'transition': 'all 0.5s ease-out'
-                            });
-                            $(this).removeClass('newly-loaded');
-                        }.bind(this), delay);
-                    });
-
-                    if (data.reached_max) {
+                        if (data.reached_max) {
+                            hasReachedMaxPosts = true;
+                        }
+                    } else {
                         hasReachedMaxPosts = true;
-                        console.log('Reached max posts limit.');
                     }
-                } else {
-                    hasReachedMaxPosts = true;
-                    console.log('No more posts to load.');
+                } catch (e) {
+                    console.error('Infinite scroll parse error:', e);
                 }
 
+                isLoading = false;
+            },
+            error: function () {
                 isLoading = false;
             }
         });
@@ -71,7 +76,7 @@ jQuery(document).ready(function ($) {
         $(window).scroll(function () {
             var threshold = getThreshold();
             if ($(window).scrollTop() + $(window).height() > $(document).height() - threshold) {
-                loadMorePosts('.row.gy-4', 'load_more_posts_home', {
+                loadMorePosts('#news-list-container', 'load_more_posts_home', {
                     postsPerLoad: 3,
                     maxPosts: 100
                 });
