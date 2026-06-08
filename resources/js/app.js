@@ -10,3 +10,5 @@ import './modules/open-bess-form.js';
 import './modules/scroll-to-form.js';
 import './modules/main-page-banner-slick.js';
 import './modules/jquery-forms-alph-sort.js';
+import './modules/home-video.js';
+import './modules/header-nav.js';

@@ -1,0 +1,843 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// Titulinis puslapis (new homepage)
+// ─────────────────────────────────────────────────────────────────────────────
+
+$t-purple-dark:  #480892;
+$t-purple-mid:   #4b0694;
+$t-purple-main:  #500097;
+$t-red:          #fc391d;
+$t-grey-bg:      #f1f5f8;
+$t-grey-border:  #dbdadd;
+$t-purple-light: #efeef8;
+$t-text:         #040404;
+$t-text-muted:   #666666;
+$t-green-bg:     rgba(222, 255, 219, 0.88);
+$t-green-text:   #0f560a;
+
+// Full-bleed pattern: all new sections break out of Bootstrap's 15px col padding
+%t-fullbleed {
+  margin-left:  -15px;
+  margin-right: -15px;
+}
+
+// Content wrapper - 40px gutters matching the header's px-[40px]
+.t-section-inner {
+  max-width: 1440px;
+  margin:    0 auto;
+  padding:   0 40px;
+
+  @include media-breakpoint-down(md) {
+    padding: 0 24px;
+  }
+
+  @include media-breakpoint-down(sm) {
+    padding: 0 16px;
+  }
+}
+
+// Shared label chip
+.t-label {
+  display:       inline-flex;
+  align-items:   center;
+  padding:       2px 20px;
+  border:        1px solid $t-purple-mid;
+  background:    rgba(75, 6, 148, 0.05);
+  color:         #3e047d;
+  font-size:     14px;
+  font-weight:   500;
+  line-height:   30px;
+  white-space:   nowrap;
+
+  &--center { display: block; text-align: center; width: fit-content; margin: 0 auto; }
+}
+
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 1. HERO overrides - full viewport height, consistent content width
+// ─────────────────────────────────────────────────────────────────────────────
+.home-slider .home-intro {
+  height:     100vh !important;
+  max-height: none !important;
+
+  > .container {
+    max-width:     none !important;
+    padding-left:  40px !important;
+    padding-right: 40px !important;
+
+    @include media-breakpoint-down(md) {
+      padding-left:  24px !important;
+      padding-right: 24px !important;
+    }
+
+    @include media-breakpoint-down(sm) {
+      padding-left:  16px !important;
+      padding-right: 16px !important;
+    }
+  }
+}
+
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 2. PASLAUGOS
+// ─────────────────────────────────────────────────────────────────────────────
+.t-services {
+  @extend %t-fullbleed;
+  background: #fff;
+  padding:    100px 0 120px;
+
+  &__header {
+    margin-bottom: 44px;
+    max-width:     1080px;
+  }
+
+  &__heading {
+    font-size:     40px;
+    font-weight:   700;
+    line-height:   46px;
+    color:         $t-purple-dark;
+    margin-top:    16px;
+    margin-bottom: 12px;
+  }
+
+  &__subtext {
+    font-size:  14px;
+    line-height: 20px;
+    color:       $t-text;
+    max-width:   633px;
+  }
+
+  &__grid {
+    display:        flex;
+    flex-direction: column;
+    gap:            16px;
+  }
+
+  &__row {
+    display: flex;
+    gap:     16px;
+
+    &--top {
+      .t-services__card:first-child { flex: 1; }
+      .t-services__card:nth-child(2) { flex: 0 0 454px; }
+    }
+
+    &--bottom {
+      .t-services__card { flex: 1; }
+    }
+
+    @include media-breakpoint-down(md) {
+      flex-direction: column;
+
+      &--top .t-services__card:nth-child(2) { flex: 1; }
+    }
+  }
+
+  &__card {
+    background:  $t-grey-bg;
+    border:      1px solid $t-grey-border;
+    padding:     32px 28px 48px;
+    display:     flex;
+    flex-direction: column;
+    gap:         20px;
+
+    &--featured {
+      background: $t-purple-mid;
+      border-color: $t-purple-mid;
+
+      .t-services__card-title { color: #fff; }
+      .t-services__card-desc  { color: #e7e7e7; }
+      .t-services__card-link  { color: $t-red; }
+    }
+  }
+
+  &__card-icon {
+    width: 72px;
+    height: 72px;
+    flex-shrink: 0;
+
+    img { width: 100%; height: 100%; object-fit: contain; }
+  }
+
+  &__card-title {
+    font-size:   20px;
+    font-weight: 500;
+    color:       $t-text;
+    margin:      0;
+  }
+
+  &__card-desc {
+    font-size:   14px;
+    line-height: 1.5;
+    color:       $t-text-muted;
+    margin:      0;
+    flex-grow:   1;
+  }
+
+  &__card-link {
+    display:     inline-flex;
+    align-items: center;
+    gap:         4px;
+    font-size:   16px;
+    color:       $t-purple-mid;
+    text-decoration: none;
+    margin-top:  auto;
+
+    &:hover { text-decoration: underline; }
+  }
+}
+
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 3. STATISTIKA
+// ─────────────────────────────────────────────────────────────────────────────
+.t-stats {
+  @extend %t-fullbleed;
+  background: $t-purple-dark;
+  padding:    110px 0;
+
+  .t-section-inner {
+    padding-top:    0;
+    padding-bottom: 0;
+  }
+
+  &__grid {
+    display:         flex;
+    justify-content: space-between;
+    gap:             40px;
+
+    @include media-breakpoint-down(md) {
+      flex-wrap: wrap;
+
+      .t-stats__item { width: calc(50% - 20px); }
+    }
+
+    @include media-breakpoint-down(sm) {
+      .t-stats__item { width: 100%; }
+    }
+  }
+
+  &__item {
+    display:        flex;
+    flex-direction: column;
+    gap:            12px;
+  }
+
+  &__label {
+    display:      inline-flex;
+    align-items:  center;
+    padding:      2px 12px;
+    border:       1px solid $t-red;
+    background:   rgba(75, 6, 148, 0.05);
+    color:        #fff;
+    font-size:    14px;
+    font-weight:  500;
+    line-height:  30px;
+    white-space:  nowrap;
+    width:        fit-content;
+  }
+
+  &__number {
+    font-size:   58px;
+    font-weight: 500;
+    line-height: 64px;
+    color:       #fff;
+  }
+
+  &__desc {
+    font-size:   14px;
+    line-height: 20px;
+    color:       #fff;
+    margin:      0;
+    max-width:   220px;
+  }
+}
+
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 4. ENERGIJOS KAUPIKLIS (VIDEO)
+// ─────────────────────────────────────────────────────────────────────────────
+.t-energy {
+  @extend %t-fullbleed;
+  background: $t-purple-light;
+  padding:    100px 0;
+
+  &__intro {
+    text-align:    center;
+    margin-bottom: 68px;
+  }
+
+  &__heading {
+    font-size:   40px;
+    font-weight: 700;
+    line-height: 46px;
+    color:       $t-purple-dark;
+    margin-top:  16px;
+    max-width:   675px;
+    margin-left: auto;
+    margin-right: auto;
+
+    @include media-breakpoint-down(md) {
+      font-size:   28px;
+      line-height: 34px;
+    }
+  }
+
+  &__body {
+    display:         flex;
+    align-items:     center;
+    justify-content: space-between;
+    gap:             60px;
+
+    @include media-breakpoint-down(md) {
+      flex-direction: column;
+    }
+  }
+
+  &__left {
+    flex:      0 0 420px;
+    max-width: 420px;
+    display:   flex;
+    flex-direction: column;
+    gap:       16px;
+
+    @include media-breakpoint-down(md) {
+      flex:      1;
+      max-width: 100%;
+    }
+  }
+
+  &__desc {
+    font-size:   16px;
+    line-height: 24px;
+    color:       $t-text;
+    margin:      0;
+  }
+
+  &__bullets {
+    list-style:  none;
+    padding:     0;
+    margin:      0;
+    display:     flex;
+    flex-direction: column;
+    gap:         12px;
+  }
+
+  &__bullet {
+    display:     flex;
+    align-items: center;
+    gap:         8px;
+    font-size:   16px;
+    line-height: 24px;
+    color:       $t-text;
+
+    &::before {
+      content:     '';
+      display:     inline-block;
+      width:       20px;
+      height:      20px;
+      min-width:   20px;
+      background:  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234b0694'%3E%3Cpath d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'/%3E%3C/svg%3E") no-repeat center / contain;
+    }
+  }
+
+  &__divider {
+    border:     none;
+    border-top: 1px solid $t-grey-border;
+    margin:     8px 0;
+  }
+
+  &__partner {
+    max-width: 140px;
+
+    img { width: 100%; height: auto; object-fit: contain; }
+  }
+
+  &__right {
+    flex:      0 0 632px;
+    max-width: 632px;
+
+    @include media-breakpoint-down(md) {
+      flex:      1;
+      max-width: 100%;
+      width:     100%;
+    }
+  }
+
+  &__video-wrapper {
+    position:    relative;
+    width:       100%;
+    cursor:      pointer;
+
+    iframe {
+      width:  100%;
+      height: 414px;
+      display: block;
+    }
+  }
+
+  &__video-thumb {
+    width:       100%;
+    height:      414px;
+    object-fit:  cover;
+    display:     block;
+
+    @include media-breakpoint-down(sm) {
+      height: 220px;
+    }
+  }
+
+  &__play-btn {
+    position:   absolute;
+    top:        50%;
+    left:       50%;
+    transform:  translate(-50%, -50%);
+    background: none;
+    border:     none;
+    padding:    0;
+    width:      80px;
+    height:     80px;
+    cursor:     pointer;
+    transition: transform 0.2s, opacity 0.2s;
+
+    svg { width: 100%; height: 100%; }
+
+    &:hover {
+      transform: translate(-50%, -50%) scale(1.1);
+      opacity:   0.9;
+    }
+  }
+}
+
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 5. VALSTYBĖS KOMPENSACIJA
+// ─────────────────────────────────────────────────────────────────────────────
+.t-comp {
+  @extend %t-fullbleed;
+  background: #fff;
+  padding:    120px 0;
+
+  &__header {
+    margin-bottom: 44px;
+    max-width:     980px;
+  }
+
+  &__heading {
+    font-size:     40px;
+    font-weight:   700;
+    line-height:   46px;
+    color:         $t-purple-dark;
+    margin-top:    16px;
+    margin-bottom: 16px;
+    max-width:     726px;
+
+    @include media-breakpoint-down(md) {
+      font-size:   28px;
+      line-height: 34px;
+    }
+  }
+
+  &__subtext {
+    font-size:   16px;
+    line-height: 20px;
+    color:       $t-text;
+    margin:      0;
+  }
+
+  &__cards {
+    display: flex;
+    gap:     32px;
+
+    @include media-breakpoint-down(md) {
+      flex-direction: column;
+    }
+  }
+
+  &__card {
+    flex:       1;
+    background: $t-grey-bg;
+    border:     1px solid #eaeaea;
+    overflow:   hidden;
+  }
+
+  &__card-img-wrap {
+    position: relative;
+    height:   248px;
+    overflow: hidden;
+  }
+
+  &__card-img {
+    width:      100%;
+    height:     100%;
+    object-fit: cover;
+    display:    block;
+  }
+
+  &__card-badge {
+    position:   absolute;
+    top:        19px;
+    left:       0;
+    background: $t-green-bg;
+    color:      $t-green-text;
+    font-size:  14px;
+    font-weight: 500;
+    line-height: 20px;
+    padding:    4px 12px;
+  }
+
+  &__card-body {
+    padding: 20px 24px 32px;
+    display: flex;
+    flex-direction: column;
+    gap:     24px;
+  }
+
+  &__card-title {
+    font-size:   20px;
+    font-weight: 500;
+    color:       $t-text;
+    margin:      0;
+  }
+
+  &__card-desc {
+    font-size:   14px;
+    line-height: 20px;
+    color:       $t-text-muted;
+    margin:      0;
+    flex-grow:   1;
+  }
+
+  &__card-btn {
+    display:         inline-flex;
+    align-items:     center;
+    gap:             10px;
+    background:      $t-purple-main;
+    border:          1px solid $t-purple-main;
+    color:           #fff;
+    font-size:       15px;
+    height:          42px;
+    padding:         0 20px;
+    text-decoration: none;
+    width:           fit-content;
+    transition:      opacity 0.2s;
+
+    &:hover { color: #fff; text-decoration: none; opacity: 0.88; }
+  }
+
+  &__card-btn-arrow {
+    display:    inline-block;
+    width:      16px;
+    height:     13px;
+    background: url('../../images/arrow-right.svg') no-repeat center / contain;
+  }
+}
+
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 6. MUMIS PASITIKI
+// ─────────────────────────────────────────────────────────────────────────────
+.t-clients {
+  @extend %t-fullbleed;
+  background: $t-grey-bg;
+  padding:    100px 0;
+  text-align: center;
+
+  &__heading {
+    font-size:     40px;
+    font-weight:   700;
+    line-height:   46px;
+    color:         $t-purple-dark;
+    margin-bottom: 12px;
+
+    @include media-breakpoint-down(md) {
+      font-size:   28px;
+      line-height: 34px;
+    }
+  }
+
+  &__subtext {
+    font-size:     16px;
+    line-height:   20px;
+    color:         $t-text;
+    margin-bottom: 44px;
+  }
+
+  &__logos {
+    display:         flex;
+    align-items:     center;
+    justify-content: space-between;
+    gap:             16px;
+    flex-wrap:       wrap;
+  }
+
+  &__logo {
+    flex:     0 0 auto;
+    max-width: 216px;
+
+    img { width: 100%; height: 216px; object-fit: contain; }
+
+    @include media-breakpoint-down(md) {
+      max-width: calc(50% - 8px);
+      flex:      0 0 calc(50% - 8px);
+    }
+  }
+}
+
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 7. FORMA
+// ─────────────────────────────────────────────────────────────────────────────
+.t-form-section {
+  @extend %t-fullbleed;
+  background: $t-purple-main;
+  padding:    100px 0;
+
+  &__body {
+    display:         flex;
+    align-items:     flex-start;
+    justify-content: space-between;
+    gap:             60px;
+
+    @include media-breakpoint-down(md) {
+      flex-direction: column;
+    }
+  }
+
+  &__info {
+    flex:           0 0 472px;
+    max-width:      472px;
+    display:        flex;
+    flex-direction: column;
+    gap:            48px;
+
+    @include media-breakpoint-down(md) {
+      flex:      1;
+      max-width: 100%;
+    }
+  }
+
+  &__heading {
+    font-size:   40px;
+    font-weight: 700;
+    line-height: 44px;
+    color:       #fff;
+    margin:      0;
+
+    @include media-breakpoint-down(md) {
+      font-size:   28px;
+      line-height: 34px;
+    }
+  }
+
+  &__desc {
+    font-size:   15px;
+    line-height: 19px;
+    color:       #fff;
+    margin:      0;
+  }
+
+  &__contacts {
+    display:        flex;
+    flex-direction: column;
+    gap:            27px;
+  }
+
+  &__contact {
+    display:     flex;
+    align-items: center;
+    gap:         20px;
+  }
+
+  &__contact-icon {
+    width:      25px;
+    height:     25px;
+    flex-shrink: 0;
+    background: no-repeat center / contain;
+
+    &--tel  { background-image: url('../../images/tel-white.svg'); }
+    &--mail { background-image: url('../../images/mail-white.svg'); }
+  }
+
+  &__contact-link {
+    font-size:       17px;
+    line-height:     22px;
+    color:           #fff;
+    text-decoration: none;
+
+    &:hover { text-decoration: underline; color: #fff; }
+  }
+
+  &__form {
+    flex:      0 0 565px;
+    max-width: 565px;
+
+    .contact-form {
+      background: #fff;
+      padding:    40px;
+    }
+
+    @include media-breakpoint-down(md) {
+      flex:      1;
+      max-width: 100%;
+      width:     100%;
+
+      .contact-form { padding: 24px; }
+    }
+  }
+}
+
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 8. NAUJIENOS
+// ─────────────────────────────────────────────────────────────────────────────
+.t-news {
+  @extend %t-fullbleed;
+  background: #fff;
+  padding:    100px 0;
+
+  &__header {
+    display:         flex;
+    align-items:     center;
+    justify-content: space-between;
+    margin-bottom:   80px;
+  }
+
+  &__heading {
+    font-size:   40px;
+    font-weight: 700;
+    line-height: 44px;
+    color:       $c-black;
+    margin:      0;
+
+    @include media-breakpoint-down(md) {
+      font-size: 28px;
+    }
+  }
+
+  &__all-link {
+    display:         inline-flex;
+    align-items:     center;
+    background:      $t-purple-main;
+    border:          1px solid $t-purple-main;
+    color:           #fff;
+    font-size:       16px;
+    height:          42px;
+    padding:         0 24px;
+    text-decoration: none;
+    transition:      opacity 0.2s;
+
+    &:hover { color: #fff; text-decoration: none; opacity: 0.88; }
+  }
+
+  &__grid {
+    display:      flex;
+    gap:          30px;
+    padding-top:  16px;
+    margin-bottom: 48px;
+
+    @include media-breakpoint-down(md) {
+      flex-direction: column;
+    }
+  }
+
+  &__card {
+    flex:            0 0 353px;
+    position:        relative;
+    display:         flex;
+    flex-direction:  column;
+    text-decoration: none;
+    color:           inherit;
+
+    &--primary {
+      flex: 1;
+    }
+
+    &:hover { text-decoration: none; color: inherit; }
+
+    @include media-breakpoint-down(md) {
+      flex: 1;
+    }
+  }
+
+  &__card-img-wrap {
+    position:      relative;
+    height:        248px;
+    overflow:      hidden;
+    margin-bottom: 16px;
+    border-radius: 8px;
+
+    img {
+      width:      100%;
+      height:     100%;
+      object-fit: cover;
+    }
+  }
+
+  &__card-tag {
+    position:    absolute;
+    top:         -14px;
+    left:        -8px;
+    background:  $c-black;
+    color:       #fff;
+    font-size:   12px;
+    line-height: 16px;
+    padding:     5px 8px;
+    z-index:     2;
+  }
+
+  &__card-body {
+    display:        flex;
+    flex-direction: column;
+    gap:            8px;
+    flex-grow:      1;
+  }
+
+  &__card-title {
+    font-size:   20px;
+    font-weight: 700;
+    line-height: 25px;
+    color:       $c-black;
+    margin:      0;
+  }
+
+  &__card-excerpt {
+    font-size:   15px;
+    line-height: 22px;
+    color:       #555;
+    margin:      0;
+
+    display:            -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow:           hidden;
+  }
+}
+
+
+// ─────────────────────────────────────────────────────────────────────────────
+// PARTNER LOGOS (inside news section)
+// ─────────────────────────────────────────────────────────────────────────────
+.t-partners {
+  display:         flex;
+  align-items:     center;
+  justify-content: space-between;
+  gap:             16px;
+  padding-top:     48px;
+  border-top:      1px solid $t-grey-border;
+  flex-wrap:       wrap;
+
+  &__logo {
+    flex: 0 0 auto;
+
+    img {
+      height:     58px;
+      width:      auto;
+      max-width:  240px;
+      object-fit: contain;
+      filter:     grayscale(30%);
+      transition: filter 0.2s;
+    }
+
+    &:hover img { filter: none; }
+  }
+}

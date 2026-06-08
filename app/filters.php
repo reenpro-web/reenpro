@@ -16,16 +16,23 @@ add_filter('excerpt_more', function () {
 });
 
 /**
- * Remap old Sage 8 page templates (stored by filename) to Sage 11 Blade equivalents.
+ * Remap page templates to Sage 11 Blade equivalents.
  * Runs after Acorn's template_include (priority 100).
  */
 add_filter('template_include', function ($template) {
     if (! is_page()) {
         return $template;
     }
+
+    // Front page always uses titulinis regardless of stored template slug.
+    if (is_front_page()) {
+        app()['sage.view'] = 'template-titulinis';
+        return $template;
+    }
+
     $map = [
-        'index.php'                        => 'template-titulinis',
-        'template-irangos-kategorija.php'  => 'template-irangos-kategorija',
+        'index.php'                       => 'template-titulinis',
+        'template-irangos-kategorija.php' => 'template-irangos-kategorija',
     ];
     $slug = get_page_template_slug();
     if (isset($map[$slug])) {
