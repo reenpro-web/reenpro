@@ -4,7 +4,7 @@ jQuery(function ($) {
     var $mobileNav = $('#headerMobileNav');
     var $blur    = $('#headerBlur');
 
-    // ── Dark/light mode on scroll (front page only) ──────────────────────────
+    // ── Transparent at hero top / white on scroll (front page only) ──────────
     function updateHeaderMode() {
         if ($('body').hasClass('home') || $('body').hasClass('front-page')) {
             if ($(window).scrollTop() > 10) {

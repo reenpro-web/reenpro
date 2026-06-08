@@ -31,6 +31,7 @@
   $energyYtUrl   = get_field('home_energy_youtube_url');
   $energyThumb   = get_field('home_energy_thumbnail');
   $energyPartner = get_field('home_energy_partner_logo');
+  $energyPartnerText = get_field('home_energy_partner_text');
   $energyYtId    = null;
   if ($energyYtUrl) {
       preg_match('/(?:youtube\.com\/(?:watch\?.*v=|embed\/|v\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/', $energyYtUrl, $ytMatch);
@@ -265,8 +266,17 @@
           </ul>
         @endif
         <hr class="t-energy__divider">
-        @if($energyPartner)
-          <div class="t-energy__partner">{!! wp_get_attachment_image($energyPartner, 'full') !!}</div>
+        @if($energyPartner || $energyPartnerText)
+          <div class="t-energy__partner-block">
+            @if($energyPartner)
+              <div class="t-energy__partner">{!! wp_get_attachment_image($energyPartner, 'full') !!}</div>
+            @endif
+            @if($energyPartnerText)
+              <div class="t-energy__partner-quote">
+                <p>{{ $energyPartnerText }}</p>
+              </div>
+            @endif
+          </div>
         @endif
       </div>
       <div class="t-energy__right">
@@ -350,11 +360,17 @@
       <p class="t-clients__subtext">{{ $clientsSubtext }}</p>
     @endif
     <div class="t-clients__logos">
-      @foreach($clientsLogos as $logo)
-        @if(!empty($logo['client_logo']))
-          <div class="t-clients__logo">{!! wp_get_attachment_image($logo['client_logo'], 'full') !!}</div>
-        @endif
-      @endforeach
+      <div class="t-clients__logos-track">
+        @foreach([1, 2] as $set)
+          <div class="t-clients__logos-set" @if($set === 2) aria-hidden="true" @endif>
+            @foreach($clientsLogos as $logo)
+              @if(!empty($logo['client_logo']))
+                <div class="t-clients__logo">{!! wp_get_attachment_image($logo['client_logo'], 'full') !!}</div>
+              @endif
+            @endforeach
+          </div>
+        @endforeach
+      </div>
     </div>
   </div>
 </section>
@@ -447,7 +463,6 @@
 
     @if($newsQuery->have_posts())
       <div class="t-news__grid">
-        <?php $newsIndex = 0; ?>
         @while($newsQuery->have_posts()) <?php $newsQuery->the_post(); ?>
           @php
             $newsTags     = get_the_tags();
@@ -456,20 +471,20 @@
             $newsUrl      = $extLink ?: get_permalink();
           @endphp
           <a href="{{ esc_url($newsUrl) }}"
-             class="t-news__card {{ $newsIndex === 0 ? 't-news__card--primary' : '' }}"
+             class="t-news__card"
              {{ $extLink ? 'target="_blank" rel="noopener noreferrer"' : '' }}>
             @if($newsTag)
               <div class="t-news__card-tag">{{ $newsTag }}</div>
             @endif
             <div class="t-news__card-img-wrap">
               {!! get_the_post_thumbnail(null, 'blog_card') !!}
+              <div class="post-image-overlay"></div>
             </div>
             <div class="t-news__card-body">
               <h3 class="t-news__card-title">{{ get_the_title() }}</h3>
               <p class="t-news__card-excerpt">{!! wp_trim_words(get_the_excerpt(), 20, '...') !!}</p>
             </div>
           </a>
-          <?php $newsIndex++; ?>
         @endwhile
         <?php wp_reset_postdata(); ?>
       </div>

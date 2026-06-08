@@ -16,15 +16,16 @@ $header-transition:     0.25s ease;
   backdrop-filter:  blur(2.5px);
   transition:       background $header-transition, box-shadow $header-transition;
 
-  // Dark mode on hero (front page at top)
+  // Fully transparent over hero (no tinted overlay)
   &--dark {
-    background: rgba(0, 0, 0, 0.55);
+    background:      transparent;
+    backdrop-filter: none;
+    box-shadow:      none;
 
     .header-nav__link { color: #fff; }
     .header-nav__chevron { stroke: #fff; }
     .header-logo__white { display: block; }
     .header-logo__color { display: none; }
-    .header-btn--red    { }
     .header-burger span { background: #fff; }
   }
 
@@ -98,12 +99,16 @@ $header-transition:     0.25s ease;
   &__item {
     position: relative;
 
-    &:hover > .header-nav__dropdown,
-    &:hover > .header-mega {
+    &--has-panel:hover > .header-panel,
+    &--has-panel:focus-within > .header-panel {
       opacity:        1;
       visibility:     visible;
       pointer-events: all;
       transform:      translateY(0);
+    }
+
+    &--has-panel:hover .header-nav__chevron {
+      transform: rotate(180deg);
     }
   }
 
@@ -133,65 +138,53 @@ $header-transition:     0.25s ease;
 
     path { stroke: currentColor; }
   }
-
-  // Regular dropdown
-  &__dropdown {
-    position:        absolute;
-    top:             calc(100% + 8px);
-    left:            -16px;
-    min-width:       200px;
-    list-style:      none;
-    margin:          0;
-    padding:         8px 0;
-    background:      #fff;
-    border:          1px solid #e4e4f6;
-    border-radius:   0 0 8px 8px;
-    box-shadow:      0 4px 12px rgba(0,0,0,0.12);
-    opacity:         0;
-    visibility:      hidden;
-    pointer-events:  none;
-    transform:       translateY(-4px);
-    transition:      opacity $header-transition, visibility $header-transition, transform $header-transition;
-
-    li a {
-      display:         block;
-      padding:         10px 20px;
-      font-size:       15px;
-      color:           $c-black;
-      text-decoration: none;
-      transition:      background $header-transition, color $header-transition;
-
-      &:hover {
-        background: rgba(75, 6, 148, 0.04);
-        color:      $c-purple;
-      }
-    }
-  }
 }
 
-// ── Mega menu (Paslaugos) ─────────────────────────────────────────────────────
-.header-mega {
+// ── Shared submenu panel ──────────────────────────────────────────────────────
+.header-panel {
   position:       absolute;
   top:            calc(100% + 8px);
-  left:           -24px;
+  left:           -16px;
   background:     #fff;
   border:         1px solid #e4e4f6;
   border-radius:  0 0 8px 8px;
-  box-shadow:     0 4px 8px rgba(0,0,0,0.15), 0 1px 1.5px rgba(0,0,0,0.3);
+  box-shadow:     0 4px 8px rgba(0, 0, 0, 0.15), 0 1px 1.5px rgba(0, 0, 0, 0.3);
   padding:        24px;
   opacity:        0;
   visibility:     hidden;
   pointer-events: none;
   transform:      translateY(-4px);
   transition:     opacity $header-transition, visibility $header-transition, transform $header-transition;
+  z-index:        10;
 
-  &__grid {
-    display:               grid;
-    grid-template-columns: repeat(2, 363px);
-    gap:                   4px 12px;
+  // Invisible bridge so moving from link to panel does not close the menu
+  &::before {
+    content:  '';
+    position: absolute;
+    bottom:   100%;
+    left:     -24px;
+    right:    -24px;
+    height:   12px;
   }
 
-  &__card {
+  &--single {
+    .header-panel__grid {
+      display:        flex;
+      flex-direction: column;
+      gap:            4px;
+      min-width:      260px;
+    }
+  }
+
+  &--double {
+    .header-panel__grid {
+      display:               grid;
+      grid-template-columns: repeat(2, minmax(280px, 1fr));
+      gap:                   4px 12px;
+    }
+  }
+
+  &__item {
     display:         flex;
     align-items:     center;
     gap:             14px;
@@ -206,12 +199,6 @@ $header-transition:     0.25s ease;
       color:           $c-black;
       text-decoration: none;
     }
-
-    span {
-      font-size:   16px;
-      font-weight: 500;
-      line-height: 1.3;
-    }
   }
 
   &__icon {
@@ -223,13 +210,41 @@ $header-transition:     0.25s ease;
     min-width:       38px;
     border-radius:   8px;
     background:      rgba(200, 193, 255, 0.17);
+    overflow:        hidden;
 
-    svg {
-      width:  24px;
-      height: 24px;
-      color:  $c-purple;
+    img {
+      width:      24px;
+      height:     24px;
+      object-fit: contain;
     }
   }
+
+  &__text {
+    display:        flex;
+    flex-direction: column;
+    gap:            2px;
+    min-width:      0;
+  }
+
+  &__title {
+    font-size:   16px;
+    font-weight: 500;
+    line-height: 1.3;
+    color:       $c-black;
+  }
+
+  &__desc {
+    font-size:   13px;
+    font-weight: 400;
+    line-height: 1.3;
+    color:       #666666;
+  }
+}
+
+// Legacy selectors kept for safety during transition
+.header-mega,
+.header-nav__dropdown {
+  display: none;
 }
 
 // ── Buttons ───────────────────────────────────────────────────────────────────

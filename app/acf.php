@@ -237,6 +237,14 @@ add_action('acf/init', function () {
                 'type'          => 'image',
                 'return_format' => 'id',
             ],
+            [
+                'key'          => 'field_home_energy_partner_text',
+                'label'        => 'Partnerio tekstas',
+                'name'         => 'home_energy_partner_text',
+                'type'         => 'textarea',
+                'rows'         => 3,
+                'instructions' => 'Rodomas šalia logotipo su vertikalia linija kairėje.',
+            ],
 
             // ── VALSTYBĖS PARAMA ──────────────────────────────
             [
