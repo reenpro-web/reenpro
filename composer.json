@@ -55,6 +55,9 @@
     "allow-plugins": {
       "composer/installers": true,
       "roots/acorn": true
+    },
+    "platform": {
+      "php": "8.3.0"
     }
   },
   "minimum-stability": "dev",
