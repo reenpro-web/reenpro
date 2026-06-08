@@ -157,7 +157,7 @@
 ═══════════════════════════════════════════════════════ --}}
 @if($servItems)
 <section class="t-services">
-  <div class="t-section-inner">
+  <div class="container">
     <div class="t-services__header">
       @if($servLabel)
         <div class="t-label">{{ $servLabel }}</div>
@@ -221,7 +221,7 @@
 ═══════════════════════════════════════════════════════ --}}
 @if($statsItems)
 <section class="t-stats">
-  <div class="t-section-inner">
+  <div class="container">
     <div class="t-stats__grid">
       @foreach($statsItems as $stat)
         <div class="t-stats__item">
@@ -245,7 +245,7 @@
 ═══════════════════════════════════════════════════════ --}}
 @if($energyHeading)
 <section class="t-energy">
-  <div class="t-section-inner">
+  <div class="container">
     <div class="t-energy__intro">
       @if($energyLabel)
         <div class="t-label t-label--center">{{ $energyLabel }}</div>
@@ -295,7 +295,7 @@
 ═══════════════════════════════════════════════════════ --}}
 @if($compHeading)
 <section class="t-comp">
-  <div class="t-section-inner">
+  <div class="container">
     <div class="t-comp__header">
       @if($compLabel)
         <div class="t-label">{{ $compLabel }}</div>
@@ -342,7 +342,7 @@
 ═══════════════════════════════════════════════════════ --}}
 @if($clientsLogos)
 <section class="t-clients">
-  <div class="t-section-inner">
+  <div class="container">
     @if($clientsHeading)
       <h2 class="t-clients__heading">{{ $clientsHeading }}</h2>
     @endif
@@ -365,7 +365,7 @@
      7. GAUTI PASIŪLYMĄ (FORMA)
 ═══════════════════════════════════════════════════════ --}}
 <section class="t-form-section" id="mainForm">
-  <div class="t-section-inner">
+  <div class="container">
     <div class="t-form-section__body">
       <div class="t-form-section__info">
         @if($formHeading)
@@ -437,7 +437,7 @@
      8. NAUJIENOS + PARTNERIŲ LOGOTIPAI
 ═══════════════════════════════════════════════════════ --}}
 <section class="t-news">
-  <div class="t-section-inner">
+  <div class="container">
     <div class="t-news__header">
       <h2 class="t-news__heading">Naujienos</h2>
       <a href="{{ get_permalink(get_option('page_for_posts')) ?: '/naujienos/' }}" class="t-news__all-link">

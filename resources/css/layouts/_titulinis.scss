@@ -14,27 +14,6 @@ $t-text-muted:   #666666;
 $t-green-bg:     rgba(222, 255, 219, 0.88);
 $t-green-text:   #0f560a;
 
-// Full-bleed pattern: all new sections break out of Bootstrap's 15px col padding
-%t-fullbleed {
-  margin-left:  -15px;
-  margin-right: -15px;
-}
-
-// Content wrapper - 40px gutters matching the header's px-[40px]
-.t-section-inner {
-  max-width: 1440px;
-  margin:    0 auto;
-  padding:   0 40px;
-
-  @include media-breakpoint-down(md) {
-    padding: 0 24px;
-  }
-
-  @include media-breakpoint-down(sm) {
-    padding: 0 16px;
-  }
-}
-
 // Shared label chip
 .t-label {
   display:       inline-flex;
@@ -53,27 +32,11 @@ $t-green-text:   #0f560a;
 
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 1. HERO overrides - full viewport height, consistent content width
+// 1. HERO overrides - full viewport height
 // ─────────────────────────────────────────────────────────────────────────────
 .home-slider .home-intro {
   height:     100vh !important;
   max-height: none !important;
-
-  > .container {
-    max-width:     none !important;
-    padding-left:  40px !important;
-    padding-right: 40px !important;
-
-    @include media-breakpoint-down(md) {
-      padding-left:  24px !important;
-      padding-right: 24px !important;
-    }
-
-    @include media-breakpoint-down(sm) {
-      padding-left:  16px !important;
-      padding-right: 16px !important;
-    }
-  }
 }
 
 
@@ -81,7 +44,6 @@ $t-green-text:   #0f560a;
 // 2. PASLAUGOS
 // ─────────────────────────────────────────────────────────────────────────────
 .t-services {
-  @extend %t-fullbleed;
   background: #fff;
   padding:    100px 0 120px;
 
@@ -191,14 +153,8 @@ $t-green-text:   #0f560a;
 // 3. STATISTIKA
 // ─────────────────────────────────────────────────────────────────────────────
 .t-stats {
-  @extend %t-fullbleed;
   background: $t-purple-dark;
   padding:    110px 0;
-
-  .t-section-inner {
-    padding-top:    0;
-    padding-bottom: 0;
-  }
 
   &__grid {
     display:         flex;
@@ -257,7 +213,6 @@ $t-green-text:   #0f560a;
 // 4. ENERGIJOS KAUPIKLIS (VIDEO)
 // ─────────────────────────────────────────────────────────────────────────────
 .t-energy {
-  @extend %t-fullbleed;
   background: $t-purple-light;
   padding:    100px 0;
 
@@ -413,7 +368,6 @@ $t-green-text:   #0f560a;
 // 5. VALSTYBĖS KOMPENSACIJA
 // ─────────────────────────────────────────────────────────────────────────────
 .t-comp {
-  @extend %t-fullbleed;
   background: #fff;
   padding:    120px 0;
 
@@ -537,7 +491,6 @@ $t-green-text:   #0f560a;
 // 6. MUMIS PASITIKI
 // ─────────────────────────────────────────────────────────────────────────────
 .t-clients {
-  @extend %t-fullbleed;
   background: $t-grey-bg;
   padding:    100px 0;
   text-align: center;
@@ -588,7 +541,6 @@ $t-green-text:   #0f560a;
 // 7. FORMA
 // ─────────────────────────────────────────────────────────────────────────────
 .t-form-section {
-  @extend %t-fullbleed;
   background: $t-purple-main;
   padding:    100px 0;
 
@@ -691,7 +643,6 @@ $t-green-text:   #0f560a;
 // 8. NAUJIENOS
 // ─────────────────────────────────────────────────────────────────────────────
 .t-news {
-  @extend %t-fullbleed;
   background: #fff;
   padding:    100px 0;
 
