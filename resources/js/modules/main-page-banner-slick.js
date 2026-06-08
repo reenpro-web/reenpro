@@ -5,7 +5,7 @@ jQuery(function($){
     $banner.slick('slickSetOption', {
 	  infinite:       true,
       autoplay:       true,
-      autoplaySpeed:  5000,
+      autoplaySpeed:  20000,
     }, /* refresh = */ true );
   }
 });

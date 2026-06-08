@@ -871,6 +871,8 @@
           arrows: false,
           dots: true,
           appendDots: $(".slick-slide__nav"),
+          autoplay: true,
+          autoplaySpeed: 20000,
         });
 
         $('.home-logos__slider').slick({

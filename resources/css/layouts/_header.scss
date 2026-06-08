@@ -38,6 +38,10 @@ $header-transition:     0.25s ease;
     .header-logo__white { display: none; }
     .header-logo__color { display: block; }
   }
+
+  &:not(.header--top) .header-nav__link:hover {
+    color: $c-purple;
+  }
 }
 
 // ── Inner wrapper ─────────────────────────────────────────────────────────────
@@ -134,7 +138,6 @@ $header-transition:     0.25s ease;
     transition:      color $header-transition;
 
     &:hover {
-      color:           $c-purple;
       text-decoration: none;
     }
   }

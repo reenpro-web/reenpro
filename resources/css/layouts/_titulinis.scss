@@ -547,7 +547,7 @@ $t-green-text:   #0f560a;
   &__logos-track {
     display: flex;
     width:   max-content;
-    animation: t-clients-scroll 50s linear infinite;
+    animation: t-clients-scroll 80s linear infinite;
 
     &:hover {
       animation-play-state: paused;
