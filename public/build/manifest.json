@@ -4,7 +4,7 @@
     "src": "editor.deps.json"
   },
   "resources/css/app.scss": {
-    "file": "assets/app-CibrkM_3.css",
+    "file": "assets/app-CXKRkt-F.css",
     "name": "app",
     "names": [
       "app.css"
@@ -16,15 +16,13 @@
       "assets/chevron-form-Du6YbXxk.svg",
       "assets/chevron-check-DCKu91xm.svg",
       "assets/close-cookie-BXPJ6g-a.svg",
-      "assets/header-chevron-white-PkPVFwLc.svg",
-      "assets/header-chevron-Dc7gM6ty.svg",
-      "assets/header-chevron-mobile-DQfLEi9p.svg",
-      "assets/close-menu-2hrEJZXu.svg",
       "assets/tel-DXsbdQKk.svg",
       "assets/mail-CqpgnYEb.svg",
       "assets/location-jovSngXJ.svg",
       "assets/tel-black-C6ctvkxH.svg",
       "assets/mail-black-DQ5HcVEE.svg",
+      "assets/tel-white-DBNpTBtk.svg",
+      "assets/mail-white-X-nlufHj.svg",
       "assets/system-pattern-DH02fP6y.png",
       "assets/slider-arrow-white-D_LneJCu.svg",
       "assets/slider-arrow-purple-jRaQwD5g.svg",
@@ -32,8 +30,6 @@
       "assets/project-power-e1ftSK0y.svg",
       "assets/project-client-D7Ln2JS-.svg",
       "assets/file-reenpro-CJJcudyA.svg",
-      "assets/tel-white-DBNpTBtk.svg",
-      "assets/mail-white-X-nlufHj.svg",
       "assets/location-white-B7mGwCcu.svg",
       "assets/tel-outline-BMiT_9kC.svg",
       "assets/mail-outline-CN9HbkrO.svg"
@@ -165,7 +161,7 @@
     "src": "resources/images/tel.svg"
   },
   "resources/js/app.js": {
-    "file": "assets/app-Bwd23Ciu.js",
+    "file": "assets/app-DjoLOfcz.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true

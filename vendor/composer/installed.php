@@ -3,7 +3,7 @@
         'name' => 'roots/sage',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => 'a97f467e904dee979738f6d10a3f7632c9088baf',
+        'reference' => '9857bbf7def494a549c21e73efd76b8f70eebbb6',
         'type' => 'wordpress-theme',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -633,7 +633,7 @@
         'roots/sage' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'a97f467e904dee979738f6d10a3f7632c9088baf',
+            'reference' => '9857bbf7def494a549c21e73efd76b8f70eebbb6',
             'type' => 'wordpress-theme',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

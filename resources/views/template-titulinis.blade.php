@@ -7,45 +7,120 @@
 @section('content')
 @while(have_posts()) <?php the_post(); ?>
 
+@php
+  // ── HERO ──────────────────────────────────────────────────
+  $heroSlides  = get_field('home_hero_slides') ?: [];
+  $heroBtnText = get_field('home_hero_button_text') ?: 'Konsultacija';
+
+  // ── SERVICES ──────────────────────────────────────────────
+  $servLabel   = get_field('home_services_label');
+  $servHeading = get_field('home_services_heading');
+  $servSubtext = get_field('home_services_subtext');
+  $servItems   = get_field('home_services_items') ?: [];
+  $servTop     = array_slice($servItems, 0, 2);
+  $servBottom  = array_slice($servItems, 2);
+
+  // ── STATS ─────────────────────────────────────────────────
+  $statsItems = get_field('home_stats_items') ?: [];
+
+  // ── ENERGY / VIDEO ────────────────────────────────────────
+  $energyLabel   = get_field('home_energy_label');
+  $energyHeading = get_field('home_energy_heading');
+  $energyDesc    = get_field('home_energy_description');
+  $energyBullets = get_field('home_energy_bullets') ?: [];
+  $energyYtUrl   = get_field('home_energy_youtube_url');
+  $energyThumb   = get_field('home_energy_thumbnail');
+  $energyPartner = get_field('home_energy_partner_logo');
+  $energyPartnerText = get_field('home_energy_partner_text');
+  $energyYtId    = null;
+  if ($energyYtUrl) {
+      preg_match('/(?:youtube\.com\/(?:watch\?.*v=|embed\/|v\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/', $energyYtUrl, $ytMatch);
+      $energyYtId = $ytMatch[1] ?? null;
+  }
+  if (! $energyThumb && $energyYtId) {
+      $energyThumb = 'https://img.youtube.com/vi/' . $energyYtId . '/maxresdefault.jpg';
+  }
+
+  // ── COMPENSATION ──────────────────────────────────────────
+  $compLabel   = get_field('home_comp_label');
+  $compHeading = get_field('home_comp_heading');
+  $compSubtext = get_field('home_comp_subtext');
+  $compCards   = [
+    [
+      'image' => get_field('home_comp_card1_image'),
+      'badge' => get_field('home_comp_card1_badge'),
+      'title' => get_field('home_comp_card1_title'),
+      'desc'  => get_field('home_comp_card1_desc'),
+      'url'   => get_field('home_comp_card1_url'),
+    ],
+    [
+      'image' => get_field('home_comp_card2_image'),
+      'badge' => get_field('home_comp_card2_badge'),
+      'title' => get_field('home_comp_card2_title'),
+      'desc'  => get_field('home_comp_card2_desc'),
+      'url'   => get_field('home_comp_card2_url'),
+    ],
+  ];
+
+  // ── CLIENTS ───────────────────────────────────────────────
+  $clientsHeading = get_field('home_clients_heading');
+  $clientsSubtext = get_field('home_clients_subtext');
+  $clientsLogos   = get_field('home_clients_logos') ?: [];
+
+  // ── FORM ──────────────────────────────────────────────────
+  $formHeading = get_field('home_form_heading');
+  $formDesc    = get_field('home_form_description');
+  $formPhone   = get_field('home_form_phone');
+  $formEmail   = get_field('home_form_email');
+
+  // ── NEWS ──────────────────────────────────────────────────
+  $newsQuery = new WP_Query([
+    'post_type'      => 'post',
+    'post_status'    => 'publish',
+    'posts_per_page' => 3,
+    'orderby'        => 'date',
+    'order'          => 'DESC',
+  ]);
+
+  // ── PARTNER LOGOS ─────────────────────────────────────────
+  $partnerLogos = get_field('home_partners_logos') ?: [];
+@endphp
+
+
+{{-- ═══════════════════════════════════════════════════════
+     1. HERO CAROUSEL
+═══════════════════════════════════════════════════════ --}}
 <div class="home-slider">
   <div class="home-banner">
-    @if(have_rows('index_intro_banner'))
+    @if($heroSlides)
       <?php $i = 0; ?>
-      @while(have_rows('index_intro_banner')) <?php the_row(); ?>
+      @foreach($heroSlides as $slide)
         <div class="home-intro d-flex bg--{{ $i }}">
           <div class="container mt-auto mb-auto">
             <div class="row align-items-center justify-content-lg-between">
               <div class="col-12 col-md-10 col-lg-8 col-xxl-6">
-                @if(get_sub_field('index_intro_heading'))
-                  @if($i == 0)
-                    <h1 class="home-intro__heading mb-24 h1">{!! get_sub_field('index_intro_heading') !!}</h1>
+                @if(!empty($slide['hero_slide_heading']))
+                  @if($i === 0)
+                    <h1 class="home-intro__heading mb-24 h1">{!! $slide['hero_slide_heading'] !!}</h1>
                   @else
-                    <h2 class="home-intro__heading mb-24 h1">{!! get_sub_field('index_intro_heading') !!}</h2>
+                    <h2 class="home-intro__heading mb-24 h1">{!! $slide['hero_slide_heading'] !!}</h2>
                   @endif
                 @endif
-                @if(get_sub_field('index_intro_text'))
-                  <div class="home-intro__text c-white mb-30">{!! get_sub_field('index_intro_text') !!}</div>
+                @if(!empty($slide['hero_slide_text']))
+                  <div class="home-intro__text c-white mb-30">{!! $slide['hero_slide_text'] !!}</div>
                 @endif
-                @if(get_field('get_offer_text', 'options'))
-                  <div>
-                    @if(get_sub_field('index_intro_cta_url'))
-                      <a href="{{ esc_attr(get_sub_field('index_intro_cta_url')) }}" class="button button--wide d-block d-md-inline-block">
-                        {!! get_field('get_offer_text', 'options') !!}<i></i>
-                      </a>
-                    @else
-                      <a href="#mainForm" class="button button--wide d-block d-md-inline-block">
-                        {!! get_field('get_offer_text', 'options') !!}<i></i>
-                      </a>
-                    @endif
-                  </div>
-                @endif
+                <div>
+                  <a href="{{ esc_attr($slide['hero_slide_cta_url'] ?: '#mainForm') }}"
+                     class="button button--wide d-block d-md-inline-block">
+                    {{ $heroBtnText }}<i></i>
+                  </a>
+                </div>
               </div>
-              <div class="col-12 col-md-2 col-xl-5"></div>
             </div>
           </div>
         </div>
         <?php $i++; ?>
-      @endwhile
+      @endforeach
     @endif
   </div>
   <div class="home-slider__dots">
@@ -60,180 +135,372 @@
   </div>
 </div>
 
-<div class="home-numbers pt-50 pt-md-120 pb-50 pb-md-160">
+@php
+  $heroCss = '<style>';
+  foreach ($heroSlides as $j => $slide) {
+      $imgD = wp_get_attachment_image_url($slide['hero_slide_image'], 'full');
+      $imgM = wp_get_attachment_image_url(
+          !empty($slide['hero_slide_image_mobile']) ? $slide['hero_slide_image_mobile'] : $slide['hero_slide_image'],
+          'full'
+      );
+      if ($imgD) {
+          $heroCss .= ".bg--{$j}{background-image:url({$imgD})}";
+          $heroCss .= "@media only screen and (max-width:768px){.bg--{$j}{background-image:url({$imgM})}}";
+      }
+  }
+  $heroCss .= '</style>';
+  echo $heroCss;
+@endphp
+
+
+{{-- ═══════════════════════════════════════════════════════
+     2. INŽINERINĖS PASLAUGOS
+═══════════════════════════════════════════════════════ --}}
+@if($servItems)
+<section class="t-services">
   <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-12 col-md-6 col-xl-4 text-center">
-        @if(get_field('index_number_heading'))
-          <h3 class="home-numbers__heading mb-50">{{ get_field('index_number_heading') }}</h3>
-        @endif
-      </div>
+    <div class="t-services__header">
+      @if($servLabel)
+        <div class="t-label">{{ $servLabel }}</div>
+      @endif
+      @if($servHeading)
+        <h2 class="t-services__heading">{!! $servHeading !!}</h2>
+      @endif
+      @if($servSubtext)
+        <p class="t-services__subtext">{{ $servSubtext }}</p>
+      @endif
     </div>
-    @if(have_rows('index_numbers'))
-      <div class="row align-items-center">
-        @while(have_rows('index_numbers')) <?php the_row(); ?>
-          <div class="col-12 col-md-6 col-xl-3 text-center text-md-left">
-            <div class="home-numbers__item d-flex align-items-center justify-content-center">
-              <div class="home-numbers__item-number mr-20">{!! get_sub_field('number') !!}</div>
-              <div class="home-numbers__item-text fw-bold">{!! get_sub_field('text') !!}</div>
+    <div class="t-services__grid">
+      @if($servTop)
+        <div class="t-services__row t-services__row--top">
+          @foreach($servTop as $svc)
+            <div class="t-services__card {{ !empty($svc['service_featured']) ? 't-services__card--featured' : '' }}">
+              @if(!empty($svc['service_icon']))
+                <div class="t-services__card-icon">{!! wp_get_attachment_image($svc['service_icon'], 'full') !!}</div>
+              @endif
+              <h3 class="t-services__card-title">{{ $svc['service_title'] }}</h3>
+              @if(!empty($svc['service_description']))
+                <p class="t-services__card-desc">{{ $svc['service_description'] }}</p>
+              @endif
+              @if(!empty($svc['service_link']))
+                <a href="{{ esc_url($svc['service_link']) }}" class="t-services__card-link">
+                  Plačiau <span>&#8594;</span>
+                </a>
+              @endif
             </div>
-          </div>
-        @endwhile
-      </div>
-    @endif
-  </div>
-</div>
-
-<div class="home-info">
-  <div class="container">
-    <div class="row custom-row justify-content-center">
-      <div class="col-12 col-xl-10 custom-column">
-        @if(have_rows('index_info_cards'))
-          <div class="row custom-row home-info__wrapper">
-            @while(have_rows('index_info_cards')) <?php the_row(); ?>
-              <div class="col-12 col-lg-4 text-center custom-column">
-                <div class="home-info__item mb-50 mb-lg-0">
-                  <svg class="mb-25 d-none d-lg-inline" xmlns="http://www.w3.org/2000/svg" width="8" height="128.433" viewBox="0 0 8 128.433">
-                    <g transform="translate(-493 -1449)">
-                      <g transform="translate(493 1449)" fill="#fff" stroke="#12122d" stroke-width="2">
-                        <circle cx="4" cy="4" r="4" stroke="none"/><circle cx="4" cy="4" r="3" fill="none"/>
-                      </g>
-                      <path d="M429.948,1287v120.433" transform="translate(67 170)" fill="none" stroke="#12122d" stroke-width="2"/>
-                    </g>
-                  </svg>
-                  <div class="mb-20">{!! wp_get_attachment_image(get_sub_field('icon'), 'full') !!}</div>
-                  <h4 class="mb-20 mb-md-25">{!! get_sub_field('heading') !!}</h4>
-                  <div>{!! get_sub_field('text') !!}</div>
-                </div>
-              </div>
-            @endwhile
-          </div>
-        @endif
-      </div>
-    </div>
-  </div>
-</div>
-
-<?php $featured_projects = get_field('index_projects'); ?>
-@if($featured_projects)
-  <div class="home-projects pt-50 pt-md-120 mb-100 mb-md-160 {{ get_field('display_projects') ? 'd-none' : '' }}">
-    <div class="container">
-      <div class="row mb-50 mb-md-80">
-        <div class="col-12 col-xl-5 offset-xl-2">
-          <div class="ml-lg-100">
-            @if(get_field('index_projects_heading'))
-              <h3 class="projects-list__heading text-center text-lg-left mb-20">{{ get_field('index_projects_heading') }}</h3>
-            @endif
-            @if(get_field('index_projects_text'))
-              <div class="projects-list__text text-center text-lg-left">{!! get_field('index_projects_text') !!}</div>
-            @endif
-          </div>
+          @endforeach
         </div>
-      </div>
-      <?php $projectCounter = 0; ?>
-      <div class="projects-cards">
-        @foreach($featured_projects as $featured_project)
-          <?php $postID = $featured_project->ID; ?>
-          <div class="mb-50 mb-md-80 project-item cat-0">
-            <div class="row align-items-center">
-              <div class="col-12 mb-20 mb-lg-0 {{ $projectCounter % 2 ? 'col-lg-6 order-lg-1' : 'col-lg-6 order-lg-2' }}">
-                <div class="projects-card__slider {{ $projectCounter % 2 ? '' : 'projects-card__slider--right' }}">
-                  @foreach(get_field('project_gallery', $postID) as $image_id_projects)
-                    <div><div class="projects-card__slider-img">{!! wp_get_attachment_image($image_id_projects, 'projects-cards') !!}</div></div>
-                  @endforeach
-                </div>
-              </div>
-              <div class="col-12 {{ $projectCounter % 2 ? 'order-lg-2 col-lg-6 col-xl-4' : 'col-lg-5 col-xl-4 order-lg-1 offset-lg-1 offset-xl-2' }}">
-                <div class="{{ $projectCounter % 2 ? 'mr-lg-100' : 'ml-lg-100' }}">
-                  <h4 class="mb-20 mb-md-10 fs-25 mb-lg-30">{{ get_the_title($postID) }}</h4>
-                  @if(get_field('project_desc', $postID))
-                    <div class="projects-card__desc mb-30">{!! get_field('project_desc', $postID) !!}</div>
-                  @endif
-                </div>
-              </div>
+      @endif
+      @if($servBottom)
+        <div class="t-services__row t-services__row--bottom">
+          @foreach($servBottom as $svc)
+            <div class="t-services__card {{ !empty($svc['service_featured']) ? 't-services__card--featured' : '' }}">
+              @if(!empty($svc['service_icon']))
+                <div class="t-services__card-icon">{!! wp_get_attachment_image($svc['service_icon'], 'full') !!}</div>
+              @endif
+              <h3 class="t-services__card-title">{{ $svc['service_title'] }}</h3>
+              @if(!empty($svc['service_description']))
+                <p class="t-services__card-desc">{{ $svc['service_description'] }}</p>
+              @endif
+              @if(!empty($svc['service_link']))
+                <a href="{{ esc_url($svc['service_link']) }}" class="t-services__card-link">
+                  Plačiau <span>&#8594;</span>
+                </a>
+              @endif
             </div>
-          </div>
-          <?php $projectCounter++; ?>
-        @endforeach
-      </div>
-      <?php wp_reset_postdata(); ?>
-      @if(get_field('index_projects_button'))
-        <div class="text-center">
-          <a class="button button--wide d-block d-md-inline-block" href="{{ get_post_type_archive_link('projects') }}">
-            {{ get_field('index_projects_button') }} <i></i>
-          </a>
+          @endforeach
         </div>
       @endif
     </div>
   </div>
+</section>
 @endif
 
-@include('partials.about-cards')
 
-<div class="home-donation pt-50 pt-md-120 pb-80 pb-md-140">
+{{-- ═══════════════════════════════════════════════════════
+     3. STATISTIKA
+═══════════════════════════════════════════════════════ --}}
+@if($statsItems)
+<section class="t-stats">
   <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-12 col-md-10 col-lg-8 col-xl-6 text-center">
-        <h3 class="home-donation__heading c-white">{!! get_field('index_donation_heading') !!}</h3>
-        <div class="home-donation__text c-white mb-50">{!! get_field('index_donation_text') !!}</div>
-        @if(have_rows('index_donation_buttons'))
-          @while(have_rows('index_donation_buttons')) <?php the_row(); ?>
-            <?php $linkHomeButtons = get_sub_field('link'); ?>
-            <div class="home-donation__link d-md-inline-block">
-              <a class="button button--wide d-block" href="{{ $linkHomeButtons['url'] }}" target="{{ $linkHomeButtons['target'] }}">
-                {{ $linkHomeButtons['title'] }}<i></i>
-              </a>
-            </div>
-          @endwhile
+    <div class="t-stats__grid">
+      @foreach($statsItems as $stat)
+        <div class="t-stats__item">
+          @if(!empty($stat['stat_label']))
+            <div class="t-stats__label">{{ $stat['stat_label'] }}</div>
+          @endif
+          <div class="t-stats__number">{{ $stat['stat_number'] }}</div>
+          @if(!empty($stat['stat_description']))
+            <p class="t-stats__desc">{{ $stat['stat_description'] }}</p>
+          @endif
+        </div>
+      @endforeach
+    </div>
+  </div>
+</section>
+@endif
+
+
+{{-- ═══════════════════════════════════════════════════════
+     4. ENERGIJOS KAUPIKLIS (VIDEO)
+═══════════════════════════════════════════════════════ --}}
+@if($energyHeading)
+<section class="t-energy">
+  <div class="container">
+    <div class="t-energy__intro">
+      @if($energyLabel)
+        <div class="t-label t-label--center">{{ $energyLabel }}</div>
+      @endif
+      <h2 class="t-energy__heading">{!! $energyHeading !!}</h2>
+    </div>
+    <div class="t-energy__body">
+      <div class="t-energy__left">
+        @if($energyDesc)
+          <p class="t-energy__desc">{{ $energyDesc }}</p>
+        @endif
+        @if($energyBullets)
+          <ul class="t-energy__bullets">
+            @foreach($energyBullets as $bullet)
+              <li class="t-energy__bullet">{{ $bullet['energy_bullet_text'] }}</li>
+            @endforeach
+          </ul>
+        @endif
+        <hr class="t-energy__divider">
+        @if($energyPartner || $energyPartnerText)
+          <div class="t-energy__partner-block">
+            @if($energyPartner)
+              <div class="t-energy__partner">{!! wp_get_attachment_image($energyPartner, 'full') !!}</div>
+            @endif
+            @if($energyPartnerText)
+              <div class="t-energy__partner-quote">
+                <p>{{ $energyPartnerText }}</p>
+              </div>
+            @endif
+          </div>
+        @endif
+      </div>
+      <div class="t-energy__right">
+        @if($energyThumb)
+          <div class="t-energy__video-wrapper" data-video-id="{{ $energyYtId }}">
+            <img src="{{ esc_url($energyThumb) }}" alt="{{ esc_attr($energyHeading) }}" class="t-energy__video-thumb">
+            @if($energyYtId)
+              <button class="t-energy__play-btn" aria-label="Paleisti vaizdo įrašą">
+                <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="40" cy="40" r="40" fill="rgba(255,255,255,0.9)"/>
+                  <polygon points="32,22 62,40 32,58" fill="#480892"/>
+                </svg>
+              </button>
+            @endif
+          </div>
         @endif
       </div>
     </div>
   </div>
-</div>
+</section>
+@endif
 
-@include('partials.global-logos')
-@include('partials.main-form')
-@include('partials.blog-news-section')
 
-@if(have_rows('index_logos'))
-  <div class="home-logos pt-50 pb-50 pt-lg-110 pb-lg-110">
-    <div class="container">
-      <div class="home-logos__slider">
-        @while(have_rows('index_logos')) <?php the_row(); ?>
-          <div class="pl-10 pr-10 pl-lg-25 pr-lg-25 text-center home-clients__slider-slide">
-            {!! wp_get_attachment_image(get_sub_field('logo'), 'home_logos') !!}
+{{-- ═══════════════════════════════════════════════════════
+     5. VALSTYBĖS KOMPENSACIJA
+═══════════════════════════════════════════════════════ --}}
+@if($compHeading)
+<section class="t-comp">
+  <div class="container">
+    <div class="t-comp__header">
+      @if($compLabel)
+        <div class="t-label">{{ $compLabel }}</div>
+      @endif
+      <h2 class="t-comp__heading">{!! $compHeading !!}</h2>
+      @if($compSubtext)
+        <p class="t-comp__subtext">{{ $compSubtext }}</p>
+      @endif
+    </div>
+    <div class="t-comp__cards">
+      @foreach($compCards as $card)
+        @if(!empty($card['title']))
+          <div class="t-comp__card">
+            <div class="t-comp__card-img-wrap">
+              @if(!empty($card['image']))
+                <img src="{{ esc_url($card['image']) }}" alt="{{ esc_attr($card['title']) }}" class="t-comp__card-img">
+              @endif
+              @if(!empty($card['badge']))
+                <div class="t-comp__card-badge">{{ $card['badge'] }}</div>
+              @endif
+            </div>
+            <div class="t-comp__card-body">
+              <h3 class="t-comp__card-title">{{ $card['title'] }}</h3>
+              @if(!empty($card['desc']))
+                <p class="t-comp__card-desc">{{ $card['desc'] }}</p>
+              @endif
+              @if(!empty($card['url']))
+                <a href="{{ esc_url($card['url']) }}" class="t-comp__card-btn">
+                  Sužinoti daugiau <i class="t-comp__card-btn-arrow"></i>
+                </a>
+              @endif
+            </div>
           </div>
-        @endwhile
+        @endif
+      @endforeach
+    </div>
+  </div>
+</section>
+@endif
+
+
+{{-- ═══════════════════════════════════════════════════════
+     6. MUMIS PASITIKI
+═══════════════════════════════════════════════════════ --}}
+@if($clientsLogos)
+<section class="t-clients">
+  <div class="container">
+    @if($clientsHeading)
+      <h2 class="t-clients__heading">{{ $clientsHeading }}</h2>
+    @endif
+    @if($clientsSubtext)
+      <p class="t-clients__subtext">{{ $clientsSubtext }}</p>
+    @endif
+    <div class="t-clients__logos">
+      <div class="t-clients__logos-track">
+        @foreach([1, 2] as $set)
+          <div class="t-clients__logos-set" @if($set === 2) aria-hidden="true" @endif>
+            @foreach($clientsLogos as $logo)
+              @if(!empty($logo['client_logo']))
+                <div class="t-clients__logo">{!! wp_get_attachment_image($logo['client_logo'], 'full') !!}</div>
+              @endif
+            @endforeach
+          </div>
+        @endforeach
       </div>
     </div>
   </div>
+</section>
 @endif
 
-@php
-  $banners = get_field('index_intro_banner');
-  $infoImgDesktop = wp_get_attachment_image_url(get_field('index_info_image'), 'full');
-  $infoImgMobile  = wp_get_attachment_image_url(get_field('index_info_image_mobile') ?: get_field('index_info_image'), 'full');
-  $donImgDesktop  = wp_get_attachment_image_url(get_field('index_donation_image'), 'full');
-  $donImgMobile   = wp_get_attachment_image_url(get_field('index_donation_image_mobile') ?: get_field('index_donation_image'), 'full');
-@endphp
-@php
-  $css = '<style>';
-  if ($banners) {
-    $j = 0;
-    foreach ($banners as $banner) {
-      $d = wp_get_attachment_image_url($banner['index_intro_image'], 'full');
-      $m = wp_get_attachment_image_url($banner['index_intro_image_mobile'] ?: $banner['index_intro_image'], 'full');
-      $css .= ".bg--{$j}{background-image:url({$d})}";
-      $css .= "@media only screen and (max-width:768px){.bg--{$j}{background-image:url({$m})}}";
-      $j++;
-    }
-  }
-  $css .= ".home-info{background-image:url({$infoImgDesktop})}";
-  $css .= ".home-donation{background-image:url({$donImgDesktop})}";
-  $css .= "@media only screen and (max-width:768px){.home-info{background-image:url({$infoImgMobile})}.home-donation{background-image:url({$donImgMobile})}}";
-  $css .= '</style>';
-  echo $css;
-@endphp
+
+{{-- ═══════════════════════════════════════════════════════
+     7. GAUTI PASIŪLYMĄ (FORMA)
+═══════════════════════════════════════════════════════ --}}
+<section class="t-form-section" id="mainForm">
+  <div class="container">
+    <div class="t-form-section__body">
+      <div class="t-form-section__info">
+        @if($formHeading)
+          <h2 class="t-form-section__heading">{!! $formHeading !!}</h2>
+        @endif
+        @if($formDesc)
+          <p class="t-form-section__desc">{{ $formDesc }}</p>
+        @endif
+        <div class="t-form-section__contacts">
+          @if($formPhone)
+            <div class="t-form-section__contact">
+              <span class="t-form-section__contact-icon t-form-section__contact-icon--tel"></span>
+              <a href="tel:{{ preg_replace('/\s+/', '', $formPhone) }}" class="t-form-section__contact-link">{{ $formPhone }}</a>
+            </div>
+          @endif
+          @if($formEmail)
+            <div class="t-form-section__contact">
+              <span class="t-form-section__contact-icon t-form-section__contact-icon--mail"></span>
+              <a href="mailto:{{ $formEmail }}" class="t-form-section__contact-link">{{ $formEmail }}</a>
+            </div>
+          @endif
+        </div>
+      </div>
+      <div class="t-form-section__form">
+        <div class="contact-form">
+          <h3 class="contact-form__heading mb-40 mb-lg-50">
+            {!! get_field('contact_heading_main', 'options') ?: 'Užpildyk užklausą' !!}
+          </h3>
+          <div class="contact-tabs mb-10">
+            <div class="contact-tabs__list mb-15">
+              <ul class="nav nav-tabs" role="tablist">
+                @if(get_field('contact_form', 'options'))
+                  <li class="flex-shrink-0">
+                    <a class="active" id="heading-personal" data-toggle="tab" href="#tab-personal" role="tab">
+                      {!! get_field('contact_form_tab_personal', 'options') ?: 'Privatus klientas' !!}
+                    </a>
+                  </li>
+                @endif
+                @if(get_field('contact_form_business', 'options'))
+                  <li class="flex-shrink-0">
+                    <a id="heading-business" data-toggle="tab" href="#tab-business" role="tab">
+                      {!! get_field('contact_form_tab_business', 'options') ?: 'Verslo klientas' !!}
+                    </a>
+                  </li>
+                @endif
+              </ul>
+            </div>
+          </div>
+          <div class="contact-tabs__content pb-50 pb-md-0" id="myTabContent">
+            @if(get_field('contact_form', 'options'))
+              <div class="tab-pane fade show active" id="tab-personal" role="tabpanel">
+                {!! do_shortcode(get_field('contact_form', 'options')) !!}
+              </div>
+            @endif
+            @if(get_field('contact_form_business', 'options'))
+              <div class="tab-pane fade" id="tab-business" role="tabpanel">
+                {!! do_shortcode(get_field('contact_form_business', 'options')) !!}
+              </div>
+            @endif
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{{-- ═══════════════════════════════════════════════════════
+     8. NAUJIENOS + PARTNERIŲ LOGOTIPAI
+═══════════════════════════════════════════════════════ --}}
+<section class="t-news">
+  <div class="container">
+    <div class="t-news__header">
+      <h2 class="t-news__heading">Naujienos</h2>
+      <a href="{{ get_permalink(get_option('page_for_posts')) ?: '/naujienos/' }}" class="t-news__all-link">
+        Visos naujienos
+      </a>
+    </div>
+
+    @if($newsQuery->have_posts())
+      <div class="t-news__grid">
+        @while($newsQuery->have_posts()) <?php $newsQuery->the_post(); ?>
+          @php
+            $newsTags     = get_the_tags();
+            $newsTag      = $newsTags ? $newsTags[0]->name : '';
+            $extLink      = get_post_meta(get_the_ID(), '_external_media_link', true);
+            $newsUrl      = $extLink ?: get_permalink();
+          @endphp
+          <a href="{{ esc_url($newsUrl) }}"
+             class="t-news__card"
+             {{ $extLink ? 'target="_blank" rel="noopener noreferrer"' : '' }}>
+            @if($newsTag)
+              <div class="t-news__card-tag">{{ $newsTag }}</div>
+            @endif
+            <div class="t-news__card-img-wrap">
+              {!! get_the_post_thumbnail(null, 'blog_card') !!}
+              <div class="post-image-overlay"></div>
+            </div>
+            <div class="t-news__card-body">
+              <h3 class="t-news__card-title">{{ get_the_title() }}</h3>
+              <p class="t-news__card-excerpt">{!! wp_trim_words(get_the_excerpt(), 20, '...') !!}</p>
+            </div>
+          </a>
+        @endwhile
+        <?php wp_reset_postdata(); ?>
+      </div>
+    @endif
+
+    @if($partnerLogos)
+      <div class="t-partners">
+        @foreach($partnerLogos as $pl)
+          @if(!empty($pl['partner_logo']))
+            <div class="t-partners__logo">{!! wp_get_attachment_image($pl['partner_logo'], 'full') !!}</div>
+          @endif
+        @endforeach
+      </div>
+    @endif
+  </div>
+</section>
 
 @endwhile
 @endsection
