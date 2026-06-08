@@ -12,6 +12,7 @@ $header-transition:     0.25s ease;
   left:             0;
   width:            100%;
   z-index:          9999;
+  overflow:         visible;
   background:       #fff;
   backdrop-filter:  blur(2.5px);
   transition:       background $header-transition, box-shadow $header-transition;
@@ -44,7 +45,7 @@ $header-transition:     0.25s ease;
   @include site-container;
 
   display:         flex;
-  align-items:     center;
+  align-items:     stretch;
   justify-content: space-between;
   padding-top:     24px;
   padding-bottom:  24px;
@@ -65,6 +66,7 @@ $header-transition:     0.25s ease;
 .header-logo {
   display:     block;
   flex-shrink: 0;
+  align-self:  center;
   width:       130px;
   line-height: 0;
 
@@ -83,21 +85,28 @@ $header-transition:     0.25s ease;
 
 // ── Desktop nav ───────────────────────────────────────────────────────────────
 .header-nav {
+  align-self: stretch;
+  display:    flex;
+  align-items: stretch;
+
   @include media-breakpoint-down(lg) {
     display: none;
   }
 
   &__list {
     display:     flex;
-    align-items: center;
+    align-items: stretch;
     gap:         24px;
     list-style:  none;
     margin:      0;
     padding:     0;
+    height:      100%;
   }
 
   &__item {
-    position: relative;
+    position:        relative;
+    display:         flex;
+    align-items:     center;
 
     &--has-panel:hover > .header-panel,
     &--has-panel:focus-within > .header-panel {
@@ -143,8 +152,9 @@ $header-transition:     0.25s ease;
 // ── Shared submenu panel ──────────────────────────────────────────────────────
 .header-panel {
   position:       absolute;
-  top:            calc(100% + 8px);
+  top:            100%;
   left:           -16px;
+  margin-top:     0;
   background:     #fff;
   border:         1px solid #e4e4f6;
   border-radius:  0 0 8px 8px;
@@ -155,7 +165,7 @@ $header-transition:     0.25s ease;
   pointer-events: none;
   transform:      translateY(-4px);
   transition:     opacity $header-transition, visibility $header-transition, transform $header-transition;
-  z-index:        10;
+  z-index:        10000;
 
   // Invisible bridge so moving from link to panel does not close the menu
   &::before {
@@ -208,13 +218,11 @@ $header-transition:     0.25s ease;
     width:           38px;
     height:          38px;
     min-width:       38px;
-    border-radius:   8px;
-    background:      rgba(200, 193, 255, 0.17);
-    overflow:        hidden;
+    flex-shrink:     0;
 
     img {
-      width:      24px;
-      height:     24px;
+      width:      38px;
+      height:     38px;
       object-fit: contain;
     }
   }
@@ -251,6 +259,7 @@ $header-transition:     0.25s ease;
 .header-actions {
   display:     flex;
   align-items: center;
+  align-self:  center;
   gap:         16px;
   flex-shrink: 0;
 
@@ -309,6 +318,7 @@ $header-transition:     0.25s ease;
   display:          none;
   flex-direction:   column;
   justify-content:  center;
+  align-self:       center;
   gap:              5px;
   width:            36px;
   height:           36px;
@@ -423,7 +433,8 @@ $header-transition:     0.25s ease;
 
 // Hero pages - offset handled by hero section padding, not main
 .home .main,
-.front-page .main {
+.front-page .main,
+.has-hero-header .main {
   padding-top: 0 !important;
 }
 

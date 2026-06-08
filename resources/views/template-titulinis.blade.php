@@ -10,7 +10,7 @@
 @php
   // ── HERO ──────────────────────────────────────────────────
   $heroSlides  = get_field('home_hero_slides') ?: [];
-  $heroBtnText = get_field('home_hero_button_text') ?: 'Konsultacija';
+  $heroBtnText = \App\theme_hero_button_text();
 
   // ── SERVICES ──────────────────────────────────────────────
   $servLabel   = get_field('home_services_label');
@@ -66,12 +66,6 @@
   $clientsHeading = get_field('home_clients_heading');
   $clientsSubtext = get_field('home_clients_subtext');
   $clientsLogos   = get_field('home_clients_logos') ?: [];
-
-  // ── FORM ──────────────────────────────────────────────────
-  $formHeading = get_field('home_form_heading');
-  $formDesc    = get_field('home_form_description');
-  $formPhone   = get_field('home_form_phone');
-  $formEmail   = get_field('home_form_email');
 
   // ── NEWS ──────────────────────────────────────────────────
   $newsQuery = new WP_Query([
@@ -380,73 +374,7 @@
 {{-- ═══════════════════════════════════════════════════════
      7. GAUTI PASIŪLYMĄ (FORMA)
 ═══════════════════════════════════════════════════════ --}}
-<section class="t-form-section" id="mainForm">
-  <div class="container">
-    <div class="t-form-section__body">
-      <div class="t-form-section__info">
-        @if($formHeading)
-          <h2 class="t-form-section__heading">{!! $formHeading !!}</h2>
-        @endif
-        @if($formDesc)
-          <p class="t-form-section__desc">{{ $formDesc }}</p>
-        @endif
-        <div class="t-form-section__contacts">
-          @if($formPhone)
-            <div class="t-form-section__contact">
-              <span class="t-form-section__contact-icon t-form-section__contact-icon--tel"></span>
-              <a href="tel:{{ preg_replace('/\s+/', '', $formPhone) }}" class="t-form-section__contact-link">{{ $formPhone }}</a>
-            </div>
-          @endif
-          @if($formEmail)
-            <div class="t-form-section__contact">
-              <span class="t-form-section__contact-icon t-form-section__contact-icon--mail"></span>
-              <a href="mailto:{{ $formEmail }}" class="t-form-section__contact-link">{{ $formEmail }}</a>
-            </div>
-          @endif
-        </div>
-      </div>
-      <div class="t-form-section__form">
-        <div class="contact-form">
-          <h3 class="contact-form__heading mb-40 mb-lg-50">
-            {!! get_field('contact_heading_main', 'options') ?: 'Užpildyk užklausą' !!}
-          </h3>
-          <div class="contact-tabs mb-10">
-            <div class="contact-tabs__list mb-15">
-              <ul class="nav nav-tabs" role="tablist">
-                @if(get_field('contact_form', 'options'))
-                  <li class="flex-shrink-0">
-                    <a class="active" id="heading-personal" data-toggle="tab" href="#tab-personal" role="tab">
-                      {!! get_field('contact_form_tab_personal', 'options') ?: 'Privatus klientas' !!}
-                    </a>
-                  </li>
-                @endif
-                @if(get_field('contact_form_business', 'options'))
-                  <li class="flex-shrink-0">
-                    <a id="heading-business" data-toggle="tab" href="#tab-business" role="tab">
-                      {!! get_field('contact_form_tab_business', 'options') ?: 'Verslo klientas' !!}
-                    </a>
-                  </li>
-                @endif
-              </ul>
-            </div>
-          </div>
-          <div class="contact-tabs__content pb-50 pb-md-0" id="myTabContent">
-            @if(get_field('contact_form', 'options'))
-              <div class="tab-pane fade show active" id="tab-personal" role="tabpanel">
-                {!! do_shortcode(get_field('contact_form', 'options')) !!}
-              </div>
-            @endif
-            @if(get_field('contact_form_business', 'options'))
-              <div class="tab-pane fade" id="tab-business" role="tabpanel">
-                {!! do_shortcode(get_field('contact_form_business', 'options')) !!}
-              </div>
-            @endif
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+@include('partials.main-form')
 
 
 {{-- ═══════════════════════════════════════════════════════

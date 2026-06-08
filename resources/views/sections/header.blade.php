@@ -1,4 +1,4 @@
-<header class="header" id="header">
+<header class="header{{ \App\theme_has_hero_header() ? ' header--dark' : ' header--scrolled' }}" id="header">
   <div class="header-inner">
 
     {{-- Logo --}}
@@ -129,7 +129,7 @@
 
     {{-- CTA buttons --}}
     <div class="header-actions">
-      @if(get_field('header_form_button', 'option'))
+      @if(get_field('header_form_button', 'options'))
         @php $linkHeaderButton = get_field('header_form_button', 'options'); @endphp
         <a class="header-btn header-btn--red"
            href="{{ esc_url($linkHeaderButton['url']) }}"
@@ -137,14 +137,14 @@
           {{ $linkHeaderButton['title'] }}<i></i>
         </a>
       @endif
-      @if(get_field('header_offer_button', 'option'))
+      @if(get_field('header_offer_button', 'options'))
         <div class="header-btn header-btn--purple {{ (is_singular('product') || is_singular('donation')) ? 'getMainOfferHeader' : '' }}"
           @if(! is_singular('product') && ! is_singular('donation'))
             id="getOffer"
             data-toggle="modal"
             data-target="#offerModal"
           @endif>
-          {!! get_field('header_offer_button', 'option') !!}<i></i>
+          {!! get_field('header_offer_button', 'options') !!}<i></i>
         </div>
       @endif
     </div>
@@ -176,16 +176,16 @@
       <li><a href="{{ $apie ? esc_url($apie->url) : '/apie-mus/' }}">Apie mus</a></li>
     </ul>
     <div class="header-mobile-nav__actions">
-      @if(get_field('header_form_button', 'option'))
+      @if(get_field('header_form_button', 'options'))
         @php $linkHeaderButton = get_field('header_form_button', 'options'); @endphp
         <a class="header-btn header-btn--red header-btn--full" href="{{ esc_url($linkHeaderButton['url']) }}">
           {{ $linkHeaderButton['title'] }}<i></i>
         </a>
       @endif
-      @if(get_field('header_offer_button', 'option'))
+      @if(get_field('header_offer_button', 'options'))
         <div class="header-btn header-btn--purple header-btn--full"
           data-toggle="modal" data-target="#offerModal">
-          {!! get_field('header_offer_button', 'option') !!}<i></i>
+          {!! get_field('header_offer_button', 'options') !!}<i></i>
         </div>
       @endif
     </div>

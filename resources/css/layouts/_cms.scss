@@ -1,1 +1,26 @@
+.cms-intro {
+  width:               100%;
+  min-height:          420px;
+  padding-top:         220px;
+  padding-bottom:      120px;
+  background-repeat:   no-repeat;
+  background-position: center;
+  background-size:     cover;
+  position:            relative;
 
+  &:before {
+    content:          '';
+    position:         absolute;
+    inset:            0;
+    background-color: rgba(0, 0, 0, 0.25);
+  }
+
+  &__heading {
+    position: relative;
+    z-index:  1;
+  }
+
+  &--404 {
+    min-height: 360px;
+  }
+}

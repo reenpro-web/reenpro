@@ -32,15 +32,6 @@ $t-green-text:   #0f560a;
 
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 1. HERO overrides - full viewport height
-// ─────────────────────────────────────────────────────────────────────────────
-.home-slider .home-intro {
-  height:     100vh !important;
-  max-height: none !important;
-}
-
-
-// ─────────────────────────────────────────────────────────────────────────────
 // 2. PASLAUGOS
 // ─────────────────────────────────────────────────────────────────────────────
 .t-services {
@@ -596,108 +587,6 @@ $t-green-text:   #0f560a;
 @keyframes t-clients-scroll {
   from { transform: translateX(-50%); }
   to   { transform: translateX(0); }
-}
-
-
-// ─────────────────────────────────────────────────────────────────────────────
-// 7. FORMA
-// ─────────────────────────────────────────────────────────────────────────────
-.t-form-section {
-  background: $t-purple-main;
-  padding:    100px 0;
-
-  &__body {
-    display:         flex;
-    align-items:     flex-start;
-    justify-content: space-between;
-    gap:             60px;
-
-    @include media-breakpoint-down(md) {
-      flex-direction: column;
-    }
-  }
-
-  &__info {
-    flex:           0 0 472px;
-    max-width:      472px;
-    display:        flex;
-    flex-direction: column;
-    gap:            48px;
-
-    @include media-breakpoint-down(md) {
-      flex:      1;
-      max-width: 100%;
-    }
-  }
-
-  &__heading {
-    font-size:   40px;
-    font-weight: 700;
-    line-height: 44px;
-    color:       #fff;
-    margin:      0;
-
-    @include media-breakpoint-down(md) {
-      font-size:   28px;
-      line-height: 34px;
-    }
-  }
-
-  &__desc {
-    font-size:   15px;
-    line-height: 19px;
-    color:       #fff;
-    margin:      0;
-  }
-
-  &__contacts {
-    display:        flex;
-    flex-direction: column;
-    gap:            27px;
-  }
-
-  &__contact {
-    display:     flex;
-    align-items: center;
-    gap:         20px;
-  }
-
-  &__contact-icon {
-    width:      25px;
-    height:     25px;
-    flex-shrink: 0;
-    background: no-repeat center / contain;
-
-    &--tel  { background-image: url('../../images/tel-white.svg'); }
-    &--mail { background-image: url('../../images/mail-white.svg'); }
-  }
-
-  &__contact-link {
-    font-size:       17px;
-    line-height:     22px;
-    color:           #fff;
-    text-decoration: none;
-
-    &:hover { text-decoration: underline; color: #fff; }
-  }
-
-  &__form {
-    flex:      0 0 565px;
-    max-width: 565px;
-
-    .contact-form {
-      background: #fff;
-      padding:    40px;
-    }
-
-    @include media-breakpoint-down(md) {
-      flex:      1;
-      max-width: 100%;
-      width:     100%;
-
-      .contact-form { padding: 24px; }
-    }
-  }
 }
 
 

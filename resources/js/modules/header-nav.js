@@ -4,9 +4,15 @@ jQuery(function ($) {
     var $mobileNav = $('#headerMobileNav');
     var $blur    = $('#headerBlur');
 
-    // ── Transparent at hero top / white on scroll (front page only) ──────────
+    // ── Transparent at hero top / white on scroll (hero pages) ────────────────
+    function hasHeroHeader() {
+        return $('body').hasClass('home')
+            || $('body').hasClass('front-page')
+            || $('body').hasClass('has-hero-header');
+    }
+
     function updateHeaderMode() {
-        if ($('body').hasClass('home') || $('body').hasClass('front-page')) {
+        if (hasHeroHeader()) {
             if ($(window).scrollTop() > 10) {
                 $header.addClass('header--scrolled').removeClass('header--dark');
             } else {

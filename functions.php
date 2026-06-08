@@ -50,7 +50,7 @@ Application::configure()
 |
 */
 
-collect(['setup', 'filters', 'ajax', 'admin', 'acf'])
+collect(['setup', 'filters', 'ajax', 'admin', 'acf', 'helpers'])
     ->each(function ($file) {
         if (! locate_template($file = "app/{$file}.php", true, true)) {
             wp_die(

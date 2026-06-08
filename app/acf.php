@@ -71,8 +71,7 @@ add_action('acf/init', function () {
                 'label'         => 'Mygtuko tekstas',
                 'name'          => 'home_hero_button_text',
                 'type'          => 'text',
-                'default_value' => 'Konsultacija',
-                'instructions'  => 'Tekstas rodomas visose skaidrėse.',
+                'instructions'  => 'Palikite tuščią – naudojamas Global Options antraštės „Konsultacija“ arba „Gauti pasiūlymą“ mygtuko tekstas.',
             ],
 
             // ── PASLAUGOS ─────────────────────────────────────
@@ -372,28 +371,50 @@ add_action('acf/init', function () {
                 'label'         => 'Formos antraštė',
                 'name'          => 'home_form_heading',
                 'type'          => 'text',
-                'default_value' => 'Gaukite individualų pasiūlymą!',
+                'instructions'  => 'Palikite tuščią – naudojama Global Options „Kontaktų formos blokas“ antraštė.',
             ],
             [
-                'key'  => 'field_home_form_description',
-                'label' => 'Formos aprašymas',
-                'name'  => 'home_form_description',
-                'type'  => 'textarea',
-                'rows'  => 5,
+                'key'          => 'field_home_form_description',
+                'label'        => 'Formos aprašymas',
+                'name'         => 'home_form_description',
+                'type'         => 'textarea',
+                'rows'         => 5,
+                'instructions' => 'Palikite tuščią – naudojamas Global Options „Kontaktų formos blokas“ tekstas.',
             ],
             [
                 'key'           => 'field_home_form_phone',
                 'label'         => 'Telefonas',
                 'name'          => 'home_form_phone',
                 'type'          => 'text',
-                'default_value' => '+370 600 61009',
+                'instructions'  => 'Palikite tuščią – naudojamas numatytasis +370 600 61009.',
             ],
             [
                 'key'           => 'field_home_form_email',
                 'label'         => 'El. paštas',
                 'name'          => 'home_form_email',
                 'type'          => 'email',
-                'default_value' => 'info@reenpro.lt',
+                'instructions'  => 'Palikite tuščią – naudojamas numatytasis info@reenpro.lt.',
+            ],
+            [
+                'key'          => 'field_home_contact_heading_main',
+                'label'        => 'Formos antraštė (virš laukų)',
+                'name'         => 'home_contact_heading_main',
+                'type'         => 'text',
+                'instructions' => 'Palikite tuščią – naudojama Global Options „Pagrindinė antraštė (virš formų)“.',
+            ],
+            [
+                'key'          => 'field_home_contact_form_tab_personal',
+                'label'        => 'Skirtuko tekstas (privatus)',
+                'name'         => 'home_contact_form_tab_personal',
+                'type'         => 'text',
+                'instructions' => 'Palikite tuščią – naudojamas Global Options privataus kliento skirtuko tekstas.',
+            ],
+            [
+                'key'          => 'field_home_contact_form_tab_business',
+                'label'        => 'Skirtuko tekstas (verslas)',
+                'name'         => 'home_contact_form_tab_business',
+                'type'         => 'text',
+                'instructions' => 'Palikite tuščią – naudojamas Global Options verslo kliento skirtuko tekstas.',
             ],
 
             // ── PARTNERIŲ LOGOTIPAI ───────────────────────────
@@ -419,6 +440,39 @@ add_action('acf/init', function () {
             ['param' => 'page_type', 'operator' => '==', 'value' => 'front_page'],
         ]],
         'menu_order' => 0,
+        'position'   => 'normal',
+        'style'      => 'default',
+        'active'     => true,
+    ]);
+
+    acf_add_local_field_group([
+        'key'    => 'group_global_options_car_form_labels',
+        'title'  => 'Įkrovimo stotelės formos etiketės',
+        'fields' => [
+            [
+                'key'          => 'field_contact_car_heading_main',
+                'label'        => 'Pagrindinė antraštė (virš formų)',
+                'name'         => 'contact_car_heading_main',
+                'type'         => 'text',
+                'instructions' => 'Naudojama tik įkrovimo stotelių formoje ir modale.',
+            ],
+            [
+                'key'   => 'field_contact_car_form_tab_personal',
+                'label' => 'Pasirinkimo tekstas (privataus)',
+                'name'  => 'contact_car_form_tab_personal',
+                'type'  => 'text',
+            ],
+            [
+                'key'   => 'field_contact_car_form_tab_business',
+                'label' => 'Pasirinkimo tekstas (verslas)',
+                'name'  => 'contact_car_form_tab_business',
+                'type'  => 'text',
+            ],
+        ],
+        'location' => [[
+            ['param' => 'options_page', 'operator' => '==', 'value' => 'global-options'],
+        ]],
+        'menu_order' => 20,
         'position'   => 'normal',
         'style'      => 'default',
         'active'     => true,

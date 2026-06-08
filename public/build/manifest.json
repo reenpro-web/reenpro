@@ -4,7 +4,7 @@
     "src": "editor.deps.json"
   },
   "resources/css/app.scss": {
-    "file": "assets/app-CXKRkt-F.css",
+    "file": "assets/app-D7-Ib_Z9.css",
     "name": "app",
     "names": [
       "app.css"
@@ -21,8 +21,6 @@
       "assets/location-jovSngXJ.svg",
       "assets/tel-black-C6ctvkxH.svg",
       "assets/mail-black-DQ5HcVEE.svg",
-      "assets/tel-white-DBNpTBtk.svg",
-      "assets/mail-white-X-nlufHj.svg",
       "assets/system-pattern-DH02fP6y.png",
       "assets/slider-arrow-white-D_LneJCu.svg",
       "assets/slider-arrow-purple-jRaQwD5g.svg",
@@ -30,6 +28,8 @@
       "assets/project-power-e1ftSK0y.svg",
       "assets/project-client-D7Ln2JS-.svg",
       "assets/file-reenpro-CJJcudyA.svg",
+      "assets/tel-white-DBNpTBtk.svg",
+      "assets/mail-white-X-nlufHj.svg",
       "assets/location-white-B7mGwCcu.svg",
       "assets/tel-outline-BMiT_9kC.svg",
       "assets/mail-outline-CN9HbkrO.svg"
@@ -161,7 +161,7 @@
     "src": "resources/images/tel.svg"
   },
   "resources/js/app.js": {
-    "file": "assets/app-DjoLOfcz.js",
+    "file": "assets/app-CcY4AGxL.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true

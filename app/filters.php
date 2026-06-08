@@ -16,6 +16,17 @@ add_filter('excerpt_more', function () {
 });
 
 /**
+ * Pages with hero intros use a transparent header at the top.
+ */
+add_filter('body_class', function (array $classes): array {
+    if (theme_has_hero_header()) {
+        $classes[] = 'has-hero-header';
+    }
+
+    return $classes;
+});
+
+/**
  * Remap page templates to Sage 11 Blade equivalents.
  * Runs after Acorn's template_include (priority 100).
  */
@@ -27,17 +38,24 @@ add_filter('template_include', function ($template) {
     // Front page always uses titulinis regardless of stored template slug.
     if (is_front_page()) {
         app()['sage.view'] = 'template-titulinis';
+
         return $template;
     }
 
-    $map = [
-        'index.php'                       => 'template-titulinis',
-        'template-irangos-kategorija.php' => 'template-irangos-kategorija',
-    ];
     $slug = get_page_template_slug();
-    if (isset($map[$slug])) {
-        app()['sage.view'] = $map[$slug];
+
+    if ($slug === 'index.php') {
+        app()['sage.view'] = 'template-titulinis';
+
+        return $template;
     }
+
+    $view = theme_blade_view_for_page_template($slug);
+
+    if ($view) {
+        app()['sage.view'] = $view;
+    }
+
     return $template;
 }, 200);
 
