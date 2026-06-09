@@ -98,18 +98,19 @@ add_action('phpmailer_init', function ($phpmailer) {
 }, 20);
 
 /**
- * Local-only: log mail failures for CF7 debugging.
+ * Log mail failures for CF7 debugging (local + production).
  */
 add_action('wp_mail_failed', function ($wp_error) {
-    if (wp_get_environment_type() !== 'local' && ! in_array(wp_parse_url(home_url('/'), PHP_URL_HOST), ['localhost', '127.0.0.1'], true)) {
+    if (! is_wp_error($wp_error)) {
         return;
     }
-    if (is_wp_error($wp_error)) {
-        error_log('[local wp_mail_failed] ' . $wp_error->get_error_message());
-        $data = $wp_error->get_error_data();
-        if (! empty($data)) {
-            error_log('[local wp_mail_failed data] ' . wp_json_encode($data));
-        }
+
+    $prefix = wp_get_environment_type() === 'local' ? '[local wp_mail_failed]' : '[wp_mail_failed]';
+    error_log($prefix . ' ' . $wp_error->get_error_message());
+
+    $data = $wp_error->get_error_data();
+    if (! empty($data)) {
+        error_log($prefix . ' data] ' . wp_json_encode($data));
     }
 }, 20);
 

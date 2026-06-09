@@ -6,6 +6,43 @@ jQuery(window).on("load", function () {
     $form.find('button[type="submit"]').prop("disabled", false);
   }
 
+  function showCf7ErrorMessage(formEl, fallbackMessage) {
+    var $form = jQuery(formEl);
+    var message =
+      (fallbackMessage) ||
+      ($form.find(".wpcf7-response-output").text().trim()) ||
+      "Bandant išsiųsti pranešimą įvyko klaida. Pabandykite dar kartą vėliau.";
+
+    $form.find(".custom-error").remove();
+
+    var $accept = $form.find(".contact-form__accept");
+    if ($accept.length) {
+      $accept.after('<div class="error-message custom-error">' + message + "</div>");
+    } else {
+      $form.find('button[type="submit"]').first().before(
+        '<div class="error-message custom-error">' + message + "</div>"
+      );
+    }
+
+    $form.find(".wpcf7-response-output").show();
+  }
+
+  function logCf7Submit(event) {
+    var detail = event.detail || {};
+    var payload = {
+      status: detail.status,
+      contactFormId: detail.contactFormId,
+      message: detail.apiResponse && detail.apiResponse.message,
+    };
+
+    if (detail.status === "mail_sent") {
+      console.info("[CF7]", payload);
+      return;
+    }
+
+    console.warn("[CF7]", payload, detail.apiResponse || null);
+  }
+
   function lockCf7Form(formEl) {
     var $form = jQuery(formEl);
     $form.data("submitting", true);
@@ -276,6 +313,13 @@ jQuery(window).on("load", function () {
     "wpcf7mailfailed",
     function (event) {
       unlockCf7Form(event.target);
+      showCf7ErrorMessage(
+        event.target,
+        event.detail &&
+          event.detail.apiResponse &&
+          event.detail.apiResponse.message
+      );
+      logCf7Submit(event);
     },
     false
   );
@@ -284,6 +328,14 @@ jQuery(window).on("load", function () {
     "wpcf7spam",
     function (event) {
       unlockCf7Form(event.target);
+      showCf7ErrorMessage(
+        event.target,
+        (event.detail &&
+          event.detail.apiResponse &&
+          event.detail.apiResponse.message) ||
+          "Užklausa buvo atmesta. Pabandykite dar kartą vėliau."
+      );
+      logCf7Submit(event);
     },
     false
   );
@@ -295,9 +347,7 @@ jQuery(window).on("load", function () {
     "wpcf7submit",
     function (event) {
       unlockCf7Form(event.target);
-      if (window.location.hostname === "localhost") {
-        console.debug("CF7 submit", event.detail && event.detail.status, event.detail && event.detail.contactFormId);
-      }
+      logCf7Submit(event);
     },
     false
   );

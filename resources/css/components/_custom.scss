@@ -484,8 +484,21 @@ article .single-blog-post-table-heading{
     padding-top: 10px;
 }
 
-.wpcf7-response-output{
-    display: none;
+// Hide CF7 default messages for validation (theme uses .custom-error),
+// but keep mail/server failures visible.
+.wpcf7-response-output {
+  display: none;
+}
+
+.wpcf7-form.failed .wpcf7-response-output,
+.wpcf7-form.spam .wpcf7-response-output,
+.wpcf7-form.unaccepted .wpcf7-response-output {
+  display: block;
+  margin-top: 20px;
+  padding: 12px 8px;
+  border: 1px solid $c-red;
+  color: $c-red;
+  font-size: 13px;
 }
 
 /* Main page */
