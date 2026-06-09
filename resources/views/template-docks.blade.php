@@ -63,9 +63,9 @@
                       <option value="">Automobilio modelis</option>
                       @while($loop->have_posts()) <?php ->the_post(); ?>
                         <?php $terms = get_the_terms(get_the_ID(), 'car_category'); ?>
-                        <option value="{{ get_the_title() }}" id="{{ get_the_ID() }}"
+                        <option value="{!! \App\theme_esc_text(get_the_title()) !!}" id="{{ get_the_ID() }}"
                                 data-id="@foreach($terms as $term){{ $term->term_id }}@endforeach">
-                          {{ get_field('car_title', get_the_ID()) ?: get_the_title() }}
+                          {!! \App\theme_esc_text(get_field('car_title', get_the_ID()) ?: get_the_title()) !!}
                         </option>
                       @endwhile
                       <?php wp_reset_postdata(); ?>
@@ -93,7 +93,7 @@
                 <div class="row d-none selected-car" id="{{ get_the_ID() }}">
                   <div class="col-12 col-md-4 col-lg-5">
                     <h3 class="mb-0">@foreach($terms as $term){{ $term->name }}@endforeach</h3>
-                    <h3 class="mb-0">{{ get_the_title() }}</h3>
+                    <h3 class="mb-0">{!! \App\theme_esc_text(get_the_title()) !!}</h3>
                   </div>
                   <div class="col-12 col-md-8 col-lg-7">
                     @if(get_field('battery', get_the_ID()) || get_field('charging_speed', get_the_ID()) || get_field('charging_time', get_the_ID()))

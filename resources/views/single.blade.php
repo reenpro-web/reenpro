@@ -16,7 +16,7 @@
           @if($tags)
             <div class="single-post-tag position-absolute">{{ esc_html($tags[0]->name) }}</div>
           @endif
-          <h1 class="single-post-heading c-white w-100">{{ get_the_title() }}</h1>
+          <h1 class="single-post-heading c-white w-100">{!! \App\theme_esc_text(get_the_title()) !!}</h1>
           <p class="single-post-date small c-white">{{ get_the_date('Y-m-d') }}</p>
           @if(has_excerpt())
             <div class="single-post-excerpt c-white">{{ get_the_excerpt() }}</div>

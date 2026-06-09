@@ -105,6 +105,17 @@ function theme_hero_button_text(?int $post_id = null): string
     return theme_field_has_value($offer_text) ? (string) $offer_text : 'Konsultacija';
 }
 
+/**
+ * Escape plain text that may already contain WordPress HTML entities.
+ *
+ * WP stores titles and menu labels with entities (e.g. &#8211;, &#038;). Blade's
+ * {{ }} double-escapes the ampersand in those entities, showing literal codes.
+ */
+function theme_esc_text(string $text): string
+{
+    return esc_html(wp_specialchars_decode($text, ENT_QUOTES));
+}
+
 function theme_field_has_value(mixed $value): bool
 {
     if ($value === null || $value === false) {

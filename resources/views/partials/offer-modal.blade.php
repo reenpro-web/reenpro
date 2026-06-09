@@ -15,9 +15,9 @@
     <option value="">Automobilio modelis</option>
     @while($carLoop->have_posts()) <?php $carLoop->the_post(); ?>
       <?php $terms = get_the_terms(get_the_ID(), 'car_category'); ?>
-      <option value="{{ get_the_title() }}"
+      <option value="{!! \App\theme_esc_text(get_the_title()) !!}"
               data-id="@foreach($terms as $term){{ $term->term_id }}@endforeach">
-        {{ get_field('car_title', get_the_ID()) ?: get_the_title() }}
+        {!! \App\theme_esc_text(get_field('car_title', get_the_ID()) ?: get_the_title()) !!}
       </option>
     @endwhile
     <?php wp_reset_postdata(); ?>

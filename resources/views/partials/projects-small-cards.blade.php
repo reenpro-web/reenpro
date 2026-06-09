@@ -50,7 +50,7 @@
                   </div>
                 </div>
                 <div class="{{ $descClass }}">
-                  <h4 class="mb-10 mb-lg-30">{{ get_the_title($postID) }}</h4>
+                  <h4 class="mb-10 mb-lg-30">{!! \App\theme_esc_text(get_the_title($postID)) !!}</h4>
                   @if(get_field('project_desc', $postID))
                     <div class="projects-card__desc mb-30">{!! get_field('project_desc', $postID) !!}</div>
                   @endif

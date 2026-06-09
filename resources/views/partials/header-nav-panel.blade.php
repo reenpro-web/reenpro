@@ -18,9 +18,9 @@
           </div>
         @endif
         <span class="header-panel__text">
-          <span class="header-panel__title">{{ $title }}</span>
+          <span class="header-panel__title">{!! \App\theme_esc_text($title) !!}</span>
           @if($desc)
-            <span class="header-panel__desc">{{ $desc }}</span>
+            <span class="header-panel__desc">{!! \App\theme_esc_text($desc) !!}</span>
           @endif
         </span>
       </a>

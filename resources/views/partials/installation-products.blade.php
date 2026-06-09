@@ -99,7 +99,7 @@
               @while($tabLoop->have_posts()) <?php $tabLoop->the_post(); ?>
                 <div class="mb-20 text-md-center d-inline-block">
                   <div class="products-title c-white {{ $productCounter === 0 ? 'active' : '' }}" data-index="{{ $productCounter }}">
-                    {{ get_the_title() }}
+                    {!! \App\theme_esc_text(get_the_title()) !!}
                   </div>
                 </div>
                 @php $productCounter++; @endphp
@@ -127,7 +127,7 @@
                   </div>
                 </div>
                 <div class="col-12 col-lg-6 col-xl-5">
-                  <h3 class="c-white mb-50">{{ get_the_title() }}</h3>
+                  <h3 class="c-white mb-50">{!! \App\theme_esc_text(get_the_title()) !!}</h3>
                   @if(have_rows('product_spec'))
                     <div class="row mb-20">
                       @while(have_rows('product_spec')) <?php the_row(); ?>

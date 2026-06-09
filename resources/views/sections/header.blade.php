@@ -167,7 +167,7 @@
         </button>
         <ul class="header-mobile-nav__sub">
           @foreach($paslaugos_sub as $item)
-            <li><a href="{{ esc_url($item->url) }}">{{ wp_strip_all_tags($item->title) }}</a></li>
+            <li><a href="{{ esc_url($item->url) }}">{!! \App\theme_esc_text(wp_strip_all_tags($item->title)) !!}</a></li>
           @endforeach
         </ul>
       </li>

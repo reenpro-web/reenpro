@@ -56,7 +56,7 @@
           </div>
           <div class="col-12 {{ $projectCounter % 2 ? 'order-lg-2 col-lg-6 col-xl-4' : 'col-lg-5 col-xl-4 order-lg-1 offset-lg-1 offset-xl-2' }}">
             <div class="{{ $projectCounter % 2 ? 'mr-lg-100' : 'ml-lg-100' }}">
-              <h4 class="mb-20 mb-md-10 fs-25">{{ get_the_title() }}</h4>
+              <h4 class="mb-20 mb-md-10 fs-25">{!! \App\theme_esc_text(get_the_title()) !!}</h4>
               @if(get_field('project_desc'))
                 <div class="projects-card__desc mb-30">{!! get_field('project_desc') !!}</div>
               @endif

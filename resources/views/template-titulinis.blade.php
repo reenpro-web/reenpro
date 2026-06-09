@@ -409,7 +409,7 @@
               <div class="post-image-overlay"></div>
             </div>
             <div class="t-news__card-body">
-              <h3 class="t-news__card-title">{{ get_the_title() }}</h3>
+              <h3 class="t-news__card-title">{!! \App\theme_esc_text(get_the_title()) !!}</h3>
               <p class="t-news__card-excerpt">{!! wp_trim_words(get_the_excerpt(), 20, '...') !!}</p>
             </div>
           </a>
