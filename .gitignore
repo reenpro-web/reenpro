@@ -4,3 +4,4 @@
 !/public/build
 .env
 npm-debug.log
+vendor.zip
