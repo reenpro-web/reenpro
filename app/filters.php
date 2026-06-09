@@ -76,7 +76,7 @@ add_filter('wp_nav_menu_objects', function ($items, $args) {
  * Local-only: disable CF7 spam checks so test submissions go through.
  */
 add_filter('wpcf7_spam', function ($is_spam) {
-    if (wp_get_environment_type() === 'local' || in_array(wp_parse_url(home_url('/'), PHP_URL_HOST), ['localhost', '127.0.0.1'], true)) {
+    if (theme_is_local_host()) {
         return false;
     }
     return $is_spam;
@@ -84,9 +84,12 @@ add_filter('wpcf7_spam', function ($is_spam) {
 
 /**
  * Local-only: route WP mail through LocalWP Mailpit.
+ *
+ * Guarded by the strict host check so it can NEVER run on production. If it did,
+ * it would force all mail through 127.0.0.1:10006 and every send would time out.
  */
 add_action('phpmailer_init', function ($phpmailer) {
-    if (wp_get_environment_type() !== 'local' && ! in_array(wp_parse_url(home_url('/'), PHP_URL_HOST), ['localhost', '127.0.0.1'], true)) {
+    if (! theme_is_local_host()) {
         return;
     }
     $phpmailer->isSMTP();
@@ -105,7 +108,7 @@ add_action('wp_mail_failed', function ($wp_error) {
         return;
     }
 
-    $prefix = wp_get_environment_type() === 'local' ? '[local wp_mail_failed]' : '[wp_mail_failed]';
+    $prefix = theme_is_local_host() ? '[local wp_mail_failed]' : '[wp_mail_failed]';
     error_log($prefix . ' ' . $wp_error->get_error_message());
 
     $data = $wp_error->get_error_data();
@@ -118,7 +121,7 @@ add_action('wp_mail_failed', function ($wp_error) {
  * Local-only: fix @localhost recipient addresses for Mailpit.
  */
 add_filter('wpcf7_mail_components', function ($components) {
-    if (wp_get_environment_type() !== 'local' && ! in_array(wp_parse_url(home_url('/'), PHP_URL_HOST), ['localhost', '127.0.0.1'], true)) {
+    if (! theme_is_local_host()) {
         return $components;
     }
     if (! empty($components['recipient'])) {
@@ -134,7 +137,7 @@ add_filter('register_post_type_args', function ($args, $post_type) {
     if ($post_type !== 'donation') {
         return $args;
     }
-    if (wp_get_environment_type() !== 'local' && ! in_array(wp_parse_url(home_url('/'), PHP_URL_HOST), ['localhost', '127.0.0.1'], true)) {
+    if (! theme_is_local_host()) {
         return $args;
     }
     $args['publicly_queryable'] = true;

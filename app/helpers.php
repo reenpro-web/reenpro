@@ -3,6 +3,23 @@
 namespace App;
 
 /**
+ * Strict local-environment check.
+ *
+ * Only true when the site is actually served from a localhost host. This is the
+ * only place Mailpit/LocalWP services exist, so any local-only hooks (e.g.
+ * redirecting mail to 127.0.0.1) must rely on this and never on
+ * wp_get_environment_type(), which can be misconfigured on production and would
+ * otherwise hijack live mail to a non-existent local SMTP server.
+ */
+function theme_is_local_host(): bool
+{
+    $host = wp_parse_url(home_url('/'), PHP_URL_HOST);
+
+    return in_array($host, ['localhost', '127.0.0.1', '::1'], true)
+        || (is_string($host) && str_ends_with($host, '.local'));
+}
+
+/**
  * Whether the current view should use a transparent header over a hero section.
  */
 function theme_has_hero_header(): bool

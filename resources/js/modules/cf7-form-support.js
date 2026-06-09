@@ -1,15 +1,9 @@
 /**
- * CF7 helpers: visible errors, console diagnostics, reCAPTCHA stall detection.
- * Runs immediately — must not wait for window.load.
+ * CF7 helpers: diagnostics, stuck-form recovery, visible validation errors.
  */
 (function () {
   function showCf7FormError(formEl, message) {
-    var form = formEl;
-    if (!form || !form.closest) {
-      return;
-    }
-
-    var $form = window.jQuery ? window.jQuery(form) : null;
+    var $form = window.jQuery ? window.jQuery(formEl) : null;
     if (!$form || !$form.length) {
       return;
     }
@@ -28,6 +22,22 @@
     $form.find(".wpcf7-response-output").show();
   }
 
+  function unlockCf7Form(formEl) {
+    var $form = window.jQuery ? window.jQuery(formEl) : null;
+    if (!$form || !$form.length) {
+      return;
+    }
+
+    $form.removeClass("submitting sending validating resettings");
+    $form.attr("data-status", "init");
+    if (formEl.wpcf7) {
+      formEl.wpcf7.status = "init";
+    }
+    $form.data("submitting", false);
+    $form.find('button[type="submit"], input[type="submit"]').prop("disabled", false);
+    $form.find(".wpcf7-spinner").css("visibility", "");
+  }
+
   function logCf7(eventName, detail) {
     if (detail && detail.status === "mail_sent") {
       console.info("[CF7]", eventName, detail);
@@ -43,13 +53,22 @@
       "wpcf7spam",
       "wpcf7mailfailed",
       "wpcf7mailsent",
-      "wpcf7submitting",
+      "wpcf7statuschanged",
       "wpcf7submit",
     ].forEach(function (eventName) {
       document.addEventListener(
         eventName,
         function (event) {
           logCf7(eventName, event.detail || null);
+
+          if (
+            eventName === "wpcf7mailfailed" ||
+            eventName === "wpcf7invalid" ||
+            eventName === "wpcf7unaccepted" ||
+            eventName === "wpcf7spam"
+          ) {
+            unlockCf7Form(event.target);
+          }
         },
         false
       );
@@ -86,45 +105,20 @@
           return;
         }
 
+        var status = form.getAttribute("data-status");
+
         console.info("[CF7] Submit button clicked", {
           formId: form.closest(".wpcf7") && form.closest(".wpcf7").id,
-          status: form.getAttribute("data-status"),
-          grecaptcha: typeof window.grecaptcha,
+          status: status,
         });
 
-        var progressed = false;
-        var settled = false;
-
-        function onSubmitting() {
-          progressed = true;
-        }
-
-        function onSubmit() {
-          settled = true;
-        }
-
-        form.addEventListener("wpcf7submitting", onSubmitting, { once: true });
-        form.addEventListener("wpcf7submit", onSubmit, { once: true });
-
-        window.setTimeout(function () {
-          form.removeEventListener("wpcf7submitting", onSubmitting);
-          form.removeEventListener("wpcf7submit", onSubmit);
-
-          if (settled || progressed) {
-            return;
-          }
-
-          var message =
-            typeof window.grecaptcha === "undefined"
-              ? "Saugos patikra (reCAPTCHA) neįkelta. Priimkite slapukus ir perkraukite puslapį."
-              : "Formos nepavyko išsiųsti. Priimkite slapukus, išjunkite reklamos blokavimą ir bandykite dar kartą.";
-
-          showCf7FormError(form, message);
-          console.warn("[CF7] Submit stalled — likely reCAPTCHA blocked", {
-            grecaptcha: typeof window.grecaptcha,
-            wpcf7: typeof window.wpcf7,
+        // Recover forms left in "submitting" after a failed/slow request.
+        if (status === "submitting" || status === "validating") {
+          unlockCf7Form(form);
+          console.warn("[CF7] Unlocked stuck form before retry", {
+            previousStatus: status,
           });
-        }, 4000);
+        }
       },
       true
     );
