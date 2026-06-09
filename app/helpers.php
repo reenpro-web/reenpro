@@ -15,6 +15,10 @@ function theme_has_hero_header(): bool
         return true;
     }
 
+    if (is_post_type_archive('projects') || is_tax(['projects_category', 'installation_category'])) {
+        return true;
+    }
+
     if (! is_page()) {
         return false;
     }

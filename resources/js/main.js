@@ -192,6 +192,10 @@
          * Sticky header
          */
 
+        var isHeroHeader = document.body.classList.contains('has-hero-header')
+          || document.body.classList.contains('home')
+          || document.body.classList.contains('front-page');
+
         var headroom = new Headroom(document.querySelector("#header"), {
           offset: 50,
           tolerance: {
@@ -203,7 +207,7 @@
             pinned: "header--pinned",
             unpinned: "header--unpinned",
             top: "header--top",
-            notTop: "header--scrolled",
+            notTop: isHeroHeader ? "header--headroom-not-top" : "header--scrolled",
             bottom: "header--bottom",
             notBottom: "header--not-bottom"
           },

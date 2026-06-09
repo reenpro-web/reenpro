@@ -1,8 +1,29 @@
 jQuery(window).on("load", function () {
   function unlockCf7Form(formEl) {
     var $form = jQuery(formEl);
+    clearTimeout($form.data("submitUnlockTimer"));
     $form.data("submitting", false);
     $form.find('button[type="submit"]').prop("disabled", false);
+  }
+
+  function lockCf7Form(formEl) {
+    var $form = jQuery(formEl);
+    $form.data("submitting", true);
+
+    // Defer disable so CF7 can start its submit/AJAX cycle first.
+    setTimeout(function () {
+      $form.find('button[type="submit"]').prop("disabled", true);
+    }, 0);
+
+    clearTimeout($form.data("submitUnlockTimer"));
+    $form.data(
+      "submitUnlockTimer",
+      setTimeout(function () {
+        if ($form.data("submitting")) {
+          unlockCf7Form(formEl);
+        }
+      }, 30000)
+    );
   }
 
 	jQuery(document).ready(function() {
@@ -365,19 +386,17 @@ jQuery(window).on("load", function () {
     }
   }
 	
-	jQuery(document).on("submit", ".wpcf7-form", function(e) {
-  var $form = jQuery(this);
+  jQuery(document).on("submit", ".wpcf7-form", function (e) {
+    var $form = jQuery(this);
 
-  // If another submit handler already started this submit cycle, do not block.
-  // Returning early prevents cross-handler race conditions.
-  if ($form.data("submitting")) {
-    return;
-  }
+    if ($form.data("submitting")) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      return false;
+    }
 
-  // mark it and disable the button
-  $form.data("submitting", true);
-  $form.find('button[type="submit"]').prop("disabled", true);
-});
+    lockCf7Form(this);
+  });
 
   // Set up MutationObservers for each type
   config.forEach(function (item) {

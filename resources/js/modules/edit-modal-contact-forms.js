@@ -2,23 +2,12 @@ jQuery(window).on("load", function () {
   jQuery(document).ready(function () {
     function unlockCf7Form(formEl) {
       var $form = jQuery(formEl);
+      clearTimeout($form.data("submitUnlockTimer"));
       $form.data("submitting", false);
       $form.find('button[type="submit"]').prop("disabled", false);
     }
-    
-    // Prevent double submission
-    jQuery(document).on("submit", ".wpcf7-form", function (e) {
-      var $form = jQuery(this);
-      // If another submit handler already started this submit cycle, do not block.
-      if ($form.data("submitting")) {
-        return;
-      }
-      // mark it and disable the button
-      $form.data("submitting", true);
-      $form.find('button[type="submit"]').prop("disabled", true);
-    });
 
-    // Show custom error message when form is invalid
+    // Submit locking is handled globally in edit-contact-forms.js.
     document.addEventListener(
       "wpcf7invalid",
       function (event) {
