@@ -1,5 +1,4 @@
-jQuery(window).on("load", function () {
-  jQuery(document).ready(function () {
+jQuery(function () {
     function unlockCf7Form(formEl) {
       var $form = jQuery(formEl);
       clearTimeout($form.data("submitUnlockTimer"));
@@ -59,35 +58,12 @@ jQuery(window).on("load", function () {
       false
     );
 
-    function showModalCf7Error(event, fallbackMessage) {
-      var $form = jQuery(event.target);
-      var message =
-        fallbackMessage ||
-        ($form.find(".wpcf7-response-output").text().trim()) ||
-        "Bandant išsiųsti pranešimą įvyko klaida. Pabandykite dar kartą vėliau.";
-
-      $form.closest(".contact-form").find(".custom-error").remove();
-      var $accept = $form.find(".contact-form__accept");
-      if ($accept.length) {
-        $accept.after('<div class="error-message custom-error">' + message + "</div>");
-      } else {
-        $form.find('button[type="submit"]').first().before(
-          '<div class="error-message custom-error">' + message + "</div>"
-        );
-      }
-      $form.find(".wpcf7-response-output").show();
-    }
-
     document.addEventListener(
       "wpcf7mailfailed",
       function (event) {
         unlockCf7Form(event.target);
-        showModalCf7Error(
-          event,
-          event.detail &&
-            event.detail.apiResponse &&
-            event.detail.apiResponse.message
-        );
+        jQuery(event.target).find(".custom-error").remove();
+        jQuery(event.target).find(".wpcf7-response-output").show();
         console.warn("[CF7 modal]", event.detail || null);
       },
       false
@@ -97,13 +73,8 @@ jQuery(window).on("load", function () {
       "wpcf7spam",
       function (event) {
         unlockCf7Form(event.target);
-        showModalCf7Error(
-          event,
-          (event.detail &&
-            event.detail.apiResponse &&
-            event.detail.apiResponse.message) ||
-            "Užklausa buvo atmesta. Pabandykite dar kartą vėliau."
-        );
+        jQuery(event.target).find(".custom-error").remove();
+        jQuery(event.target).find(".wpcf7-response-output").show();
         console.warn("[CF7 modal]", event.detail || null);
       },
       false
@@ -208,5 +179,4 @@ jQuery(window).on("load", function () {
       },
       false
     );
-  });
 });

@@ -1,4 +1,4 @@
-jQuery(window).on("load", function () {
+jQuery(function () {
   function unlockCf7Form(formEl) {
     var $form = jQuery(formEl);
     clearTimeout($form.data("submitUnlockTimer"));
@@ -313,12 +313,8 @@ jQuery(window).on("load", function () {
     "wpcf7mailfailed",
     function (event) {
       unlockCf7Form(event.target);
-      showCf7ErrorMessage(
-        event.target,
-        event.detail &&
-          event.detail.apiResponse &&
-          event.detail.apiResponse.message
-      );
+      jQuery(event.target).find(".custom-error").remove();
+      jQuery(event.target).find(".wpcf7-response-output").show();
       logCf7Submit(event);
     },
     false
@@ -328,13 +324,8 @@ jQuery(window).on("load", function () {
     "wpcf7spam",
     function (event) {
       unlockCf7Form(event.target);
-      showCf7ErrorMessage(
-        event.target,
-        (event.detail &&
-          event.detail.apiResponse &&
-          event.detail.apiResponse.message) ||
-          "Užklausa buvo atmesta. Pabandykite dar kartą vėliau."
-      );
+      jQuery(event.target).find(".custom-error").remove();
+      jQuery(event.target).find(".wpcf7-response-output").show();
       logCf7Submit(event);
     },
     false

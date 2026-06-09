@@ -1,6 +1,7 @@
 import Headroom from 'headroom.js';
 window.Headroom = Headroom;
 
+import './modules/cf7-form-support.js';
 import './main.js';
 import './modules/edit-contact-forms.js';
 import './modules/edit-modal-contact-forms.js';

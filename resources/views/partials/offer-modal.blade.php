@@ -106,7 +106,7 @@
                       </div>
                     </div>
                     <div class="contact-tabs">
-                      <div class="contact-tabs__content pb-50 pb-md-0" id="myTabContent">
+                      <div class="contact-tabs__content pb-50 pb-md-0" id="myTabContent-modal">
                         <div class="tab-pane fade show active" id="tab-personal-modal" role="tabpanel">
                           {!! do_shortcode(get_field('contact_form', 'options')) !!}
                         </div>

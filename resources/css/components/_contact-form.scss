@@ -58,11 +58,13 @@
       border-radius: 0;
     }
 
-    &.invalid {
+    &.invalid,
+    &.unaccepted {
       .wpcf7-response-output {
         border: 1px solid $c-red;
         background-color: $c-white;
-        display: none;
+        display: block;
+        color: $c-red;
         margin-top: 20px;
       }
     }
