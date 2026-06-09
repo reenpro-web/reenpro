@@ -43,11 +43,31 @@ jQuery(window).on("load", function () {
 	});
 
   // Show custom error message when form is invalid
+  function validateSelect2Fields(formEl) {
+    var $form = jQuery(formEl);
+
+    config.forEach(function (item) {
+      var $select = $form.find('select[name="' + item.selectName + '"]');
+      if (!$select.length || !$select.is(":visible")) {
+        return;
+      }
+
+      if (!$select.val()) {
+        setTimeout(function () {
+          markSelect2Invalid($select);
+        }, shortTimeout);
+      } else {
+        clearSelect2Invalid($select);
+      }
+    });
+  }
+
   document.addEventListener(
     "wpcf7invalid",
     function (event) {
 		  var $form = jQuery(event.target);
 		  unlockCf7Form(event.target);
+      validateSelect2Fields(event.target);
       if (jQuery(event.target).is("#tab-personal .wpcf7-form")) {
         if (
           !jQuery("#tab-personal .contact-form__accept").next(
@@ -330,26 +350,6 @@ jQuery(window).on("load", function () {
     }
   }
 
-  // Validate select2 fields in the currently submitted form only.
-  jQuery(document).on("submit", ".wpcf7-form", function () {
-    var $form = jQuery(this);
-
-    config.forEach(function (item) {
-      var $select = $form.find('select[name="' + item.selectName + '"]');
-      if (!$select.length || !$select.is(":visible")) {
-        return;
-      }
-
-      if (!$select.val()) {
-        setTimeout(function () {
-          markSelect2Invalid($select);
-        }, shortTimeout);
-      } else {
-        clearSelect2Invalid($select);
-      }
-    });
-  });
-
   // Remove red border as soon as user chooses a value.
   jQuery(document).on(
     "change",
@@ -386,17 +386,15 @@ jQuery(window).on("load", function () {
     }
   }
 	
-  jQuery(document).on("submit", ".wpcf7-form", function (e) {
-    var $form = jQuery(this);
-
-    if ($form.data("submitting")) {
-      e.preventDefault();
-      e.stopImmediatePropagation();
-      return false;
-    }
-
-    lockCf7Form(this);
-  });
+  // Lock via CF7 lifecycle only — never intercept native submit.
+  document.addEventListener(
+    "wpcf7submitting",
+    function (event) {
+      lockCf7Form(event.target);
+      validateSelect2Fields(event.target);
+    },
+    false
+  );
 
   // Set up MutationObservers for each type
   config.forEach(function (item) {
