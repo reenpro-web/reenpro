@@ -868,17 +868,6 @@
       init: function () {
         // JavaScript to be fired on the home page
 
-        $('.home-banner').slick({
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          infinite: true,
-          arrows: false,
-          dots: true,
-          appendDots: $(".slick-slide__nav"),
-          autoplay: true,
-          autoplaySpeed: 20000,
-        });
-
         $('.home-logos__slider').slick({
           infinite: true,
           slidesToShow: 4,
