@@ -58,6 +58,34 @@
 
       $apie = header_find($nav_items, 'apie');
       $apie_sub = $apie ? header_children($nav_items, $apie->ID) : [];
+
+      $mobile_root = [
+        [
+          'title' => 'Įgyvendinti projektai',
+          'url'   => $projektai ? esc_url($projektai->url) : (get_post_type_archive_link('projects') ?: '/igyvendinti-projektai/'),
+          'panel' => $projektai_sub ? ['id' => 'projektai', 'items' => $projektai_sub] : null,
+        ],
+        [
+          'title' => 'Paslaugos',
+          'url'   => $paslaugos ? esc_url($paslaugos->url) : '#',
+          'panel' => $paslaugos_sub ? ['id' => 'paslaugos', 'items' => $paslaugos_sub] : null,
+        ],
+        [
+          'title' => 'Įranga',
+          'url'   => $iranga ? esc_url($iranga->url) : '/iranga/',
+          'panel' => $iranga_sub ? ['id' => 'iranga', 'items' => $iranga_sub] : null,
+        ],
+        [
+          'title' => 'Parama',
+          'url'   => $parama ? esc_url($parama->url) : '/parama/',
+          'panel' => $parama_sub ? ['id' => 'parama', 'items' => $parama_sub] : null,
+        ],
+        [
+          'title' => 'Apie mus',
+          'url'   => $apie ? esc_url($apie->url) : '/apie-mus/',
+          'panel' => $apie_sub ? ['id' => 'apie', 'items' => $apie_sub] : null,
+        ],
+      ];
     @endphp
 
     <nav class="header-nav" id="headerNav">
@@ -157,37 +185,75 @@
   </div>
 
   {{-- Mobile nav --}}
-  <div class="header-mobile-nav" id="headerMobileNav">
-    <ul class="header-mobile-nav__list">
-      <li><a href="{{ get_post_type_archive_link('projects') ?: '/igyvendinti-projektai/' }}">Įgyvendinti projektai</a></li>
-      <li class="header-mobile-nav__item--expand">
-        <button class="header-mobile-nav__toggle">
-          Paslaugos
-          <svg viewBox="0 0 12 7" fill="none"><path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        </button>
-        <ul class="header-mobile-nav__sub">
-          @foreach($paslaugos_sub as $item)
-            <li><a href="{{ esc_url($item->url) }}">{!! \App\theme_esc_text(wp_strip_all_tags($item->title)) !!}</a></li>
-          @endforeach
-        </ul>
-      </li>
-      <li><a href="{{ $iranga ? esc_url($iranga->url) : '/iranga/' }}">Įranga</a></li>
-      <li><a href="{{ $parama ? esc_url($parama->url) : '/parama/' }}">Parama</a></li>
-      <li><a href="{{ $apie ? esc_url($apie->url) : '/apie-mus/' }}">Apie mus</a></li>
-    </ul>
-    <div class="header-mobile-nav__actions">
-      @if(get_field('header_form_button', 'options'))
-        @php $linkHeaderButton = get_field('header_form_button', 'options'); @endphp
-        <a class="header-btn header-btn--red header-btn--full" href="{{ esc_url($linkHeaderButton['url']) }}">
-          {{ $linkHeaderButton['title'] }}<i></i>
-        </a>
-      @endif
-      @if(get_field('header_offer_button', 'options'))
-        <div class="header-btn header-btn--purple header-btn--full"
-          data-toggle="modal" data-target="#offerModal">
-          {!! get_field('header_offer_button', 'options') !!}<i></i>
+  <div class="header-mobile-nav" id="headerMobileNav" aria-hidden="true">
+    <div class="header-mobile-nav__sheet">
+      <div class="header-mobile-nav__stage">
+        <div class="header-mobile-nav__view header-mobile-nav__view--root is-active" data-mobile-nav-view="root">
+          <div class="header-mobile-nav__scroll">
+            <ul class="header-mobile-nav__list">
+              @foreach($mobile_root as $entry)
+                <li>
+                  @if($entry['panel'])
+                    <button type="button"
+                            class="header-mobile-nav__drill"
+                            data-mobile-nav-target="{{ $entry['panel']['id'] }}">
+                      <span>{{ $entry['title'] }}</span>
+                      <svg class="header-mobile-nav__chevron" viewBox="0 0 8 12" fill="none" aria-hidden="true">
+                        <path d="M1 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </button>
+                  @else
+                    <a href="{{ $entry['url'] }}" class="header-mobile-nav__link">
+                      <span>{{ $entry['title'] }}</span>
+                    </a>
+                  @endif
+                </li>
+              @endforeach
+            </ul>
+          </div>
         </div>
-      @endif
+
+        @foreach($mobile_root as $entry)
+          @if($entry['panel'])
+            <div class="header-mobile-nav__view"
+                 data-mobile-nav-view="{{ $entry['panel']['id'] }}"
+                 hidden>
+              <div class="header-mobile-nav__toolbar">
+                <button type="button" class="header-mobile-nav__back" aria-label="Atgal">
+                  <svg viewBox="0 0 8 12" fill="none" aria-hidden="true">
+                    <path d="M7 1L2 6l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+                <span class="header-mobile-nav__toolbar-title">{{ $entry['title'] }}</span>
+                <button type="button" class="header-mobile-nav__close" aria-label="Uždaryti">
+                  <svg viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                    <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                  </svg>
+                </button>
+              </div>
+              <div class="header-mobile-nav__scroll">
+                @include('partials.header-mobile-nav-items', ['items' => $entry['panel']['items']])
+              </div>
+            </div>
+          @endif
+        @endforeach
+      </div>
+
+      <div class="header-mobile-nav__actions">
+        @if(get_field('header_form_button', 'options'))
+          @php $linkHeaderButton = get_field('header_form_button', 'options'); @endphp
+          <a class="header-btn header-btn--red header-btn--full" href="{{ esc_url($linkHeaderButton['url']) }}">
+            {{ $linkHeaderButton['title'] }}<i></i>
+          </a>
+        @endif
+        @if(get_field('header_offer_button', 'options'))
+          <div class="header-btn header-btn--purple header-btn--full"
+            data-toggle="modal"
+            data-target="#offerModal">
+            {!! get_field('header_offer_button', 'options') !!}<i></i>
+          </div>
+        @endif
+      </div>
     </div>
   </div>
 </header>
