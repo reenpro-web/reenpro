@@ -316,6 +316,7 @@
             <div class="t-comp__card-img-wrap">
               @if(!empty($card['image']))
                 <img src="{{ esc_url($card['image']) }}" alt="{{ esc_attr($card['title']) }}" class="t-comp__card-img">
+                <div class="post-image-overlay"></div>
               @endif
               @if(!empty($card['badge']))
                 <div class="t-comp__card-badge">{{ $card['badge'] }}</div>

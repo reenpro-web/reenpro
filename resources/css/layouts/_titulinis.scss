@@ -23,7 +23,7 @@ $t-green-text:   #0f560a;
   background:    rgba(75, 6, 148, 0.05);
   color:         #3e047d;
   font-size:     14px;
-  font-weight:   500;
+  font-weight:   600;
   line-height:   30px;
   white-space:   nowrap;
 
@@ -431,12 +431,21 @@ $t-green-text:   #0f560a;
     background: $t-grey-bg;
     border:     1px solid #eaeaea;
     overflow:   hidden;
+
+    &:hover .post-image-overlay {
+      opacity: 0;
+    }
   }
 
   &__card-img-wrap {
     position: relative;
     height:   248px;
     overflow: hidden;
+
+    .post-image-overlay {
+      margin:        0;
+      border-radius: 0;
+    }
   }
 
   &__card-img {
@@ -450,6 +459,7 @@ $t-green-text:   #0f560a;
     position:   absolute;
     top:        19px;
     left:       0;
+    z-index:    2;
     background: $t-green-bg;
     color:      $t-green-text;
     font-size:  14px;
@@ -467,7 +477,7 @@ $t-green-text:   #0f560a;
 
   &__card-title {
     font-size:   20px;
-    font-weight: 500;
+    font-weight: 600;
     color:       $t-text;
     margin:      0;
   }
