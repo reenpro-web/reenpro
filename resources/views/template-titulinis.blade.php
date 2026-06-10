@@ -94,7 +94,7 @@
             <div class="row align-items-center justify-content-lg-between">
               <div class="col-12 col-md-10 col-lg-8 col-xxl-6">
                 @if(!empty($slide['hero_slide_heading']))
-                  @if($i === 0)
+                  @if($i === 1)
                     <h1 class="home-intro__heading mb-24 h1">{!! $slide['hero_slide_heading'] !!}</h1>
                   @else
                     <h2 class="home-intro__heading mb-24 h1">{!! $slide['hero_slide_heading'] !!}</h2>
