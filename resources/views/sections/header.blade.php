@@ -26,11 +26,11 @@
         return null;
       }
 
-      function header_panel_item($url, $title, $description = '') {
+      function header_panel_item($url, $title, $tag = '') {
         return (object) [
-          'url'         => $url,
-          'title'       => $title,
-          'description' => $description,
+          'url'      => $url,
+          'title'    => $title,
+          'menu_tag' => $tag,
         ];
       }
 

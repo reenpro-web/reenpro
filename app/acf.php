@@ -477,4 +477,26 @@ add_action('acf/init', function () {
         'style'      => 'default',
         'active'     => true,
     ]);
+
+    acf_add_local_field_group([
+        'key'    => 'group_reenpro_nav_menu',
+        'title'  => 'Meniu elementas',
+        'fields' => [
+            [
+                'key'          => 'field_reenpro_menu_tag',
+                'label'        => 'Žymė (dropdown)',
+                'name'         => 'menu_tag',
+                'type'         => 'text',
+                'instructions' => 'Neprivaloma. Rodoma po meniu pavadinimu dropdown meniu (pvz. ENA, APVA).',
+                'maxlength'    => 32,
+            ],
+        ],
+        'location' => [[
+            ['param' => 'nav_menu_item', 'operator' => '==', 'value' => 'all'],
+        ]],
+        'menu_order' => 5,
+        'position'   => 'normal',
+        'style'      => 'default',
+        'active'     => true,
+    ]);
 });

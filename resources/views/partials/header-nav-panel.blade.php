@@ -8,7 +8,12 @@
       @php
         $url   = esc_url($item->url ?? '#');
         $title = wp_strip_all_tags($item->title ?? '');
-        $desc  = ! empty($item->description) ? wp_strip_all_tags($item->description) : '';
+        $tag   = ! empty($item->ID)
+          ? (get_field('menu_tag', $item) ?: '')
+          : ($item->menu_tag ?? '');
+        if (! $tag && ! empty($item->description)) {
+          $tag = wp_strip_all_tags($item->description);
+        }
         $icon  = ! empty($item->ID) ? get_field('menu_img', $item) : null;
       @endphp
       <a href="{{ $url }}" class="header-panel__item">
@@ -19,8 +24,8 @@
         @endif
         <span class="header-panel__text">
           <span class="header-panel__title">{!! \App\theme_esc_text($title) !!}</span>
-          @if($desc)
-            <span class="header-panel__desc">{!! \App\theme_esc_text($desc) !!}</span>
+          @if($tag)
+            <span class="header-panel__tag">{!! \App\theme_esc_text($tag) !!}</span>
           @endif
         </span>
       </a>
