@@ -64,7 +64,6 @@ jQuery(function () {
         unlockCf7Form(event.target);
         jQuery(event.target).find(".custom-error").remove();
         jQuery(event.target).find(".wpcf7-response-output").show();
-        console.warn("[CF7 modal]", event.detail || null);
       },
       false
     );
@@ -75,7 +74,6 @@ jQuery(function () {
         unlockCf7Form(event.target);
         jQuery(event.target).find(".custom-error").remove();
         jQuery(event.target).find(".wpcf7-response-output").show();
-        console.warn("[CF7 modal]", event.detail || null);
       },
       false
     );
@@ -87,12 +85,6 @@ jQuery(function () {
       "wpcf7submit",
       function (event) {
         unlockCf7Form(event.target);
-        var detail = event.detail || {};
-        if (detail.status === "mail_sent") {
-          console.info("[CF7 modal]", detail.status, detail.contactFormId);
-        } else {
-          console.warn("[CF7 modal]", detail);
-        }
       },
       false
     );

@@ -142,15 +142,15 @@ function theme_blade_view_for_page_template(string $slug): ?string
         return null;
     }
 
-    $base = str_ends_with($slug, '.php') ? substr($slug, 0, -4) : $slug;
+    $base = basename($slug);
+    $base = preg_replace('/\.blade\.php$|\.php$/', '', $base);
 
-    $candidates = array_unique([
+    $candidates = array_unique(array_filter([
         $base,
-        "template-{$base}",
-        str_starts_with($base, 'template-') ? $base : null,
-    ]);
+        str_starts_with($base, 'template-') ? $base : "template-{$base}",
+    ]));
 
-    foreach (array_filter($candidates) as $view) {
+    foreach ($candidates as $view) {
         if (view()->exists($view)) {
             return $view;
         }

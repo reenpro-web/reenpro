@@ -27,22 +27,6 @@ jQuery(function () {
     $form.find(".wpcf7-response-output").show();
   }
 
-  function logCf7Submit(event) {
-    var detail = event.detail || {};
-    var payload = {
-      status: detail.status,
-      contactFormId: detail.contactFormId,
-      message: detail.apiResponse && detail.apiResponse.message,
-    };
-
-    if (detail.status === "mail_sent") {
-      console.info("[CF7]", payload);
-      return;
-    }
-
-    console.warn("[CF7]", payload, detail.apiResponse || null);
-  }
-
   function lockCf7Form(formEl) {
     var $form = jQuery(formEl);
     $form.data("submitting", true);
@@ -315,7 +299,6 @@ jQuery(function () {
       unlockCf7Form(event.target);
       jQuery(event.target).find(".custom-error").remove();
       jQuery(event.target).find(".wpcf7-response-output").show();
-      logCf7Submit(event);
     },
     false
   );
@@ -326,7 +309,6 @@ jQuery(function () {
       unlockCf7Form(event.target);
       jQuery(event.target).find(".custom-error").remove();
       jQuery(event.target).find(".wpcf7-response-output").show();
-      logCf7Submit(event);
     },
     false
   );
@@ -338,7 +320,6 @@ jQuery(function () {
     "wpcf7submit",
     function (event) {
       unlockCf7Form(event.target);
-      logCf7Submit(event);
     },
     false
   );

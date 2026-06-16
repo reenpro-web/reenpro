@@ -1,5 +1,5 @@
 /**
- * CF7 helpers: diagnostics, stuck-form recovery, visible validation errors.
+ * CF7 helpers: stuck-form recovery and visible validation errors.
  */
 (function () {
   function showCf7FormError(formEl, message) {
@@ -38,15 +38,7 @@
     $form.find(".wpcf7-spinner").css("visibility", "");
   }
 
-  function logCf7(eventName, detail) {
-    if (detail && detail.status === "mail_sent") {
-      console.info("[CF7]", eventName, detail);
-      return;
-    }
-    console.warn("[CF7]", eventName, detail || null);
-  }
-
-  function attachLifecycleLogging() {
+  function attachLifecycleHandlers() {
     [
       "wpcf7invalid",
       "wpcf7unaccepted",
@@ -59,8 +51,6 @@
       document.addEventListener(
         eventName,
         function (event) {
-          logCf7(eventName, event.detail || null);
-
           if (
             eventName === "wpcf7mailfailed" ||
             eventName === "wpcf7invalid" ||
@@ -91,7 +81,7 @@
     );
   }
 
-  function attachSubmitDiagnostics() {
+  function attachSubmitRecovery() {
     document.addEventListener(
       "click",
       function (event) {
@@ -107,29 +97,9 @@
 
         var status = form.getAttribute("data-status");
 
-        console.info("[CF7] Submit button clicked", {
-          formId: form.closest(".wpcf7") && form.closest(".wpcf7").id,
-          status: status,
-        });
-
         // Recover forms left in "submitting" after a failed/slow request.
         if (status === "submitting" || status === "validating") {
           unlockCf7Form(form);
-          console.warn("[CF7] Unlocked stuck form before retry", {
-            previousStatus: status,
-          });
-        }
-      },
-      true
-    );
-
-    document.addEventListener(
-      "submit",
-      function (event) {
-        if (event.target && event.target.matches("form.wpcf7-form")) {
-          console.info("[CF7] Native submit event fired", {
-            status: event.target.getAttribute("data-status"),
-          });
         }
       },
       true
@@ -137,9 +107,9 @@
   }
 
   function init() {
-    attachLifecycleLogging();
+    attachLifecycleHandlers();
     attachUnacceptedHandler();
-    attachSubmitDiagnostics();
+    attachSubmitRecovery();
   }
 
   if (document.readyState === "loading") {
