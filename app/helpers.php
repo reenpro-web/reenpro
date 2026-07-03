@@ -58,6 +58,22 @@ function theme_has_hero_header(): bool
 }
 
 /**
+ * Return a taxonomy-term ACF value, falling back to global options when empty.
+ */
+function theme_field_or_term_option(string $field, $term = null, string $options = 'options'): mixed
+{
+    if ($term) {
+        $value = get_field($field, $term);
+
+        if (theme_field_has_value($value)) {
+            return $value;
+        }
+    }
+
+    return get_field($field, $options);
+}
+
+/**
  * Return a page-level ACF value, falling back to global options and then a default.
  */
 function theme_field_or_option(

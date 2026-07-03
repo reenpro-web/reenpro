@@ -1,22 +1,38 @@
 @php
   $term = is_tax('installation_category') ? get_queried_object() : null;
 
-  $introHeading = $term ? get_field('products_intro_heading', $term) : null;
-  if (! \App\theme_field_has_value($introHeading)) {
-      $introHeading = get_field('products_intro_heading', 'options');
+  $introHeading = \App\theme_field_or_term_option('products_intro_heading', $term);
+  $introText = \App\theme_field_or_term_option('products_intro_text', $term);
+
+  $introImgDesktop = \App\theme_field_or_term_option('products_intro_img', $term);
+  $introImgMobile = \App\theme_field_or_term_option('products_intro_img_mobile', $term);
+  if (! \App\theme_field_has_value($introImgMobile)) {
+      $introImgMobile = $introImgDesktop;
   }
 
-  $introText = $term ? get_field('products_intro_text', $term) : null;
-  if (! \App\theme_field_has_value($introText)) {
-      $introText = get_field('products_intro_text', 'options');
-  }
+  $warrantyImg = \App\theme_field_or_term_option('warranty_img', $term);
+  $warrantyHeading = \App\theme_field_or_term_option('warranty_heading', $term);
+  $warrantyText = \App\theme_field_or_term_option('warranty_text', $term);
+  $warrantyList = \App\theme_field_or_term_option('warranty_list', $term) ?: [];
 
-  $introImgDesktop = $term && get_field('products_intro_img', $term)
-      ? get_field('products_intro_img', $term)
-      : get_field('products_intro_img', 'options');
-  $introImgMobile = $term && get_field('products_intro_img_mobile', $term)
-      ? get_field('products_intro_img_mobile', $term)
-      : (get_field('products_intro_img_mobile', 'options') ?: $introImgDesktop);
+  $productionImgDesktop = \App\theme_field_or_term_option('production_img', $term);
+  $productionImgMobile = \App\theme_field_or_term_option('production_img_mobile', $term);
+  if (! \App\theme_field_has_value($productionImgMobile)) {
+      $productionImgMobile = $productionImgDesktop;
+  }
+  $productionHeading = \App\theme_field_or_term_option('production_heading', $term);
+  $productionText = \App\theme_field_or_term_option('production_text', $term);
+  $productionList = \App\theme_field_or_term_option('production_list', $term) ?: [];
+
+  $showWarranty = \App\theme_field_has_value($warrantyImg)
+      || \App\theme_field_has_value($warrantyHeading)
+      || \App\theme_field_has_value($warrantyText)
+      || ! empty($warrantyList);
+
+  $showProduction = \App\theme_field_has_value($productionImgDesktop)
+      || \App\theme_field_has_value($productionHeading)
+      || \App\theme_field_has_value($productionText)
+      || ! empty($productionList);
 
   $installArgs = [
       'post_type'      => 'installation',
@@ -43,27 +59,6 @@
       ];
 
   $tabLoop = new WP_Query($tabArgs);
-
-  $warrantySource = null;
-  if ($term && ! empty(get_field('warranty_list', $term))) {
-      $warrantySource = $term;
-  } elseif (! empty(get_field('warranty_list', 'options'))) {
-      $warrantySource = 'options';
-  }
-
-  $productionSource = null;
-  if ($term && ! empty(get_field('production_list', $term))) {
-      $productionSource = $term;
-  } elseif (! empty(get_field('production_list', 'options'))) {
-      $productionSource = 'options';
-  }
-
-  $productionImgDesktop = $term && get_field('production_img', $term)
-      ? get_field('production_img', $term)
-      : get_field('production_img', 'options');
-  $productionImgMobile = $term && get_field('production_img_mobile', $term)
-      ? get_field('production_img_mobile', $term)
-      : (get_field('production_img_mobile', 'options') ?: $productionImgDesktop);
 @endphp
 
 <div class="products-intro d-flex">
@@ -158,62 +153,68 @@
   </div>
 </div>
 
-@if($warrantySource)
+@if($showWarranty)
   <div class="products-warranty mb-120 mt-50 mt-lg-120">
     <div class="row">
       <div class="col-12 col-lg-6 mb-50 mb-md-0 pl-0 pr-0">
-        <div class="products-warranty__img">{!! wp_get_attachment_image(get_field('warranty_img', $warrantySource), 'full') !!}</div>
+        @if($warrantyImg)
+          <div class="products-warranty__img">{!! wp_get_attachment_image($warrantyImg, 'full') !!}</div>
+        @endif
       </div>
       <div class="col-12 col-lg-6 col-xl-5 offset-xl-1">
         <div class="products-warranty__wrapper pl-15 pr-15 pl-lg-0 pr-lg-20 pt-30 pt-lg-0 pb-30 pb-lg-0">
-          @if(get_field('warranty_heading', $warrantySource))
-            <h2 class="auto-financing__heading mb-45">{{ get_field('warranty_heading', $warrantySource) }}</h2>
+          @if($warrantyHeading)
+            <h2 class="auto-financing__heading mb-45">{{ $warrantyHeading }}</h2>
           @endif
-          @if(get_field('warranty_text', $warrantySource))
-            <div class="products-warranty__text mb-45">{!! get_field('warranty_text', $warrantySource) !!}</div>
+          @if($warrantyText)
+            <div class="products-warranty__text mb-45">{!! $warrantyText !!}</div>
           @endif
-          <div class="products-warranty__list">
-            @php $i = 1; @endphp
-            @while(have_rows('warranty_list', $warrantySource)) <?php the_row(); ?>
-              <div class="mb-30 products-warranty__list-item">
-                <span class="products-warranty__list-item--number">{{ $i }}</span>
-                <h3 class="mb-15 fw-bold">{!! get_sub_field('heading') !!}</h3>
-                <div>{!! get_sub_field('text') !!}</div>
-              </div>
-              @php $i++; @endphp
-            @endwhile
-          </div>
+          @if(! empty($warrantyList))
+            <div class="products-warranty__list">
+              @foreach($warrantyList as $i => $item)
+                <div class="mb-30 products-warranty__list-item">
+                  <span class="products-warranty__list-item--number">{{ $i + 1 }}</span>
+                  <h3 class="mb-15 fw-bold">{!! $item['heading'] ?? '' !!}</h3>
+                  <div>{!! $item['text'] ?? '' !!}</div>
+                </div>
+              @endforeach
+            </div>
+          @endif
         </div>
       </div>
     </div>
   </div>
 @endif
 
-@if($productionSource)
+@if($showProduction)
   <div class="products-production pt-50 pt-lg-120 pb-120 pb-lg-155">
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-12 col-lg-10 col-xl-8 text-center">
-          @if(get_field('production_heading', $productionSource))
-            <h2 class="products-production__heading h3 mb-50 mb-lg-80">{{ get_field('production_heading', $productionSource) }}</h2>
+          @if($productionHeading)
+            <h2 class="products-production__heading h3 mb-50 mb-lg-80">{{ $productionHeading }}</h2>
           @endif
-          @if(get_field('production_text', $productionSource))
-            <div class="products-production__text mb-80">{!! get_field('production_text', $productionSource) !!}</div>
+          @if($productionText)
+            <div class="products-production__text mb-80">{!! $productionText !!}</div>
           @endif
         </div>
-        <div class="col-12 col-xl-10 text-center">
-          <div class="row custom-row products-production__wrapper">
-            @while(have_rows('production_list', $productionSource)) <?php the_row(); ?>
-              <div class="col-12 col-lg-4 mb-50 mb-lg-0 text-center custom-column">
-                <div class="products-production__item">
-                  <div class="mb-20">{!! wp_get_attachment_image(get_sub_field('icon'), 'full') !!}</div>
-                  <h3 class="mb-20">{!! get_sub_field('heading') !!}</h3>
-                  <div>{!! get_sub_field('text') !!}</div>
+        @if(! empty($productionList))
+          <div class="col-12 col-xl-10 text-center">
+            <div class="row custom-row products-production__wrapper">
+              @foreach($productionList as $item)
+                <div class="col-12 col-lg-4 mb-50 mb-lg-0 text-center custom-column">
+                  <div class="products-production__item">
+                    @if(! empty($item['icon']))
+                      <div class="mb-20">{!! wp_get_attachment_image($item['icon'], 'full') !!}</div>
+                    @endif
+                    <h3 class="mb-20">{!! $item['heading'] ?? '' !!}</h3>
+                    <div>{!! $item['text'] ?? '' !!}</div>
+                  </div>
                 </div>
-              </div>
-            @endwhile
+              @endforeach
+            </div>
           </div>
-        </div>
+        @endif
       </div>
     </div>
   </div>
