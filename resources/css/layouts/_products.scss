@@ -432,3 +432,10 @@
 
 
 }
+
+.tax-installation_category .products-production {
+  &,
+  & * {
+    color: $c-white !important;
+  }
+}
